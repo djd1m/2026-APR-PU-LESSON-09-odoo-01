@@ -1,8 +1,11 @@
 import json
+import logging
 
 from odoo import http
 from odoo.http import request, Response
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class ReferralController(http.Controller):
@@ -15,7 +18,13 @@ class ReferralController(http.Controller):
         csrf=False,
     )
     def apply_referral(self, **kwargs):
-        """Apply a referral code for the current user."""
+        """Apply a referral code for the current user.
+
+        Validates:
+        - Token exists and maps to a pending referral
+        - Current user is not the referrer (self-referral prevention)
+        - Current user has not already been referred (duplicate prevention)
+        """
         try:
             body = json.loads(request.httprequest.data or "{}")
         except (json.JSONDecodeError, ValueError):
@@ -55,12 +64,9 @@ class ReferralController(http.Controller):
                 content_type="application/json",
             )
 
-        # Check if user was already referred
+        # Check if user was already referred (any status)
         existing = request.env["remont.referral"].sudo().search(
-            [
-                ("referred_id", "=", current_user.id),
-                ("status", "=", "activated"),
-            ],
+            [("referred_id", "=", current_user.id)],
             limit=1,
         )
         if existing:
@@ -80,6 +86,13 @@ class ReferralController(http.Controller):
                 content_type="application/json",
             )
 
+        _logger.info(
+            "Referral applied: user %s referred by user %s (token: %s...)",
+            current_user.id,
+            referral.referrer_id.id,
+            token[:8],
+        )
+
         return Response(
             json.dumps({
                 "status": "ok",
@@ -98,7 +111,11 @@ class ReferralController(http.Controller):
         csrf=False,
     )
     def referral_stats(self, **kwargs):
-        """Get referral statistics for the current user."""
+        """Get referral statistics for the current user.
+
+        Returns total referrals, successful conversions, pending count,
+        total bonus days earned, and the user's share token.
+        """
         current_user = request.env.user
         Referral = request.env["remont.referral"].sudo()
 
@@ -132,10 +149,10 @@ class ReferralController(http.Controller):
         return Response(
             json.dumps({
                 "total_referrals": total,
-                "activated": activated,
+                "successful": activated,
                 "pending": pending,
-                "total_bonus_days": total_bonus_days,
-                "share_token": own_referral.share_token or None,
+                "total_days_earned": total_bonus_days,
+                "share_token": own_referral.share_token if own_referral else None,
             }),
             status=200,
             content_type="application/json",

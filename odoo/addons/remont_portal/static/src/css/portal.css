@@ -1,11 +1,13 @@
 /* RemontERP Portal Styles */
 
 .remont-project-card {
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    border: 1px solid #e9ecef;
 }
 
 .remont-project-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
 .remont-project-detail .progress {
@@ -32,8 +34,80 @@
     object-fit: cover;
     cursor: pointer;
     transition: transform 0.2s ease;
+    width: 100%;
+    border: 2px solid transparent;
 }
 
 .remont-snapshot-thumb:hover {
     transform: scale(1.05);
+    border-color: #714B67;
+}
+
+.remont-snapshot-grid {
+    gap: 0;
+}
+
+/* ===== Share / CTA ===== */
+
+.remont-share-cta {
+    border: 2px dashed #dee2e6;
+}
+
+.remont-share-cta h4 {
+    color: #714B67;
+}
+
+.remont-budget-legend {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* ===== Responsive: Mobile (375px+) ===== */
+
+@media (max-width: 575.98px) {
+    .remont-project-detail .card-header h4 {
+        font-size: 1.1rem;
+    }
+
+    .remont-project-detail .table td {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.25rem;
+    }
+
+    .remont-budget-legend {
+        font-size: 0.7rem;
+    }
+
+    .remont-budget-legend .badge {
+        font-size: 0.65rem;
+        padding: 0.2em 0.4em;
+    }
+
+    .remont-snapshot-thumb {
+        border-radius: 4px;
+    }
+
+    .remont-share-cta {
+        padding: 1.5rem !important;
+    }
+
+    .remont-share-cta h4 {
+        font-size: 1.1rem;
+    }
+
+    .remont-share-cta p {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== Print styles ===== */
+
+@media print {
+    .remont-share-cta {
+        display: none;
+    }
+
+    .remont-snapshot-thumb:hover {
+        transform: none;
+    }
 }
