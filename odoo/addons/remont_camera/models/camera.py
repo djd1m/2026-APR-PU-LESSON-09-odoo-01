@@ -8,9 +8,10 @@ _logger = logging.getLogger(__name__)
 MAX_CAMERAS_PER_PROJECT = 4
 
 CAMERA_STATUSES = [
-    ("active", "Active"),
-    ("inactive", "Inactive"),
-    ("maintenance", "Maintenance"),
+    ("offline", "Offline"),
+    ("online", "Online"),
+    ("error", "Error"),
+    ("returned", "Returned"),
 ]
 
 
@@ -32,7 +33,7 @@ class RemontCamera(models.Model):
     status = fields.Selection(
         selection=CAMERA_STATUSES,
         string="Status",
-        default="active",
+        default="offline",
         required=True,
         tracking=True,
     )
@@ -59,6 +60,14 @@ class RemontCamera(models.Model):
     last_capture_at = fields.Datetime(
         string="Last Capture At",
         help="Timestamp of the last successful snapshot capture.",
+    )
+    last_error = fields.Text(
+        string="Last Error",
+        help="Last error message from capture attempt.",
+    )
+    name = fields.Char(
+        string="Camera Name",
+        help="Descriptive name for the camera location (e.g., 'Kitchen', 'Living Room').",
     )
 
     snapshot_ids = fields.One2many(

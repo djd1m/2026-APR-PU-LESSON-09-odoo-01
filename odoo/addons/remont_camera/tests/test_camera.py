@@ -21,7 +21,7 @@ class TestCamera(TransactionCase):
             "project_id": self.project.id,
         })
         self.assertEqual(camera.serial_number, "CAM-001")
-        self.assertEqual(camera.status, "active")
+        self.assertEqual(camera.status, "offline")
         self.assertEqual(camera.project_id, self.project)
         self.assertTrue(camera.installed_at)
 
@@ -55,16 +55,19 @@ class TestCamera(TransactionCase):
             "rtsp_url": "rtsp://192.168.1.103:554/stream",
             "project_id": self.project.id,
         })
-        self.assertEqual(camera.status, "active")
+        self.assertEqual(camera.status, "offline")
 
-        camera.status = "maintenance"
-        self.assertEqual(camera.status, "maintenance")
+        camera.status = "online"
+        self.assertEqual(camera.status, "online")
 
-        camera.status = "inactive"
-        self.assertEqual(camera.status, "inactive")
+        camera.status = "error"
+        self.assertEqual(camera.status, "error")
 
-        camera.status = "active"
-        self.assertEqual(camera.status, "active")
+        camera.status = "online"
+        self.assertEqual(camera.status, "online")
+
+        camera.status = "returned"
+        self.assertEqual(camera.status, "returned")
 
     def test_returned_before_installed_raises(self):
         """Test that returned_at cannot be before installed_at."""
@@ -248,14 +251,14 @@ class TestCaptureScheduling(TransactionCase):
         })
         self.service = self.env["remont.capture.service"]
 
-    def test_cron_skips_inactive_camera(self):
-        """Test that inactive cameras are skipped by the cron."""
-        self.camera.status = "inactive"
+    def test_cron_skips_offline_camera(self):
+        """Test that offline cameras are skipped by the cron."""
+        self.camera.status = "offline"
         result = self.service.action_enqueue_capture(self.camera)
         self.assertFalse(result)
 
-    def test_cron_skips_maintenance_camera(self):
-        """Test that cameras in maintenance are skipped by the cron."""
-        self.camera.status = "maintenance"
+    def test_cron_skips_returned_camera(self):
+        """Test that returned cameras are skipped by the cron."""
+        self.camera.status = "returned"
         result = self.service.action_enqueue_capture(self.camera)
         self.assertFalse(result)
