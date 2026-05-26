@@ -92,6 +92,11 @@ class RemontProject(models.Model):
         "project_id",
         string="Alerts",
     )
+    budget_ids = fields.One2many(
+        "remont.budget",
+        "project_id",
+        string="Budgets",
+    )
     subscription_id = fields.Many2one(
         "remont.subscription",
         string="Subscription",

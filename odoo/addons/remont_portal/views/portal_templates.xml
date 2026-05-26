@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Portal: My Projects List -->
+    <!-- Portal: My Projects List (card grid) -->
     <template id="portal_my_projects" name="My Renovation Projects">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
@@ -13,7 +13,7 @@
                 <t t-if="projects">
                     <div class="row">
                         <t t-foreach="projects" t-as="project">
-                            <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="col-12 col-md-6 col-lg-4 mb-3">
                                 <div class="card h-100 remont-project-card">
                                     <div class="card-body">
                                         <h5 class="card-title">
@@ -21,15 +21,36 @@
                                                 <t t-out="project.name"/>
                                             </a>
                                         </h5>
-                                        <p class="card-text text-muted">
+                                        <p class="card-text text-muted mb-2">
+                                            <i class="fa fa-map-marker me-1"/>
                                             <t t-out="project.address"/>
                                         </p>
-                                        <span t-attf-class="badge #{project.status == 'completed' and 'bg-success' or project.status == 'in_progress' and 'bg-primary' or 'bg-secondary'}">
+
+                                        <!-- Overall progress -->
+                                        <div class="mb-2">
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-primary"
+                                                     role="progressbar"
+                                                     t-attf-style="width: #{sum(s.progress_pct for s in project.stage_ids) / (len(project.stage_ids) or 1)}%;"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status badge -->
+                                        <span t-attf-class="badge #{
+                                            project.status == 'completed' and 'bg-success' or
+                                            project.status == 'in_progress' and 'bg-primary' or
+                                            project.status == 'cancelled' and 'bg-danger' or
+                                            'bg-secondary'
+                                        }">
                                             <t t-out="dict(project._fields['status'].selection).get(project.status, '')"/>
                                         </span>
                                     </div>
                                     <div class="card-footer text-muted small">
                                         <t t-if="project.start_date">
+                                            <i class="fa fa-calendar me-1"/>
                                             Started: <t t-out="project.start_date"/>
                                         </t>
                                     </div>
@@ -39,7 +60,8 @@
                     </div>
                 </t>
                 <t t-else="">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info text-center py-4">
+                        <i class="fa fa-home fa-2x mb-2 d-block"/>
                         You have no renovation projects yet.
                     </div>
                 </t>
@@ -53,97 +75,217 @@
             <t t-set="o_portal_fullwidth_alert" groups=""/>
 
             <div class="container remont-project-detail">
+                <!-- Header -->
                 <div class="row mb-4">
                     <div class="col-12">
+                        <a href="/my/projects" class="btn btn-sm btn-outline-secondary mb-3">
+                            <i class="fa fa-arrow-left me-1"/> Back to Projects
+                        </a>
                         <h2><t t-out="project.name"/></h2>
-                        <p class="text-muted"><t t-out="project.address"/></p>
+                        <p class="text-muted">
+                            <i class="fa fa-map-marker me-1"/>
+                            <t t-out="project.address"/>
+                        </p>
+                        <div class="d-flex align-items-center gap-3">
+                            <span t-attf-class="badge #{
+                                project.status == 'completed' and 'bg-success' or
+                                project.status == 'in_progress' and 'bg-primary' or
+                                project.status == 'cancelled' and 'bg-danger' or
+                                'bg-secondary'
+                            }">
+                                <t t-out="dict(project._fields['status'].selection).get(project.status, '')"/>
+                            </span>
+                            <span class="text-muted small">
+                                Overall Progress: <strong><t t-out="'%.0f' % overall_progress"/>%</strong>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Stage Progress -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h4>Stage Progress</h4>
-                        <t t-foreach="stages" t-as="stage">
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between">
-                                    <span>
-                                        <t t-out="dict(stage._fields['name'].selection).get(stage.name, '')"/>
-                                    </span>
-                                    <span>
-                                        <t t-out="'%.0f' % stage.progress_pct"/>%
-                                    </span>
-                                </div>
-                                <div class="progress" style="height: 20px;">
-                                    <div class="progress-bar"
-                                         role="progressbar"
-                                         t-attf-style="width: #{stage.progress_pct}%;"
-                                         t-att-aria-valuenow="stage.progress_pct"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                    </div>
-                                </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0"><i class="fa fa-tasks me-2"/>Stage Progress</h4>
                             </div>
-                        </t>
-                    </div>
-                </div>
-
-                <!-- Budget Overview -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <h4>Budget Overview</h4>
-                        <table class="table table-sm">
-                            <tr>
-                                <td>Estimated</td>
-                                <td class="text-end">
-                                    <t t-out="'%.2f' % budget_estimate"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Spent</td>
-                                <td class="text-end">
-                                    <t t-out="'%.2f' % budget_actual"/>
-                                </td>
-                            </tr>
-                            <tr class="fw-bold">
-                                <td>Remaining</td>
-                                <td class="text-end">
-                                    <t t-out="'%.2f' % budget_remaining"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Budget Chart</h4>
-                        <div class="remont-budget-chart">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="remont-budget-bar bg-primary"
-                                     t-attf-style="width: #{budget_estimate and (budget_actual / budget_estimate * 100) or 0}%;">
-                                </div>
-                                <span class="ms-2 small">Spent</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="remont-budget-bar bg-success"
-                                     t-attf-style="width: #{budget_estimate and (budget_remaining / budget_estimate * 100) or 0}%;">
-                                </div>
-                                <span class="ms-2 small">Remaining</span>
+                            <div class="card-body">
+                                <t t-if="stages">
+                                    <t t-foreach="stages" t-as="stage">
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span class="fw-semibold">
+                                                    <t t-out="dict(stage._fields['name'].selection).get(stage.name, '')"/>
+                                                </span>
+                                                <span>
+                                                    <span t-attf-class="badge #{
+                                                        stage.status == 'done' and 'bg-success' or
+                                                        stage.status == 'in_progress' and 'bg-primary' or
+                                                        'bg-secondary'
+                                                    } me-2">
+                                                        <t t-out="dict(stage._fields['status'].selection).get(stage.status, '')"/>
+                                                    </span>
+                                                    <t t-out="'%.0f' % stage.progress_pct"/>%
+                                                </span>
+                                            </div>
+                                            <div class="progress" style="height: 20px;">
+                                                <div t-attf-class="progress-bar #{
+                                                    stage.progress_pct == 100 and 'bg-success' or
+                                                    stage.progress_pct > 0 and 'bg-primary' or
+                                                    'bg-secondary'
+                                                }"
+                                                     role="progressbar"
+                                                     t-attf-style="width: #{stage.progress_pct}%;"
+                                                     t-att-aria-valuenow="stage.progress_pct"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <div class="small text-muted mt-1">
+                                                <t t-if="stage.planned_start">
+                                                    Planned: <t t-out="stage.planned_start"/>
+                                                    <t t-if="stage.planned_end"> - <t t-out="stage.planned_end"/></t>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <p class="text-muted mb-0">No stages defined yet.</p>
+                                </t>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Budget Overview -->
+                <div class="row mb-4">
+                    <div class="col-12 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0"><i class="fa fa-rub me-2"/>Budget Overview</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>Estimated</td>
+                                            <td class="text-end fw-semibold">
+                                                <t t-out="'{:,.2f}'.format(budget_estimate)"/> &#x20bd;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spent</td>
+                                            <td t-attf-class="text-end fw-semibold text-#{budget_color}">
+                                                <t t-out="'{:,.2f}'.format(budget_actual)"/> &#x20bd;
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top">
+                                            <td class="fw-bold">Remaining</td>
+                                            <td t-attf-class="text-end fw-bold text-#{budget_color}">
+                                                <t t-out="'{:,.2f}'.format(budget_remaining)"/> &#x20bd;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mt-3 mt-md-0">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0"><i class="fa fa-pie-chart me-2"/>Budget Usage</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Consumed</span>
+                                    <span t-attf-class="fw-bold text-#{budget_color}">
+                                        <t t-out="budget_pct"/>%
+                                    </span>
+                                </div>
+                                <div class="progress mb-3" style="height: 24px;">
+                                    <div t-attf-class="progress-bar bg-#{budget_color}"
+                                         role="progressbar"
+                                         t-attf-style="width: #{min(budget_pct, 100)}%;"
+                                         t-att-aria-valuenow="budget_pct"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        <t t-out="budget_pct"/>%
+                                    </div>
+                                </div>
+                                <div class="remont-budget-legend">
+                                    <span class="badge bg-success me-1">&#x2264; 80%</span> Within budget
+                                    <span class="badge bg-warning ms-2 me-1">80-100%</span> Caution
+                                    <span class="badge bg-danger ms-2 me-1">&gt; 100%</span> Over budget
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timelapse Section -->
+                <t t-if="latest_timelapse">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0"><i class="fa fa-film me-2"/>Latest Timelapse</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="ratio ratio-16x9">
+                                        <video controls="controls"
+                                               t-att-src="latest_timelapse.video_url"
+                                               class="rounded">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                    <div class="mt-2 small text-muted">
+                                        Period: <t t-out="latest_timelapse.date_from"/>
+                                        to <t t-out="latest_timelapse.date_to"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
                 <!-- Photos / Snapshots -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h4>Photos</h4>
-                        <div class="row">
-                            <t t-foreach="snapshots[:12]" t-as="snap">
-                                <div class="col-4 col-md-3 col-lg-2 mb-2">
-                                    <img t-att-src="snap.thumbnail_url or snap.image_url"
-                                         class="img-fluid rounded remont-snapshot-thumb"
-                                         t-att-alt="snap.captured_at"/>
-                                </div>
-                            </t>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0"><i class="fa fa-camera me-2"/>Photos</h4>
+                                <span class="badge bg-secondary">
+                                    <t t-out="total_snapshots"/> photos
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <t t-if="snapshots">
+                                    <div class="row remont-snapshot-grid">
+                                        <t t-foreach="snapshots" t-as="snap">
+                                            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+                                                <img t-att-src="snap.thumbnail_url or snap.image_url"
+                                                     class="img-fluid rounded remont-snapshot-thumb"
+                                                     t-att-alt="snap.captured_at"
+                                                     loading="lazy"/>
+                                                <div class="small text-muted text-center mt-1">
+                                                    <t t-out="snap.captured_at"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <t t-if="total_snapshots > 20">
+                                        <div class="text-center mt-3">
+                                            <p class="text-muted">
+                                                Showing 20 of <t t-out="total_snapshots"/> photos
+                                            </p>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <p class="text-muted mb-0">No photos captured yet.</p>
+                                </t>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -151,24 +293,43 @@
         </t>
     </template>
 
-    <!-- Portal: Public Timelapse Share -->
+    <!-- Portal: Public Timelapse Share (minimal, no auth) -->
     <template id="portal_share_timelapse" name="Shared Timelapse">
         <t t-call="website.layout">
             <div class="container py-5">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-12 col-lg-8">
                         <h2 class="mb-3">
+                            <i class="fa fa-film me-2"/>
                             Timelapse: <t t-out="project.name"/>
                         </h2>
                         <p class="text-muted mb-4">
+                            <i class="fa fa-map-marker me-1"/>
                             <t t-out="project.address"/>
                         </p>
-                        <div class="ratio ratio-16x9">
+                        <div class="ratio ratio-16x9 mb-4">
                             <video controls="controls"
                                    t-att-src="timelapse.video_url"
-                                   class="rounded">
+                                   class="rounded"
+                                   preload="metadata">
                                 Your browser does not support the video tag.
                             </video>
+                        </div>
+                        <div class="small text-muted mb-4">
+                            Period: <t t-out="timelapse.date_from"/>
+                            to <t t-out="timelapse.date_to"/>
+                            | Duration: <t t-out="timelapse.duration_sec"/>s
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="text-center p-4 bg-light rounded remont-share-cta">
+                            <h4>Track your renovation with AI</h4>
+                            <p class="text-muted">
+                                Camera monitoring, stage detection, budget tracking, and more.
+                            </p>
+                            <a href="/" class="btn btn-primary btn-lg">
+                                Get RemontERP
+                            </a>
                         </div>
                     </div>
                 </div>

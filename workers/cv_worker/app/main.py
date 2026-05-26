@@ -8,7 +8,7 @@ import time
 
 import redis
 
-from app.detector import RenovationDetector
+from app.detector import RenovationDetector, MODEL_VERSION
 from app.odoo_client import OdooClient
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
@@ -20,6 +20,12 @@ for var in REQUIRED_ENV:
     if not os.environ.get(var):
         logger.fatal(f"Required environment variable {var} is not set. Exiting.")
         sys.exit(1)
+
+# Confidence threshold — default 0.65 per specification
+CONFIDENCE_THRESHOLD = float(os.environ.get('CV_CONFIDENCE_THRESHOLD', '0.65'))
+
+# Queue name — must match Odoo-side remont_cv.redis_queue parameter
+QUEUE_NAME = os.environ.get('CV_QUEUE_NAME', 'cv_jobs')
 
 
 def main():
@@ -33,12 +39,16 @@ def main():
         password=os.environ.get('ODOO_PASSWORD', 'admin'),
     )
 
-    logger.info("CV Worker started. Waiting for jobs on queue 'cv_analyze'...")
+    logger.info(
+        "CV Worker started. Queue=%s, threshold=%.2f. Waiting for jobs...",
+        QUEUE_NAME,
+        CONFIDENCE_THRESHOLD,
+    )
 
     while True:
         try:
             # Blocking pop from Redis queue (timeout 5s)
-            result = redis_client.brpop('cv_analyze', timeout=5)
+            result = redis_client.brpop(QUEUE_NAME, timeout=5)
             if result is None:
                 continue
 
@@ -50,10 +60,12 @@ def main():
             stage, confidence = detector.detect_stage(job['image_path'])
             logger.info(f"Detected stage={stage}, confidence={confidence:.2f}")
 
-            # Update Odoo via JSON-RPC
-            odoo.update_snapshot(job['snapshot_id'], stage, confidence)
+            # Update Odoo via XML-RPC
+            odoo.update_snapshot(
+                job['snapshot_id'], stage, confidence, MODEL_VERSION
+            )
 
-            if confidence >= 0.7 and stage != 'unknown':
+            if confidence >= CONFIDENCE_THRESHOLD and stage != 'unknown':
                 odoo.update_stage_progress(job['project_id'], stage)
 
         except Exception as e:

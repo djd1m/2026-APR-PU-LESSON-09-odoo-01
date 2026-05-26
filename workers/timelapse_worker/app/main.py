@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -24,6 +25,49 @@ for var in REQUIRED_ENV:
     if not os.environ.get(var):
         logger.fatal(f"Required environment variable {var} is not set. Exiting.")
         sys.exit(1)
+
+
+def _generate_share_token() -> str:
+    """Generate a 16-character hex share token."""
+    return uuid.uuid4().hex[:16]
+
+
+def _send_telegram_notification(
+    odoo: OdooClient, project_id: int, period: str, s3_key: str,
+) -> None:
+    """Notify project owner via Telegram that a timelapse is ready."""
+    try:
+        projects = odoo.execute('remont.project', 'read', [project_id], {'fields': ['name', 'owner_id']})
+        if not projects:
+            return
+        project = projects[0]
+        owner_id = project.get('owner_id')
+        if not owner_id:
+            return
+        # owner_id is [id, name] tuple from Odoo
+        if isinstance(owner_id, (list, tuple)):
+            owner_id = owner_id[0]
+        owners = odoo.execute('res.users', 'read', [owner_id], {'fields': ['telegram_id']})
+        if not owners:
+            return
+        telegram_id = owners[0].get('telegram_id')
+        if not telegram_id:
+            logger.info(f"Project {project_id}: owner has no telegram_id, skipping notification")
+            return
+
+        period_label = "за день" if period == "daily" else "за неделю"
+        message = f"Таймлапс ремонта {period_label}: {project.get('name', '')}"
+        logger.info(f"Telegram notification queued for chat_id={telegram_id}: {message}")
+        # Telegram send is handled by a separate notification service via Redis
+        # We enqueue the notification for async delivery
+        redis_client = redis.from_url(os.environ['REDIS_URL'])
+        redis_client.lpush('telegram_notifications', json.dumps({
+            'chat_id': telegram_id,
+            'message': message,
+            'video_path': s3_key,
+        }))
+    except Exception as e:
+        logger.warning(f"Failed to send Telegram notification for project {project_id}: {e}")
 
 
 def generate_timelapse(project_id: int, period: str, minio_client: Minio, odoo: OdooClient):
@@ -103,19 +147,19 @@ def generate_timelapse(project_id: int, period: str, minio_client: Minio, odoo: 
         logger.info(f"Uploaded timelapse: {s3_key} ({file_size} bytes)")
 
         # Create share token
-        import uuid
-        share_token = uuid.uuid4().hex[:16]
+        share_token = _generate_share_token()
 
-        # Get video duration
+        # Get video duration via ffprobe
         probe_cmd = ['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
                      '-of', 'default=noprint_wrappers=1:nokey=1', str(output_path)]
         probe_result = subprocess.run(probe_cmd, capture_output=True, text=True)
-        duration = float(probe_result.stdout.strip()) if probe_result.returncode == 0 else 30.0
+        duration = int(float(probe_result.stdout.strip())) if probe_result.returncode == 0 else 30
 
         # Create timelapse record in Odoo
         odoo.execute('remont.timelapse', 'create', {
             'video_url': s3_key,
             'duration_sec': duration,
+            'frame_count': len(frames),
             'period': period,
             'date_from': date_from[:10],
             'date_to': date_to[:10],
@@ -123,7 +167,13 @@ def generate_timelapse(project_id: int, period: str, minio_client: Minio, odoo: 
             'share_token': share_token,
         })
 
-        logger.info(f"Timelapse created for project {project_id}: {s3_key}")
+        logger.info(
+            f"Timelapse created for project {project_id}: {s3_key} "
+            f"(frames={len(frames)}, duration={duration}s, token={share_token})"
+        )
+
+        # Notify project owner via Telegram
+        _send_telegram_notification(odoo, project_id, period, s3_key)
 
 
 def main():

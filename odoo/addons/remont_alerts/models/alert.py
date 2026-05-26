@@ -57,3 +57,7 @@ class RemontAlert(models.Model):
         default=fields.Datetime.now,
         readonly=True,
     )
+    cooldown_until = fields.Datetime(
+        string="Cooldown Until",
+        help="No duplicate alert of the same type/project before this time.",
+    )

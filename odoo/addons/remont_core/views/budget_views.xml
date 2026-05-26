@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Budget Form View -->
+    <record id="view_remont_budget_form" model="ir.ui.view">
+        <field name="name">remont.budget.form</field>
+        <field name="model">remont.budget</field>
+        <field name="arch" type="xml">
+            <form string="Renovation Budget">
+                <header>
+                    <button name="action_approve" type="object"
+                            string="Approve" class="btn-primary"
+                            invisible="status != 'draft'"/>
+                    <button name="action_lock" type="object"
+                            string="Lock" class="btn-warning"
+                            invisible="status != 'approved'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,approved,locked"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="project_id" readonly="status != 'draft'"/>
+                            <span> - Budget v</span>
+                            <field name="version" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Details">
+                            <field name="is_original" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="create_date" readonly="1"/>
+                        </group>
+                        <group string="Totals">
+                            <field name="total_estimate"/>
+                            <field name="total_actual"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Budget Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="category"/>
+                                    <field name="description"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="estimate_amount"/>
+                                    <field name="actual_amount"/>
+                                    <field name="variance"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Budget List View -->
+    <record id="view_remont_budget_list" model="ir.ui.view">
+        <field name="name">remont.budget.list</field>
+        <field name="model">remont.budget</field>
+        <field name="arch" type="xml">
+            <list string="Budgets">
+                <field name="project_id"/>
+                <field name="version"/>
+                <field name="status"/>
+                <field name="is_original"/>
+                <field name="total_estimate"/>
+                <field name="total_actual"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Budget Action -->
+    <record id="action_remont_budget" model="ir.actions.act_window">
+        <field name="name">Budgets</field>
+        <field name="res_model">remont.budget</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Add Budget tab to Project form -->
+    <record id="view_remont_project_form_budget_tab" model="ir.ui.view">
+        <field name="name">remont.project.form.budget.tab</field>
+        <field name="model">remont.project</field>
+        <field name="inherit_id" ref="view_remont_project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='snapshots']" position="after">
+                <page string="Budgets" name="budgets">
+                    <field name="budget_ids">
+                        <list>
+                            <field name="version"/>
+                            <field name="status"/>
+                            <field name="is_original"/>
+                            <field name="total_estimate"/>
+                            <field name="total_actual"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

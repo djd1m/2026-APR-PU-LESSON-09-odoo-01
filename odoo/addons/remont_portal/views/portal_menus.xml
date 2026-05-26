@@ -8,7 +8,7 @@
               priority="40">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="icon" t-value="'/remont_portal/static/src/css/portal.css'"/>
+                <t t-set="icon" t-value="'fa fa-home'"/>
                 <t t-set="title">My Renovations</t>
                 <t t-set="url" t-value="'/my/projects'"/>
                 <t t-set="text">View your renovation projects</t>

@@ -21,7 +21,16 @@ STAGES = [
     'finishing',
 ]
 
+# Valid stage names for the 8 renovation stages (excluding 'empty')
+VALID_RENOVATION_STAGES = STAGES[1:]  # demolition through finishing
+
 MODEL_PATH = os.environ.get('CV_MODEL_PATH', 'models/remont_stages_v1.pt')
+
+# Extract model version from path or environment
+MODEL_VERSION = os.environ.get(
+    'CV_MODEL_VERSION',
+    os.path.splitext(os.path.basename(MODEL_PATH))[0],
+)
 
 
 class RenovationDetector:
@@ -37,11 +46,16 @@ class RenovationDetector:
 
         if os.path.exists(MODEL_PATH):
             self.model = YOLO(MODEL_PATH)
-            logger.info(f"Loaded YOLOv8 model from {MODEL_PATH}")
+            logger.info("Loaded YOLOv8 model from %s (version: %s)", MODEL_PATH, MODEL_VERSION)
         else:
             # Use pretrained model for initial development
             self.model = YOLO('yolov8n-cls.pt')
-            logger.warning(f"Custom model not found at {MODEL_PATH}, using pretrained. Fine-tune needed.")
+            logger.warning(
+                "Custom model not found at %s, using pretrained. Fine-tune needed.",
+                MODEL_PATH,
+            )
+
+        self.model_version = MODEL_VERSION
 
     def detect_stage(self, image_path: str) -> tuple[str, float]:
         """
@@ -51,7 +65,9 @@ class RenovationDetector:
             image_path: S3 key in 'remont-photos' bucket
 
         Returns:
-            Tuple of (stage_name, confidence)
+            Tuple of (stage_name, confidence).
+            stage_name is one of the 9 STAGES values or 'unknown'.
+            confidence is a float between 0.0 and 1.0.
         """
         try:
             # Download image from MinIO
@@ -86,5 +102,5 @@ class RenovationDetector:
             return 'unknown', 0.0
 
         except Exception as e:
-            logger.error(f"Stage detection failed for {image_path}: {e}")
+            logger.error("Stage detection failed for %s: %s", image_path, e)
             return 'unknown', 0.0

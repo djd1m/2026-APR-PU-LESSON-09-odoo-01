@@ -36,13 +36,20 @@ class OdooClient:
             model, method, list(args), kwargs
         )
 
-    def update_snapshot(self, snapshot_id: int, stage: str, confidence: float):
+    def update_snapshot(self, snapshot_id: int, stage: str, confidence: float,
+                        model_version: str = None):
         """Update snapshot with CV detection result."""
-        self.execute('remont.snapshot', 'write', [snapshot_id], {
+        vals = {
             'stage_detected': stage,
             'cv_confidence': confidence,
-        })
-        logger.info(f"Updated snapshot {snapshot_id}: stage={stage}, confidence={confidence:.2f}")
+        }
+        if model_version:
+            vals['model_version'] = model_version
+        self.execute('remont.snapshot', 'write', [snapshot_id], vals)
+        logger.info(
+            "Updated snapshot %s: stage=%s, confidence=%.2f, model=%s",
+            snapshot_id, stage, confidence, model_version or "N/A",
+        )
 
     def update_stage_progress(self, project_id: int, detected_stage: str):
         """Update project stage progress based on detection."""
