@@ -22,7 +22,9 @@
       "description": "Odoo Project customization for renovation workflows: Gantt chart with drag-and-drop scheduling, 8 renovation stages (demolition through finishing), checklist-based stage completion, multi-project dashboard for contractors, resource allocation view, PDF export, stage dependency tracking",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["camera-mgmt"],
+      "dependencies": [
+        "camera-mgmt"
+      ],
       "files_estimate": [
         "odoo/addons/remont_core/models/",
         "odoo/addons/remont_core/views/"
@@ -44,11 +46,16 @@
       "name": "Client Portal",
       "description": "Odoo website portal for homeowners: renovation timeline with photos grouped by day, stage filter, lazy-loading (20 per scroll batch), budget summary card (estimate vs actual with green/yellow/red color coding), embedded timelapse viewer with date picker, mobile-responsive design (375px+), push notifications via Telegram Bot API/email/Web Push with configurable preferences, rate limit 20 notifications/user/day",
       "priority": "mvp",
-      "status": "planned",
-      "dependencies": ["camera-mgmt", "project-mgmt", "auth-security"],
+      "status": "done",
+      "dependencies": [
+        "camera-mgmt",
+        "project-mgmt",
+        "auth-security"
+      ],
       "files_estimate": [
         "odoo/addons/remont_portal/"
-      ]
+      ],
+      "branch": "feature/005-client-portal"
     },
     {
       "id": "cv-pipeline",
@@ -56,7 +63,9 @@
       "description": "Separate Docker service consuming Redis queue, YOLOv8 model classifying snapshots into 8 renovation stages (demolition/electrical/plumbing/plaster/screed/tiles/painting/finishing), confidence threshold 0.65, GPU (NVIDIA runtime) and CPU fallback support, model versioning stored with each classification, batch processing mode for backfill, progress percentage calculation (completed/expected snapshots), auto-update of project stages via JSON-RPC, <3s GPU / <15s CPU per image",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["camera-mgmt"],
+      "dependencies": [
+        "camera-mgmt"
+      ],
       "files_estimate": [
         "odoo/addons/remont_cv/",
         "workers/cv_worker/"
@@ -68,7 +77,9 @@
       "description": "Separate Docker service: FFmpeg-based daily 30-second MP4 generation at 02:00 local time (H.264, 1080p, 30fps), weekly timelapse on Sundays, on-demand timelapse for custom date ranges (max 30 days), storage in MinIO, share links with 7-day expiry, Telegram/Instagram share formats (1080x1080 square crop, 9:16 vertical), branded watermark overlay, view count tracking per shared link, generation must complete within 60 seconds",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["camera-mgmt"],
+      "dependencies": [
+        "camera-mgmt"
+      ],
       "files_estimate": [
         "odoo/addons/remont_timelapse/",
         "workers/timelapse_worker/"
@@ -80,7 +91,9 @@
       "description": "Budget creation with line items per cost category (materials/labor/equipment/overhead), all monetary fields NUMERIC(12,2) with Python Decimal -- NEVER float, estimate vs actual variance report per line item and total, budget versioning (original immutable, amendments create new versions), PDF/XLSX export within 10 seconds, overrun alerts at 80% (warning) and 100% (critical) thresholds, one-time alert per threshold crossing",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["project-mgmt"],
+      "dependencies": [
+        "project-mgmt"
+      ],
       "files_estimate": [
         "odoo/addons/remont_core/models/budget.py",
         "odoo/addons/remont_core/views/budget_views.xml"
@@ -92,7 +105,10 @@
       "description": "Scheduled alert engine (ir.cron) checking all active projects: crew absence detection via SSIM (<5% visual difference in 4 consecutive snapshots during configurable work hours Mon-Sat 08:00-18:00), budget overrun alerts (80% warning, 100% critical), schedule delay prediction via linear regression on CV progress data (alert at >3 days predicted delay, min 5 completed projects for reliable predictions), configurable notification preferences per user per channel, 4-hour cooldown between repeat alerts, holiday exclusion, Telegram/email delivery",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["cv-pipeline", "budget-tracker"],
+      "dependencies": [
+        "cv-pipeline",
+        "budget-tracker"
+      ],
       "files_estimate": [
         "odoo/addons/remont_alerts/"
       ]
@@ -103,7 +119,9 @@
       "description": "YuKassa HTTP API v3 integration, subscription tiers (Free: 1 camera no timelapse, Pro: 4 cameras + daily timelapse + alerts, Enterprise: unlimited + API), payment creation flow with redirect to YuKassa checkout, webhook endpoint POST /api/v1/webhook/yukassa with HMAC-SHA256 verification using hmac.compare_digest() (constant-time), idempotent processing via unique yukassa_payment_id, supported events: payment.succeeded/canceled/refund.succeeded, recurring payments with saved methods (autopay), 3-day grace period after expiry, all amounts in Decimal, rate limit 100 req/min/IP on webhook endpoint",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["auth-security"],
+      "dependencies": [
+        "auth-security"
+      ],
       "files_estimate": [
         "odoo/addons/remont_billing/"
       ]
@@ -114,7 +132,10 @@
       "description": "Unique 8-character alphanumeric referral code per user, referral link embedded in shared timelapse URLs, referrer gets 14 free days when referee subscribes to Pro, referee gets 7 free days on first subscription, referral dashboard (total referrals, successful conversions, total days earned), max 10 referral rewards per calendar month (fraud prevention), referral code embedded in timelapse share links for viral tracking",
       "priority": "mvp",
       "status": "planned",
-      "dependencies": ["payment-integration", "timelapse-gen"],
+      "dependencies": [
+        "payment-integration",
+        "timelapse-gen"
+      ],
       "files_estimate": [
         "odoo/addons/remont_referral/"
       ]
