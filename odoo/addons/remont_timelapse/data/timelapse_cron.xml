@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_enqueue_daily_timelapse" model="ir.cron">
+        <field name="name">RemontERP: Enqueue Daily Timelapse Generation</field>
+        <field name="model_id" ref="model_remont_timelapse_job"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_enqueue_daily_timelapse()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="'2026-01-01 03:00:00'"/>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

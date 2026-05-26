@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Alert Tree View -->
+    <record id="view_remont_alert_tree" model="ir.ui.view">
+        <field name="name">remont.alert.tree</field>
+        <field name="model">remont.alert</field>
+        <field name="arch" type="xml">
+            <tree string="Alerts"
+                  decoration-danger="severity == 'critical'"
+                  decoration-warning="severity == 'warning'"
+                  decoration-muted="is_read == True">
+                <field name="created_at"/>
+                <field name="type" widget="badge"/>
+                <field name="severity" widget="badge"/>
+                <field name="message"/>
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <field name="is_read"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Alert Form View -->
+    <record id="view_remont_alert_form" model="ir.ui.view">
+        <field name="name">remont.alert.form</field>
+        <field name="model">remont.alert</field>
+        <field name="arch" type="xml">
+            <form string="Alert">
+                <sheet>
+                    <group>
+                        <group string="Alert Details">
+                            <field name="type"/>
+                            <field name="severity"/>
+                            <field name="is_read"/>
+                            <field name="created_at"/>
+                        </group>
+                        <group string="Context">
+                            <field name="project_id"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group string="Message">
+                        <field name="message" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Alert Action -->
+    <record id="action_remont_alert" model="ir.actions.act_window">
+        <field name="name">Alerts</field>
+        <field name="res_model">remont.alert</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_unread': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No alerts
+            </p>
+            <p>
+                Alerts are generated automatically when the system detects
+                crew absence, budget overruns, or schedule delays.
+            </p>
+        </field>
+    </record>
+
+    <!-- Alert Menu -->
+    <menuitem id="menu_remont_alerts"
+              name="Alerts"
+              parent="remont_core.menu_remont_root"
+              action="action_remont_alert"
+              sequence="30"/>
+
+</odoo>

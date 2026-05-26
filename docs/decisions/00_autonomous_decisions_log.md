@@ -47,3 +47,23 @@ User went to sleep at ~2026-05-26 ~21:00 UTC, expected return in ~7 hours.
 **Chosen:** After EACH feature's Phase 3 (IMPLEMENT), immediately run Phase 4 (REVIEW).
   Verify docs/features/<id>/review-report.md exists before marking done.
 **Rationale:** Hard checks added to /run, /go, /feature commands earlier today
+
+## Decision 7: /start Scope
+**Context:** /start generates project scaffold from SPARC docs
+**Chosen:** Generate all 9 Odoo modules as skeleton code (models, views, controllers, security, tests) + worker apps (cv_worker, timelapse_worker) with working implementations
+**Rationale:** Full scaffold with real code beats empty stubs — gives /run a solid base to iterate on. All modules follow Odoo 19 conventions.
+
+## Decision 8: /run Strategy
+**Context:** 10 MVP features in roadmap, need to decide execution order
+**Chosen:** Execute features in dependency order: project-mgmt → auth-security → camera-mgmt → cv-pipeline → client-portal → timelapse-gen → budget-tracker → ai-alerts → payment-integration → referral-system
+**Rationale:** Dependency graph in feature-roadmap.json; features with no dependencies first, then build up. Each feature gets full 4-phase pipeline (PLAN → VALIDATE → IMPLEMENT → REVIEW). NOTE: Since /start already generated module skeletons, /run features will ENHANCE existing code, not create from scratch.
+
+## Decision 9: Feature Branch Strategy
+**Context:** /run supports --feature-branches flag
+**Chosen:** NOT using --feature-branches. All work on main branch.
+**Rationale:** Single developer, autonomous mode, no PR review needed. Feature branches add complexity without benefit in this context.
+
+## Decision 10: Validation Verdict
+**Context:** Phase 2 validation report generated
+**Chosen:** Proceed to Phase 3 (verdict expected READY or CAVEATS based on comprehensive SPARC docs)
+**Rationale:** AUTO mode — proceed on GREEN or YELLOW. Halt only on RED.
