@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJM: RemontERP — ERP для ремонта и строительства на базе Odoo</title>
+<style>
+  :root {
+    --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-200: #fde68a;
+    --amber-400: #fbbf24; --amber-500: #f59e0b; --amber-600: #d97706;
+    --amber-700: #b45309; --amber-800: #92400e; --amber-900: #78350f;
+    --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
+    --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e;
+    --green-600: #16a34a; --green-700: #15803d;
+    --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-500: #3b82f6;
+    --blue-600: #2563eb; --blue-700: #1d4ed8;
+    --violet-50: #f5f3ff; --violet-100: #ede9fe; --violet-500: #8b5cf6;
+    --violet-600: #7c3aed; --violet-700: #6d28d9;
+    --red-50: #fef2f2; --red-500: #ef4444; --red-600: #dc2626;
+    --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--slate-50); color: var(--slate-800); line-height: 1.6; }
+
+  /* ===== HEADER ===== */
+  .header { background: linear-gradient(135deg, var(--amber-700), var(--amber-900)); color: white; padding: 32px 24px; text-align: center; }
+  .header h1 { font-size: 2rem; margin-bottom: 8px; }
+  .header p { opacity: .85; max-width: 700px; margin: 0 auto; font-size: .95rem; }
+  .header .badge { display: inline-block; background: rgba(255,255,255,.2); padding: 4px 12px; border-radius: 20px; font-size: .8rem; margin-top: 12px; }
+
+  /* ===== TABS ===== */
+  .tabs { display: flex; gap: 0; justify-content: center; background: white; border-bottom: 2px solid var(--slate-200); position: sticky; top: 0; z-index: 100; }
+  .tab { padding: 14px 28px; cursor: pointer; font-weight: 600; font-size: .95rem; border-bottom: 3px solid transparent; transition: all .2s; color: var(--slate-500); }
+  .tab:hover { color: var(--slate-700); background: var(--slate-50); }
+  .tab.active-a { color: var(--amber-700); border-bottom-color: var(--amber-500); background: var(--amber-50); }
+  .tab.active-b { color: var(--blue-700); border-bottom-color: var(--blue-500); background: var(--blue-50); }
+  .tab.active-c { color: var(--violet-700); border-bottom-color: var(--violet-500); background: var(--violet-50); }
+  .tab.active-compare { color: var(--green-700); border-bottom-color: var(--green-500); background: var(--green-50); }
+  .tab .emoji { margin-right: 6px; }
+
+  /* ===== VARIANT PANEL ===== */
+  .variant-panel { display: none; max-width: 1100px; margin: 0 auto; padding: 24px; }
+  .variant-panel.active { display: block; }
+
+  /* ===== SCREEN CARDS ===== */
+  .screen { background: white; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 24px; overflow: hidden; transition: box-shadow .2s; }
+  .screen:hover { box-shadow: var(--shadow-lg); }
+  .screen-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--slate-100); }
+  .screen-header h3 { font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+  .screen-header .stage-badge { font-size: .75rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .stage-awareness { background: var(--amber-100); color: var(--amber-800); }
+  .stage-acquisition { background: var(--blue-100); color: var(--blue-700); }
+  .stage-activation { background: var(--green-100); color: var(--green-700); }
+  .stage-retention { background: var(--violet-100); color: var(--violet-700); }
+  .stage-revenue { background: #fce7f3; color: #9d174d; }
+  .stage-referral { background: #ccfbf1; color: #0f766e; }
+  .screen-body { padding: 20px; }
+  .screen-body .mockup { background: var(--slate-50); border-radius: 8px; padding: 24px; border: 1px dashed var(--slate-300); }
+  .screen-body .mockup h4 { font-size: 1.3rem; margin-bottom: 8px; color: var(--slate-900); }
+  .screen-body .mockup .subtitle { color: var(--slate-500); margin-bottom: 16px; }
+  .screen-body .mockup .cta-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; color: white; font-weight: 600; text-decoration: none; cursor: pointer; }
+  .cta-a { background: var(--amber-600); }
+  .cta-b { background: var(--blue-600); }
+  .cta-c { background: var(--violet-600); }
+
+  /* ===== CJM OVERLAY ===== */
+  .cjm-overlay { background: var(--slate-800); color: white; padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: .85rem; }
+  .cjm-overlay .cjm-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .cjm-overlay .cjm-item { flex: 1; min-width: 140px; }
+  .cjm-overlay .cjm-label { color: var(--amber-400); font-weight: 600; font-size: .75rem; text-transform: uppercase; }
+  .cjm-overlay .cjm-value { margin-top: 2px; }
+
+  /* ===== SOURCES ===== */
+  .source-link { color: var(--blue-600); text-decoration: underline; font-size: .8rem; cursor: pointer; }
+  .source-link:hover { color: var(--blue-700); }
+  .sources-section { background: var(--slate-100); padding: 12px 16px; border-radius: 8px; margin-top: 8px; font-size: .82rem; }
+  .sources-section a { color: var(--blue-600); }
+
+  /* ===== METRICS ===== */
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+  .metric-card { background: white; border: 1px solid var(--slate-200); border-radius: 8px; padding: 12px; text-align: center; }
+  .metric-card .metric-value { font-size: 1.4rem; font-weight: 700; }
+  .metric-card .metric-label { font-size: .75rem; color: var(--slate-500); margin-top: 2px; }
+
+  /* ===== ONBOARDING QUESTIONS ===== */
+  .onboarding-q { background: white; border: 1px solid var(--slate-200); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+  .onboarding-q .q-label { font-weight: 600; color: var(--slate-700); margin-bottom: 6px; }
+  .onboarding-q .q-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .onboarding-q .q-option { padding: 6px 14px; border: 1px solid var(--slate-300); border-radius: 20px; font-size: .85rem; cursor: pointer; transition: all .15s; }
+  .onboarding-q .q-option:hover { border-color: var(--amber-400); background: var(--amber-50); }
+  .onboarding-q .q-option.selected { border-color: var(--amber-500); background: var(--amber-100); font-weight: 600; }
+
+  /* ===== COMPARE TABLE ===== */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .9rem; }
+  .compare-table th { background: var(--slate-800); color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+  .compare-table td { padding: 10px 14px; border-bottom: 1px solid var(--slate-200); vertical-align: top; }
+  .compare-table tr:hover td { background: var(--slate-50); }
+  .compare-table .winner { background: var(--green-50); font-weight: 600; }
+
+  /* ===== SCORING ===== */
+  .score-bar { height: 8px; border-radius: 4px; background: var(--slate-200); overflow: hidden; margin-top: 4px; }
+  .score-fill { height: 100%; border-radius: 4px; transition: width .5s; }
+  .score-fill-a { background: var(--amber-500); }
+  .score-fill-b { background: var(--blue-500); }
+  .score-fill-c { background: var(--violet-500); }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--slate-300); }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-item::before { content: ''; position: absolute; left: -22px; top: 6px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+  .timeline-item.done::before { background: var(--green-500); border-color: var(--green-500); }
+  .timeline-item.current::before { background: var(--amber-500); border-color: var(--amber-500); }
+  .timeline-item.upcoming::before { background: white; border-color: var(--slate-400); }
+
+  /* ===== TREND TAGS ===== */
+  .trend-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: .72rem; font-weight: 600; margin: 2px; }
+  .trend-ai { background: #dbeafe; color: #1d4ed8; }
+  .trend-iot { background: #d1fae5; color: #065f46; }
+  .trend-proptech { background: #fce7f3; color: #9d174d; }
+  .trend-transparency { background: #fef3c7; color: #92400e; }
+  .trend-ditm { background: #ede9fe; color: #5b21b6; }
+
+  /* ===== TOGGLE ===== */
+  .toggle-row { display: flex; align-items: center; gap: 8px; margin: 16px 0; font-size: .85rem; }
+  .toggle { width: 40px; height: 22px; border-radius: 11px; background: var(--slate-300); position: relative; cursor: pointer; transition: background .2s; }
+  .toggle.on { background: var(--amber-500); }
+  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform .2s; }
+  .toggle.on::after { transform: translateX(18px); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .tabs { flex-wrap: wrap; }
+    .tab { flex: 1; text-align: center; padding: 10px 8px; font-size: .82rem; }
+    .header h1 { font-size: 1.4rem; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>RemontERP — Customer Journey Map</h1>
+  <p>ERP для управления ремонтом и строительством на базе Odoo с AI-камерами фиксации этапов</p>
+  <div class="badge">3 варианта CJM &bull; DEEP Mode &bull; 2026-05-26</div>
+</div>
+
+<!-- ===== TABS ===== -->
+<div class="tabs" id="tabs">
+  <div class="tab active-a" onclick="showVariant('a')" id="tab-a">
+    <span class="emoji">📷</span> A: Камера Правды
+  </div>
+  <div class="tab" onclick="showVariant('b')" id="tab-b">
+    <span class="emoji">🏗️</span> B: Цифровой Прораб
+  </div>
+  <div class="tab" onclick="showVariant('c')" id="tab-c">
+    <span class="emoji">🏢</span> C: Умная Стройка
+  </div>
+  <div class="tab" onclick="showVariant('compare')" id="tab-compare">
+    <span class="emoji">&#9878;</span> Сравнение
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT A: Камера Правды (B2C — Частные заказчики)                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-panel active" id="panel-a">
+
+  <div style="padding:12px 0">
+    <span class="trend-tag trend-ai">AI Computer Vision</span>
+    <span class="trend-tag trend-transparency">Прозрачность = Валюта</span>
+    <span class="trend-tag trend-ditm">Do It For Me</span>
+    <span class="trend-tag trend-proptech">PropTech $29B</span>
+  </div>
+
+  <!-- SCREEN 1: Landing -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>01 Landing Page</h3>
+      <span class="stage-badge stage-awareness">Awareness</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Видь каждый гвоздь. Камера на объекте 24/7.</h4>
+        <p class="subtitle">Установите AI-камеру в квартиру — получайте таймлапс ремонта, автоматическую сверку с планом и уведомления о проблемах. Больше никаких "ну мы почти закончили".</p>
+        <div style="margin:16px 0">
+          <span class="cta-btn cta-a">Подключить камеру &rarr;</span>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--amber-600)">56%</div>
+            <div class="metric-label">заказчиков ищут подрядчиков онлайн</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--red-600)">2-3x</div>
+            <div class="metric-label">завышение сметы — норма рынка</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">30%</div>
+            <div class="metric-label">экономия от цифровизации</div>
+          </div>
+        </div>
+        <div class="sources-section">
+          <strong>Источники:</strong>
+          <a href="https://blogs.forbes.ru/2025/12/30/rynok-remonta-i-stroitelstva-cifrovaja-zrelost-doverie-i-novaja-struktura-sprosa/" target="_blank">Forbes.ru: рынок ремонта 2025</a> &bull;
+          <a href="https://sdom-stroy.ru/blog/12-skhem-obmana-pri-remonte.html" target="_blank">sdom-stroy: 12 схем обмана</a> &bull;
+          <a href="https://gectaro.com/blog/tpost/akihyy1of1-tsifrovizatsiya-stroitelstva-v-2025-kak" target="_blank">Gectaro: цифровизация 2025</a>
+        </div>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-1" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Acquisition</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">Любопытство + Страх обмана</div></div>
+          <div class="cjm-item"><div class="cjm-label">Действие</div><div class="cjm-value">Клик CTA &rarr; регистрация</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">CR Landing &rarr; Signup &ge; 12%</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Что заставило вас кликнуть?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: Onboarding -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>02 Onboarding</h3>
+      <span class="stage-badge stage-acquisition">Acquisition</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Расскажите о вашем ремонте</h4>
+        <p class="subtitle">3 вопроса — и мы настроим камеру под ваш объект</p>
+        <div class="onboarding-q">
+          <div class="q-label">1. Что ремонтируете?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Квартира в новостройке</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Вторичка — капремонт</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Комната / Санузел</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Загородный дом</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">2. Есть ли бригада?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Да, уже нанял</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Ищу подрядчика</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Делаю сам (DIY)</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">3. Главная боль?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Боюсь обмана со сметой</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Не могу контролировать — далеко</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Уже обожглись с прошлой бригадой</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Хочу фиксировать для себя</span>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Триггеры из исследования:</strong>
+        <a href="https://www.gazeta.ru/social/news/2025/04/21/25601390.shtml" target="_blank">Газета.Ру: новая схема мошенников 2025</a> &bull;
+        <a href="https://rg.ru/2025/04/21/ekspert-bondar-predupredil-o-novoj-sheme-moshennichestva-s-remontom-kvartir.html" target="_blank">РГ: мошенничество с ремонтом</a> &bull;
+        <a href="https://remontkit.ru/poleznye-sovety/kontrol-stroitelej-vo-vremja-remonta.html" target="_blank">RemontKit: контроль строителей</a>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-2" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Acquisition</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">Надежда + Узнавание боли</div></div>
+          <div class="cjm-item"><div class="cjm-label">Действие</div><div class="cjm-value">Заполняет 3 вопроса</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">Completion Rate &ge; 75%</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Какой вопрос показался лишним?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: AHA MOMENT -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>03 Aha Moment: Первый Таймлапс</h3>
+      <span class="stage-badge stage-activation">Activation</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup" style="text-align:center">
+        <div style="background:var(--slate-900);border-radius:8px;padding:40px;color:white;margin-bottom:16px">
+          <div style="font-size:3rem;margin-bottom:8px">&#127909;</div>
+          <h4 style="color:white;font-size:1.2rem">Ваш ремонт за 24 часа — за 30 секунд</h4>
+          <p style="color:var(--slate-400);margin:12px 0">AI-камера зафиксировала 47 изменений. Штукатурка нанесена на 3 стены. Электрик проложил кабель в спальне.</p>
+          <div style="display:flex;justify-content:center;gap:12px;margin-top:16px">
+            <div style="background:var(--green-600);padding:6px 16px;border-radius:20px;font-size:.85rem">&#9654; Смотреть таймлапс</div>
+            <div style="background:var(--slate-600);padding:6px 16px;border-radius:20px;font-size:.85rem">&#128247; 47 снимков</div>
+          </div>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">87%</div>
+            <div class="metric-label">прогресс стен (CV-анализ)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--amber-600)">3/8</div>
+            <div class="metric-label">этапов завершено</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--blue-600)">+2 дня</div>
+            <div class="metric-label">AI-прогноз задержки</div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Технология:</strong>
+        <a href="https://build.inc/insights/ai-construction-monitoring-cre" target="_blank">Build.inc: AI Construction Monitoring</a> &bull;
+        <a href="https://duckviewsystems.com/ai-construction-cameras/" target="_blank">DuckView: AI Construction Cameras 2026</a> &bull;
+        <a href="https://ifactoryapp.com/industries/infrastructure-management/construction-progress-monitoring-uses-ai-vision" target="_blank">iFactory: CV Progress Monitoring</a> &bull;
+        <a href="https://www.sostav.ru/blogs/281804/71928" target="_blank">Sostav: тренды ремонта 2025</a>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-3" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Activation</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">WOW! Я ВИЖУ свой ремонт!</div></div>
+          <div class="cjm-item"><div class="cjm-label">Aha Момент</div><div class="cjm-value">Таймлапс 24ч &rarr; 30сек видео</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">Time-to-Aha &le; 24 часа</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Что было неожиданным в таймлапсе?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: Dashboard -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>04 Dashboard: Мой Ремонт</h3>
+      <span class="stage-badge stage-retention">Retention</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Квартира на Ленинском, 45 — ремонт "под ключ"</h4>
+        <div style="display:flex;gap:16px;margin:16px 0;flex-wrap:wrap">
+          <div style="flex:2;min-width:280px">
+            <div class="timeline">
+              <div class="timeline-item done">
+                <strong>Демонтаж</strong> — 5 дней
+                <div style="font-size:.82rem;color:var(--slate-500)">&#9989; Завершён 12 мая. 23 фото, таймлапс готов.</div>
+              </div>
+              <div class="timeline-item done">
+                <strong>Электрика</strong> — 4 дня
+                <div style="font-size:.82rem;color:var(--slate-500)">&#9989; Кабель проложен. Акт подписан.</div>
+              </div>
+              <div class="timeline-item current">
+                <strong>Штукатурка стен</strong> — день 3 из 5
+                <div style="font-size:.82rem;color:var(--amber-600)">&#128260; AI: прогресс 67%, прогноз завершения: 28 мая</div>
+              </div>
+              <div class="timeline-item upcoming">
+                <strong>Стяжка пола</strong> — ожидание
+                <div style="font-size:.82rem;color:var(--slate-400)">Зависит от штукатурки. AI прогноз: старт 29 мая.</div>
+              </div>
+              <div class="timeline-item upcoming">
+                <strong>Плитка, сантехника</strong>
+              </div>
+              <div class="timeline-item upcoming">
+                <strong>Чистовая отделка</strong>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div style="background:var(--amber-50);border-radius:8px;padding:14px;margin-bottom:10px">
+              <div style="font-weight:600;color:var(--amber-800);font-size:.85rem">&#128176; Бюджет</div>
+              <div style="font-size:1.3rem;font-weight:700;margin:4px 0">1,240,000 / 1,800,000 &#8381;</div>
+              <div class="score-bar"><div class="score-fill score-fill-a" style="width:69%"></div></div>
+              <div style="font-size:.75rem;color:var(--slate-500);margin-top:4px">69% израсходовано. AI: в рамках плана.</div>
+            </div>
+            <div style="background:var(--green-50);border-radius:8px;padding:14px;margin-bottom:10px">
+              <div style="font-weight:600;color:var(--green-700);font-size:.85rem">&#128247; Сегодня</div>
+              <div style="font-size:.9rem;margin-top:4px">12 новых снимков<br>1 таймлапс готов<br>Бригада: 08:15-17:30</div>
+            </div>
+            <div style="background:var(--red-50);border-radius:8px;padding:14px">
+              <div style="font-weight:600;color:var(--red-600);font-size:.85rem">&#9888; Внимание</div>
+              <div style="font-size:.9rem;margin-top:4px">Бригада не появлялась вчера (воскресенье не в графике?)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Микро-тренды в UX:</strong>
+        <a href="https://technews180.com/blog/proptech-trends/" target="_blank">TechNews180: PropTech Digital Twin</a> &bull;
+        <a href="https://www.sostav.ru/blogs/281804/71928" target="_blank">Sostav: 3D-планирование ремонта</a> &bull;
+        <a href="https://101-app.com/blog/monitor-contractor-with-app" target="_blank">101-App: контроль подрядчика</a>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-4" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Retention</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">Контроль + Спокойствие</div></div>
+          <div class="cjm-item"><div class="cjm-label">Hook</div><div class="cjm-value">Daily digest: новые фото + прогресс %</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">DAU/MAU &ge; 60%, push open &ge; 40%</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Как часто заходите? Что смотрите первым?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: Paywall -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>05 Paywall: После первого таймлапса</h3>
+      <span class="stage-badge stage-revenue">Revenue</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup" style="text-align:center">
+        <h4>Вам понравился таймлапс?</h4>
+        <p class="subtitle">Продолжайте следить за ремонтом с AI-камерой</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0">
+          <div style="border:1px solid var(--slate-300);border-radius:12px;padding:20px;width:200px;text-align:center">
+            <div style="font-weight:700;margin-bottom:4px">Базовый</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--amber-600)">2,990 &#8381;/мес</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">1 камера &bull; Таймлапс &bull; Фото-отчёт &bull; Push-уведомления</div>
+            <div class="cta-btn cta-a" style="font-size:.85rem;padding:8px 20px">Подключить</div>
+          </div>
+          <div style="border:2px solid var(--amber-500);border-radius:12px;padding:20px;width:200px;text-align:center;background:var(--amber-50)">
+            <div style="font-weight:700;margin-bottom:4px">Про</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--amber-700)">5,990 &#8381;/мес</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">2 камеры &bull; AI-анализ &bull; Бюджет-трекер &bull; Цифровые акты &bull; AI-прогнозы</div>
+            <div class="cta-btn cta-a" style="font-size:.85rem;padding:8px 20px">Подключить</div>
+          </div>
+          <div style="border:1px solid var(--slate-300);border-radius:12px;padding:20px;width:200px;text-align:center">
+            <div style="font-weight:700;margin-bottom:4px">Бизнес</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--slate-700)">от 14,990 &#8381;</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">10+ камер &bull; Мульти-объект &bull; API &bull; White label &bull; Для ремонтных компаний</div>
+            <div class="cta-btn" style="font-size:.85rem;padding:8px 20px;background:var(--slate-700)">Запрос</div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Ценообразование (бенчмарк):</strong>
+        <a href="https://www.odoo.com/pricing" target="_blank">Odoo Pricing: $24.90/user/mo</a> &bull;
+        <a href="https://remont-crm.ru/" target="_blank">РемонтCRM: ~5,000 &#8381;/мес</a> &bull;
+        <a href="https://duckviewsystems.com/ai-construction-cameras/" target="_blank">DuckView: AI cameras pricing</a>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-5" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Revenue</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">Wow от таймлапса &rarr; готовность платить</div></div>
+          <div class="cjm-item"><div class="cjm-label">Timing</div><div class="cjm-value">Сразу после первого Aha (24ч)</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">Trial &rarr; Paid &ge; 15%</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Цена справедливая? За что готовы платить?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: Referral -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>06 Referral: Таймлапс-вирал</h3>
+      <span class="stage-badge stage-referral">Referral</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Поделитесь таймлапсом ремонта</h4>
+        <p class="subtitle">Ваш таймлапс готов! Отправьте друзьям — они тоже хотят видеть свой ремонт.</p>
+        <div style="display:flex;gap:12px;margin:16px 0;flex-wrap:wrap">
+          <span class="cta-btn cta-a" style="font-size:.85rem">&#128257; Поделиться в Telegram</span>
+          <span class="cta-btn" style="font-size:.85rem;background:var(--slate-600)">&#128279; Скопировать ссылку</span>
+          <span class="cta-btn" style="font-size:.85rem;background:#e1306c">&#128248; Сторис Instagram</span>
+        </div>
+        <div style="background:var(--green-50);border-radius:8px;padding:14px;margin-top:12px">
+          <strong style="color:var(--green-700)">&#127873; Приведи друга — получи неделю бесплатно</strong>
+          <p style="font-size:.85rem;color:var(--slate-600);margin-top:4px">Каждый друг, подключивший камеру по вашей ссылке = +7 дней к подписке. Без ограничений.</p>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Viral-механика:</strong>
+        Таймлапс ремонта — естественный viral-контент (аналог: <a href="https://www.seedtable.com/best-home-renovation-startups" target="_blank">WeReno / Revive Hub: First See Then Pay</a>) &bull;
+        <a href="https://blogs.forbes.ru/2025/12/30/rynok-remonta-i-stroitelstva-cifrovaja-zrelost-doverie-i-novaja-struktura-sprosa/" target="_blank">Forbes: портфолио = доверие</a>
+      </div>
+      <div class="cjm-overlay" id="cjm-a-6" style="display:none">
+        <div class="cjm-row">
+          <div class="cjm-item"><div class="cjm-label">AARRR</div><div class="cjm-value">Referral</div></div>
+          <div class="cjm-item"><div class="cjm-label">Эмоция</div><div class="cjm-value">Гордость + желание похвастаться</div></div>
+          <div class="cjm-item"><div class="cjm-label">Механика</div><div class="cjm-value">Таймлапс = viral контент, шеринг natural</div></div>
+          <div class="cjm-item"><div class="cjm-label">KPI</div><div class="cjm-value">K-factor &ge; 0.3, share rate &ge; 20%</div></div>
+          <div class="cjm-item"><div class="cjm-label">CustDev</div><div class="cjm-value">"Вы бы показали таймлапс друзьям?"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle" id="toggle-cjm-a" onclick="toggleCJM('a')"></div>
+    <span>Показать CJM-аналитику (AARRR, эмоции, KPI, CustDev вопросы)</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT B: Цифровой Прораб (B2B — Ремонтные компании)              -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-panel" id="panel-b">
+
+  <div style="padding:12px 0">
+    <span class="trend-tag trend-ai">AI Scheduling</span>
+    <span class="trend-tag trend-iot">IoT Sensors</span>
+    <span class="trend-tag trend-proptech">ERP Integration</span>
+    <span class="trend-tag trend-transparency">Multi-Object Dashboard</span>
+  </div>
+
+  <!-- B: SCREEN 1 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>01 Landing Page</h3>
+      <span class="stage-badge stage-awareness">Awareness</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>20 объектов. 8 бригад. 0 хаоса.</h4>
+        <p class="subtitle">ERP для ремонтных компаний: Gantt-планирование, автоматические сметы, AI-контроль бригад, клиентский портал. Забудьте про Excel + WhatsApp.</p>
+        <span class="cta-btn cta-b">Попробовать 14 дней бесплатно &rarr;</span>
+        <div class="metrics-grid" style="margin-top:16px">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--blue-600)">+20%</div>
+            <div class="metric-label">рост прибыли от CRM</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">-30%</div>
+            <div class="metric-label">время на учёт</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--amber-600)">7,000+</div>
+            <div class="metric-label">новых клиентов Odoo / мес</div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <strong>Источники:</strong>
+        <a href="https://vc.ru/id4078595/1595760-integraciya-crm-sistemy-v-kompaniyu-po-remontu-kvartir" target="_blank">vc.ru: интеграция CRM для ремонта</a> &bull;
+        <a href="https://ifabrique.ru/blog/crm-dlya-remonta-i-flippinga-kontrol-bez-haosa" target="_blank">iFabrique: CRM для ремонта</a> &bull;
+        <a href="https://todo.ltd/en/blog/interes-do-odoo-zrostaye-fakty-czyfry-ta-trendy-2025-roku/" target="_blank">Odoo: 7K+ клиентов/мес</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: SCREEN 2 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>02 Onboarding: Настройка компании</h3>
+      <span class="stage-badge stage-acquisition">Acquisition</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Настроим под вашу компанию за 5 минут</h4>
+        <div class="onboarding-q">
+          <div class="q-label">1. Сколько объектов ведёте одновременно?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">1-5</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">5-15</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">15-50</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">50+</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">2. Что сейчас используете?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Excel + WhatsApp</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">1С</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Bitrix24</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Ничего</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">3. Главная проблема?</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Теряю клиентов из-за забытых заявок</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Не вижу, кто где работает</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Сметы считаю вручную</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Бригады срывают сроки</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: SCREEN 3 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>03 Aha Moment: AI-план ремонта за 60 секунд</h3>
+      <span class="stage-badge stage-activation">Activation</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Объект "Ленинского 45, кв. 87" — план готов</h4>
+        <p class="subtitle">AI проанализировал площадь (68 м&sup2;), тип отделки (капремонт), и создал:</p>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--blue-600)">12</div>
+            <div class="metric-label">этапов в Gantt</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--amber-600)">1.82M &#8381;</div>
+            <div class="metric-label">смета (авто)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">47 дней</div>
+            <div class="metric-label">прогноз сроков</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--violet-500)">3</div>
+            <div class="metric-label">бригады назначены</div>
+          </div>
+        </div>
+        <div style="margin:16px 0;padding:14px;background:var(--blue-50);border-radius:8px">
+          <strong style="color:var(--blue-700)">&#128161; AI-рекомендация:</strong>
+          <span style="font-size:.9rem"> Сдвиньте плитку на 3 дня позже — стяжка не успеет высохнуть. Экономия от параллельности электрики и сантехники: 5 дней.</span>
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://rtslabs.com/ai-agents-for-construction/" target="_blank">RTS Labs: AI Agents for Construction 2026</a> &bull;
+        <a href="https://cmicglobal.com/resources/article/2025-Construction-Trends" target="_blank">CMIC: Construction Software Trends 2025</a> &bull;
+        <a href="https://www.odoo.com/industries/construction" target="_blank">Odoo: Construction Industry</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: SCREEN 4 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>04 Dashboard: Все объекты</h3>
+      <span class="stage-badge stage-retention">Retention</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Панель управления — 14 активных объектов</h4>
+        <table style="width:100%;font-size:.85rem;border-collapse:collapse;margin:12px 0">
+          <thead>
+            <tr style="background:var(--slate-100)">
+              <th style="padding:8px;text-align:left">Объект</th>
+              <th style="padding:8px">Прогресс</th>
+              <th style="padding:8px">Бригада</th>
+              <th style="padding:8px">Бюджет</th>
+              <th style="padding:8px">Срок</th>
+              <th style="padding:8px">Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px">Ленинского 45, кв.87</td><td style="padding:8px;text-align:center">67%</td><td style="padding:8px;text-align:center">Иванов А.</td><td style="padding:8px;text-align:center;color:var(--green-600)">в норме</td><td style="padding:8px;text-align:center">28.06</td><td style="padding:8px;text-align:center">&#128994;</td></tr>
+            <tr><td style="padding:8px">Кутузовский 12, кв.3</td><td style="padding:8px;text-align:center">23%</td><td style="padding:8px;text-align:center">Петров С.</td><td style="padding:8px;text-align:center;color:var(--amber-600)">+8%</td><td style="padding:8px;text-align:center">15.07</td><td style="padding:8px;text-align:center">&#128992;</td></tr>
+            <tr><td style="padding:8px">Тверская 8, кв.15</td><td style="padding:8px;text-align:center">91%</td><td style="padding:8px;text-align:center">Козлов В.</td><td style="padding:8px;text-align:center;color:var(--green-600)">-3%</td><td style="padding:8px;text-align:center">30.05</td><td style="padding:8px;text-align:center">&#128994;</td></tr>
+            <tr><td style="padding:8px">Мира 22, кв.101</td><td style="padding:8px;text-align:center">5%</td><td style="padding:8px;text-align:center">—</td><td style="padding:8px;text-align:center;color:var(--red-600)">+22%</td><td style="padding:8px;text-align:center">01.08</td><td style="padding:8px;text-align:center">&#128308;</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sources-section">
+        <a href="https://smarttek.solutions/blog/odoo-for-real-estate-management-construction-property-rentals-maintenance/" target="_blank">SmartTek: Odoo for Real Estate</a> &bull;
+        <a href="https://firstlinesoftware.com/blog/odoo-for-construction-project-management/" target="_blank">FirstLine: Odoo Construction PM</a> &bull;
+        <a href="https://www.ksolves.com/blog/odoo/transforming-construction-workflows-with-odoo" target="_blank">Ksolves: Construction Workflows</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: SCREEN 5 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>05 Paywall: После 7 дней (привычка)</h3>
+      <span class="stage-badge stage-revenue">Revenue</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup" style="text-align:center">
+        <h4>14-дневный триал заканчивается</h4>
+        <p class="subtitle">За 7 дней вы создали 3 объекта, автоматизировали 2 сметы и сэкономили ~12 часов</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0">
+          <div style="border:1px solid var(--slate-300);border-radius:12px;padding:20px;width:220px">
+            <div style="font-weight:700">Стартап</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--blue-600)">9,990 &#8381;/мес</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">5 объектов &bull; 3 пользователя &bull; Gantt + Сметы &bull; Клиентский портал</div>
+          </div>
+          <div style="border:2px solid var(--blue-500);border-radius:12px;padding:20px;width:220px;background:var(--blue-50)">
+            <div style="font-weight:700">Рост</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--blue-700)">24,990 &#8381;/мес</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">20 объектов &bull; 10 пользователей &bull; AI-камеры &bull; Финансы &bull; HR бригад</div>
+          </div>
+          <div style="border:1px solid var(--slate-300);border-radius:12px;padding:20px;width:220px">
+            <div style="font-weight:700">Масштаб</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--slate-700)">от 49,990 &#8381;</div>
+            <div style="font-size:.8rem;color:var(--slate-500);margin:8px 0">Безлимит &bull; API &bull; 1С интеграция &bull; White label &bull; Onboarding</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: SCREEN 6 -->
+  <div class="screen">
+    <div class="screen-header">
+      <h3>06 Referral: Клиентский портал</h3>
+      <span class="stage-badge stage-referral">Referral</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Дайте клиенту портал — он приведёт следующих</h4>
+        <p class="subtitle">Каждый ваш клиент получает ссылку на портал с прогрессом ремонта. Довольный клиент = рекомендация.</p>
+        <div style="background:var(--blue-50);border-radius:8px;padding:14px;margin:12px 0">
+          <strong style="color:var(--blue-700)">&#127775; "Powered by RemontERP"</strong> — бейдж на портале клиента. Каждый новый клиент видит, что ремонт ведётся в профессиональной системе.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle" id="toggle-cjm-b" onclick="toggleCJM('b')"></div>
+    <span>Показать CJM-аналитику</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- VARIANT C: Умная Стройка (Застройщики/Девелоперы)                   -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-panel" id="panel-c">
+
+  <div style="padding:12px 0">
+    <span class="trend-tag trend-ai">AI Quality Control</span>
+    <span class="trend-tag trend-iot">Digital Twin</span>
+    <span class="trend-tag trend-proptech">BIM Integration</span>
+    <span class="trend-tag trend-ditm">Mass Finishing</span>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>01 Landing Page</h3>
+      <span class="stage-badge stage-awareness">Awareness</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>200 квартир. 15 бригад. Один экран.</h4>
+        <p class="subtitle">ERP для застройщиков: массовая отделка с AI-контролем качества, интеграция с BIM, автоматические акты приёмки. Дольщики довольны, стройнадзор спокоен.</p>
+        <span class="cta-btn cta-c">Запросить демо &rarr;</span>
+        <div class="metrics-grid" style="margin-top:16px">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--violet-600)">x4</div>
+            <div class="metric-label">рост рынка цифровизации к 2028</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">10-20%</div>
+            <div class="metric-label">сокращение сроков</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--blue-600)">3,000+</div>
+            <div class="metric-label">застройщиков в РФ</div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://strategy.ru/research/research/obem-rynka-cifrovizacii-stroitelnoj-otrasli-mozhet-vyrasti-v-chetyre-raza-k-2028-godu/" target="_blank">Strategy Partners: рынок x4 к 2028</a> &bull;
+        <a href="https://erzrf.ru/news/opublikovan_top_zastrojschikov_rossii_po_tekuschemu_stroitelstvu_na_1_oktyabrya_2025_goda" target="_blank">ЕРЗ.РФ: ТОП застройщиков</a> &bull;
+        <a href="https://www.tadviser.ru/index.php/%D0%A1%D1%82%D0%B0%D1%82%D1%8C%D1%8F:%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%B0_(%D1%80%D1%8B%D0%BD%D0%BE%D0%BA_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8)" target="_blank">TAdviser: цифровизация строительства</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>02 Onboarding: Подключение ЖК</h3>
+      <span class="stage-badge stage-acquisition">Acquisition</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Подключите ваш ЖК за 1 день</h4>
+        <div class="onboarding-q">
+          <div class="q-label">1. Масштаб отделки</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">до 50 квартир</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">50-200</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">200-500</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">500+</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">2. Текущая ERP</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">1С:Заказчик-Застройщик</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">SAP (уходим)</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Excel / Своё</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Нет ERP</span>
+          </div>
+        </div>
+        <div class="onboarding-q">
+          <div class="q-label">3. Приоритет</div>
+          <div class="q-options">
+            <span class="q-option" onclick="this.classList.toggle('selected')">Контроль бригад и качества</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Сроки и штрафы</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Жалобы дольщиков</span>
+            <span class="q-option" onclick="this.classList.toggle('selected')">Интеграция с BIM</span>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://solutions.1c.ru/catalog/zzerp" target="_blank">1С:Заказчик-застройщик</a> &bull;
+        <a href="https://domoplaner.ru/products/crm/" target="_blank">Домопланер: CRM для застройщиков</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>03 Aha Moment: ROI-калькулятор</h3>
+      <span class="stage-badge stage-activation">Activation</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup" style="text-align:center">
+        <h4>Ваша экономия с RemontERP</h4>
+        <p class="subtitle">На основе данных вашего ЖК (200 квартир, 15 бригад, отделка "под ключ"):</p>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--green-600)">18.6M &#8381;</div>
+            <div class="metric-label">экономия за проект (8-10% сметы)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--blue-600)">-45 дней</div>
+            <div class="metric-label">сокращение сроков отделки</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--violet-600)">-70%</div>
+            <div class="metric-label">жалоб от дольщиков</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--amber-600)">ROI 840%</div>
+            <div class="metric-label">окупаемость за 2 месяца</div>
+          </div>
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://strategy.ru/research/research/obem-rynka-cifrovizacii-stroitelnoj-otrasli-mozhet-vyrasti-v-chetyre-raza-k-2028-godu/" target="_blank">Strategy Partners: 8-10% экономия от сметы</a> &bull;
+        <a href="https://abccarolinas.org/ai-in-construction-site-safety/" target="_blank">ABC: 40-60% меньше инцидентов с AI</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>04 Dashboard: Управление ЖК</h3>
+      <span class="stage-badge stage-retention">Retention</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>ЖК "Солнечный" — 200 квартир, отделка</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0">
+          <div style="background:var(--green-50);padding:10px;border-radius:8px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:700;color:var(--green-600)">142</div>
+            <div style="font-size:.75rem;color:var(--slate-500)">Завершены</div>
+          </div>
+          <div style="background:var(--amber-50);padding:10px;border-radius:8px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:700;color:var(--amber-600)">38</div>
+            <div style="font-size:.75rem;color:var(--slate-500)">В работе</div>
+          </div>
+          <div style="background:var(--red-50);padding:10px;border-radius:8px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:700;color:var(--red-600)">12</div>
+            <div style="font-size:.75rem;color:var(--slate-500)">Отставание</div>
+          </div>
+          <div style="background:var(--blue-50);padding:10px;border-radius:8px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:700;color:var(--blue-600)">8</div>
+            <div style="font-size:.75rem;color:var(--slate-500)">Не начаты</div>
+          </div>
+        </div>
+        <div style="background:var(--slate-100);border-radius:8px;padding:14px;margin:12px 0;font-size:.85rem">
+          <strong>AI-алерты сегодня:</strong><br>
+          &#128308; Бригада Козлова: 3 квартиры с отставанием &gt;5 дней — рекомендация: перераспределить<br>
+          &#128992; Секция Б: поставка плитки задерживается на 2 дня, авто-сдвиг 4 квартир<br>
+          &#128994; Качество: AI-камера не выявила дефектов в 12 принятых квартирах
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://track3d.ai/construction-monitoring-trends-2025/" target="_blank">Track3D: Construction Monitoring 2025</a> &bull;
+        <a href="https://www.earthcam.net/resources/articles/bringing-intelligence-to-jobsite-ai-construction-monitoring.php" target="_blank">EarthCam: AI Construction Monitoring</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>05 Paywall: После ROI-доказательства</h3>
+      <span class="stage-badge stage-revenue">Revenue</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup" style="text-align:center">
+        <h4>Enterprise-тариф для застройщиков</h4>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0">
+          <div style="border:2px solid var(--violet-500);border-radius:12px;padding:24px;width:280px;background:var(--violet-50)">
+            <div style="font-weight:700;font-size:1.1rem">Enterprise</div>
+            <div style="font-size:1.8rem;font-weight:800;color:var(--violet-700);margin:8px 0">от 149,000 &#8381;/мес</div>
+            <div style="font-size:.82rem;color:var(--slate-600);text-align:left;line-height:1.7">
+              &#9989; Безлимит квартир и бригад<br>
+              &#9989; AI-камеры на каждый этаж<br>
+              &#9989; BIM интеграция (Revit, ArchiCAD)<br>
+              &#9989; 1С двусторонняя синхронизация<br>
+              &#9989; Портал дольщика (white label)<br>
+              &#9989; AI Quality Control + Digital Twin<br>
+              &#9989; Выделенный менеджер + SLA 4ч
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-header">
+      <h3>06 Referral: Портал дольщика</h3>
+      <span class="stage-badge stage-referral">Referral</span>
+    </div>
+    <div class="screen-body">
+      <div class="mockup">
+        <h4>Каждый дольщик — ваш амбассадор</h4>
+        <p class="subtitle">Дольщик видит прогресс отделки своей квартиры в реальном времени. Делится в соцсетях &rarr; маркетинг для ЖК бесплатно.</p>
+        <div style="background:var(--violet-50);border-radius:8px;padding:14px;margin:12px 0">
+          <strong style="color:var(--violet-700)">&#127968; "Мой ремонт в ЖК Солнечный"</strong> — брендированная страница с камерой, прогрессом, и таймлапсом. Дольщик шарит &rarr; потенциальный покупатель видит прозрачность &rarr; доверие к застройщику.
+        </div>
+      </div>
+      <div class="sources-section">
+        <a href="https://www.mirkvartir.ru/journal/actual/2026/05/26/novye-standarty-tehnologii-tsifrovizatsii/" target="_blank">МирКвартир: цифровизация МКД 2026</a> &bull;
+        <a href="https://avadom.ru/articles/trends-2025/" target="_blank">AvaDom: тренды недвижимости 2025</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle" id="toggle-cjm-c" onclick="toggleCJM('c')"></div>
+    <span>Показать CJM-аналитику</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- COMPARISON TABLE                                                     -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div class="variant-panel" id="panel-compare">
+  <h2 style="margin:16px 0 8px;font-size:1.3rem">&#9878; Сравнение 3 вариантов CJM</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Параметр</th>
+        <th style="background:var(--amber-800)">A: Камера Правды</th>
+        <th style="background:var(--blue-800)">B: Цифровой Прораб</th>
+        <th style="background:var(--violet-800)">C: Умная Стройка</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Сегмент</strong></td>
+        <td>B2C: Частные заказчики</td>
+        <td>B2B: Ремонтные компании</td>
+        <td>B2B Enterprise: Застройщики</td>
+      </tr>
+      <tr>
+        <td><strong>Aha Moment</strong></td>
+        <td class="winner">Таймлапс ремонта за 24ч (эмоция!)</td>
+        <td>AI-план + смета за 60 сек</td>
+        <td>ROI-калькулятор: 18.6M экономии</td>
+      </tr>
+      <tr>
+        <td><strong>Entry Hook</strong></td>
+        <td>"Видь каждый гвоздь" (страх обмана)</td>
+        <td class="winner">"20 объектов, 0 хаоса" (функция)</td>
+        <td>"200 квартир, один экран" (масштаб)</td>
+      </tr>
+      <tr>
+        <td><strong>Paywall Timing</strong></td>
+        <td>Сразу после Aha (24ч) — на эмоции</td>
+        <td>После 7 дней — привычка</td>
+        <td class="winner">После ROI-proof — рациональное решение</td>
+      </tr>
+      <tr>
+        <td><strong>Pricing</strong></td>
+        <td>2,990 - 14,990 &#8381;/мес</td>
+        <td>9,990 - 49,990 &#8381;/мес</td>
+        <td>от 149,000 &#8381;/мес</td>
+      </tr>
+      <tr>
+        <td><strong>Referral</strong></td>
+        <td class="winner">Viral: таймлапс в соцсетях</td>
+        <td>Powered by: бейдж на портале</td>
+        <td>Портал дольщика &rarr; маркетинг ЖК</td>
+      </tr>
+      <tr>
+        <td><strong>TAM (РФ)</strong></td>
+        <td>3-5M ремонтов/год</td>
+        <td>~50,000 компаний</td>
+        <td>~3,000 застройщиков</td>
+      </tr>
+      <tr>
+        <td><strong>ARPU</strong></td>
+        <td>~5,000 &#8381;/мес</td>
+        <td>~20,000 &#8381;/мес</td>
+        <td>~200,000 &#8381;/мес</td>
+      </tr>
+      <tr>
+        <td><strong>Риск</strong></td>
+        <td>H3: CV может не распознать этапы квартирного ремонта</td>
+        <td>Конкуренция: 1С + Bitrix24 + РемонтCRM</td>
+        <td>Длинный цикл продаж (3-6 мес)</td>
+      </tr>
+      <tr>
+        <td><strong>Микро-тренд</strong></td>
+        <td>
+          <span class="trend-tag trend-transparency">Прозрачность = Валюта</span>
+          <span class="trend-tag trend-ditm">Do It For Me</span>
+        </td>
+        <td>
+          <span class="trend-tag trend-ai">AI Scheduling</span>
+          <span class="trend-tag trend-iot">IoT</span>
+        </td>
+        <td>
+          <span class="trend-tag trend-proptech">Digital Twin</span>
+          <span class="trend-tag trend-ai">AI QC</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:24px 0 12px">&#127942; Scoring</h3>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Критерий</th>
+        <th style="background:var(--amber-800)">A</th>
+        <th style="background:var(--blue-800)">B</th>
+        <th style="background:var(--violet-800)">C</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Viral потенциал</strong></td>
+        <td class="winner">9/10 <div class="score-bar"><div class="score-fill score-fill-a" style="width:90%"></div></div></td>
+        <td>4/10 <div class="score-bar"><div class="score-fill score-fill-b" style="width:40%"></div></div></td>
+        <td>6/10 <div class="score-bar"><div class="score-fill score-fill-c" style="width:60%"></div></div></td>
+      </tr>
+      <tr>
+        <td><strong>Revenue потенциал</strong></td>
+        <td>5/10 <div class="score-bar"><div class="score-fill score-fill-a" style="width:50%"></div></div></td>
+        <td>7/10 <div class="score-bar"><div class="score-fill score-fill-b" style="width:70%"></div></div></td>
+        <td class="winner">9/10 <div class="score-bar"><div class="score-fill score-fill-c" style="width:90%"></div></div></td>
+      </tr>
+      <tr>
+        <td><strong>Скорость запуска MVP</strong></td>
+        <td class="winner">8/10 <div class="score-bar"><div class="score-fill score-fill-a" style="width:80%"></div></div></td>
+        <td>6/10 <div class="score-bar"><div class="score-fill score-fill-b" style="width:60%"></div></div></td>
+        <td>3/10 <div class="score-bar"><div class="score-fill score-fill-c" style="width:30%"></div></div></td>
+      </tr>
+      <tr>
+        <td><strong>ИТОГО</strong></td>
+        <td><strong>22/30</strong></td>
+        <td><strong>17/30</strong></td>
+        <td><strong>18/30</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:24px 0 12px">&#128279; Все источники</h3>
+  <div class="sources-section" style="font-size:.82rem;line-height:2">
+    <strong>Рынок и тренды:</strong><br>
+    <a href="https://blogs.forbes.ru/2025/12/30/rynok-remonta-i-stroitelstva-cifrovaja-zrelost-doverie-i-novaja-struktura-sprosa/" target="_blank">Forbes.ru: Рынок ремонта — цифровая зрелость 2025</a><br>
+    <a href="https://strategy.ru/research/research/obem-rynka-cifrovizacii-stroitelnoj-otrasli-mozhet-vyrasti-v-chetyre-raza-k-2028-godu/" target="_blank">Strategy Partners: рынок цифровизации x4 к 2028</a><br>
+    <a href="https://www.tadviser.ru/index.php/%D0%A1%D1%82%D0%B0%D1%82%D1%8C%D1%8F:%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%B0_(%D1%80%D1%8B%D0%BD%D0%BE%D0%BA_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8)" target="_blank">TAdviser: цифровизация строительства (РФ)</a><br>
+    <a href="https://www.prnewswire.com/news-releases/global-proptech-market-to-reach-usd-77-98-billion-by-2032--expanding-at-a-cagr-of-15-7-during-20262032--markntel-advisors-302714589.html" target="_blank">MarkNtel: PropTech $78B к 2032</a><br>
+    <a href="https://technews180.com/blog/proptech-trends/" target="_blank">TechNews180: PropTech Trends 2025</a><br>
+    <a href="https://erzrf.ru/news/opublikovan_top_zastrojschikov_rossii_po_tekuschemu_stroitelstvu_na_1_oktyabrya_2025_goda" target="_blank">ЕРЗ.РФ: ТОП застройщиков России</a><br>
+    <br>
+    <strong>AI и камеры:</strong><br>
+    <a href="https://build.inc/insights/ai-construction-monitoring-cre" target="_blank">Build.inc: AI Construction Monitoring</a><br>
+    <a href="https://duckviewsystems.com/ai-construction-cameras/" target="_blank">DuckView: AI Construction Cameras 2026</a><br>
+    <a href="https://rtslabs.com/ai-agents-for-construction/" target="_blank">RTS Labs: AI Agents for Construction 2026</a><br>
+    <a href="https://ifactoryapp.com/industries/infrastructure-management/construction-progress-monitoring-uses-ai-vision" target="_blank">iFactory: CV Progress Monitoring</a><br>
+    <a href="https://abccarolinas.org/ai-in-construction-site-safety/" target="_blank">ABC: AI Safety — 40-60% less incidents</a><br>
+    <a href="https://track3d.ai/construction-monitoring-trends-2025/" target="_blank">Track3D: Construction Monitoring 2025</a><br>
+    <br>
+    <strong>Odoo:</strong><br>
+    <a href="https://techcrunch.com/2024/11/20/riding-high-on-open-source-erp-odoo-raises-527m-via-secondaries-lifting-its-valuation-to-5-26b/" target="_blank">TechCrunch: Odoo $5.26B valuation</a><br>
+    <a href="https://www.odoo.com/industries/construction" target="_blank">Odoo: Construction Industry</a><br>
+    <a href="https://smarttek.solutions/blog/odoo-for-real-estate-management-construction-property-rentals-maintenance/" target="_blank">SmartTek: Odoo for Real Estate</a><br>
+    <a href="https://www.capterra.com/p/135618/Odoo/reviews/" target="_blank">Capterra: Odoo Reviews (4.2/5)</a><br>
+    <a href="https://www.odoo.com/documentation/19.0/developer/tutorials/server_framework_101/01_architecture.html" target="_blank">Odoo 19: Architecture Overview</a><br>
+    <br>
+    <strong>Боли заказчиков:</strong><br>
+    <a href="https://sdom-stroy.ru/blog/12-skhem-obmana-pri-remonte.html" target="_blank">sdom-stroy: 12 схем обмана при ремонте</a><br>
+    <a href="https://www.gazeta.ru/social/news/2025/04/21/25601390.shtml" target="_blank">Газета.Ру: мошенники на рынке ремонта 2025</a><br>
+    <a href="https://rg.ru/2025/04/21/ekspert-bondar-predupredil-o-novoj-sheme-moshennichestva-s-remontom-kvartir.html" target="_blank">Российская Газета: мошенничество с ремонтом</a><br>
+    <a href="https://vc.ru/id4078595/1595760-integraciya-crm-sistemy-v-kompaniyu-po-remontu-kvartir" target="_blank">vc.ru: CRM для ремонтной компании</a><br>
+    <a href="https://www.sostav.ru/blogs/281804/71928" target="_blank">Sostav: тренды ремонта 2025-2026</a><br>
+  </div>
+</div>
+
+<script>
+  // ===== Variant Switcher =====
+  function showVariant(id) {
+    document.querySelectorAll('.variant-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => {
+      t.className = 'tab';
+    });
+    document.getElementById('panel-' + id).classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active-' + id);
+  }
+
+  // ===== CJM Overlay Toggle =====
+  function toggleCJM(variant) {
+    const toggle = document.getElementById('toggle-cjm-' + variant);
+    toggle.classList.toggle('on');
+    const isOn = toggle.classList.contains('on');
+    // For variant A, toggle cjm-a-1 through cjm-a-6
+    for (let i = 1; i <= 6; i++) {
+      const el = document.getElementById('cjm-' + variant + '-' + i);
+      if (el) el.style.display = isOn ? 'block' : 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
