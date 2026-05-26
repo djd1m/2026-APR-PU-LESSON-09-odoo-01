@@ -16,6 +16,7 @@
         "security/ir.model.access.csv",
         "views/project_views.xml",
         "views/stage_views.xml",
+        "views/budget_views.xml",
         "views/menus.xml",
     ],
     "installable": True,
