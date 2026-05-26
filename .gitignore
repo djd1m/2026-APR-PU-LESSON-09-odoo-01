@@ -1,0 +1,71 @@
+# ── Environment & Secrets ───────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+.venv/
+venv/
+env/
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── Node.js ─────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ── Docker ──────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ── IDE / Editor ────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ── OS ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Coverage & Testing ─────────────────────────────────────
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# ── Odoo ────────────────────────────────────────────────────
+*.pyc
+odoo/filestore/
+odoo/*.log
+
+# ── ML Models (large binaries) ─────────────────────────────
+workers/cv_worker/models/*.pt
+workers/cv_worker/models/*.onnx
+!workers/cv_worker/models/.gitkeep
+
+# ── Temporary files ────────────────────────────────────────
+*.tmp
+*.bak
+*.log
+tmp/
