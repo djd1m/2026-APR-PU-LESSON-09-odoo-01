@@ -127,6 +127,49 @@ class RemontProject(models.Model):
             )
             record.overall_progress = float(weighted_sum / total_weight)
 
+    DEFAULT_STAGES = [
+        ('demolition', 'Демонтаж', 1),
+        ('electrical', 'Электрика', 2),
+        ('plumbing', 'Сантехника', 3),
+        ('plaster', 'Штукатурка', 4),
+        ('screed', 'Стяжка', 5),
+        ('tiles', 'Плитка', 6),
+        ('painting', 'Покраска', 7),
+        ('finishing', 'Чистовая отделка', 8),
+    ]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Create project and auto-generate 8 renovation stages."""
+        projects = super().create(vals_list)
+        for project in projects:
+            if not project.stage_ids:
+                for stage_name, stage_label, seq in self.DEFAULT_STAGES:
+                    self.env['remont.stage'].create({
+                        'name': stage_name,
+                        'project_id': project.id,
+                        'sequence': seq,
+                        'status': 'planned',
+                        'progress_pct': 0.0,
+                    })
+        return projects
+
+    def action_start(self):
+        """Move project from draft to in_progress."""
+        for project in self:
+            if project.status == 'draft':
+                project.write({
+                    'status': 'in_progress',
+                    'start_date': fields.Date.today(),
+                })
+
+    def _check_auto_complete(self):
+        """Auto-complete project when all stages are done."""
+        for project in self:
+            if project.status == 'in_progress' and project.stage_ids:
+                if all(s.status == 'done' for s in project.stage_ids):
+                    project.write({'status': 'completed'})
+
     @api.constrains("budget_estimate", "budget_actual")
     def _check_budget_positive(self):
         for record in self:
