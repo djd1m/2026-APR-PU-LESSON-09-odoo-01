@@ -1,0 +1,106 @@
+{
+  "project": "RemontERP",
+  "version": "1.0.0",
+  "features": [
+    {
+      "id": "project-mgmt",
+      "number": 1,
+      "name": "Project Management Module",
+      "description": "Odoo Project customization for renovation: stages model (demolition, electrical, plumbing, plaster, screed, tiles, painting, finishing), Gantt view, checklist-based completion",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": [],
+      "files_estimate": ["odoo/addons/remont_core/"]
+    },
+    {
+      "id": "auth-security",
+      "number": 2,
+      "name": "Auth & Security Module",
+      "description": "JWT auth with httpOnly cookies, RBAC (viewer/owner/contractor/worker/admin), role NOT accepted in register, startup validation crash on missing secrets",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": [],
+      "files_estimate": ["odoo/addons/remont_auth/"]
+    },
+    {
+      "id": "camera-mgmt",
+      "number": 3,
+      "name": "Camera Management Module",
+      "description": "Camera model, RTSP stream configuration, snapshot capture service (cron every 15 min), MinIO storage, camera status tracking",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["project-mgmt"],
+      "files_estimate": ["odoo/addons/remont_camera/"]
+    },
+    {
+      "id": "cv-pipeline",
+      "number": 4,
+      "name": "CV Pipeline (Stage Detection)",
+      "description": "YOLOv8-based renovation stage classifier, Redis queue consumer, stage progress update via JSON-RPC, confidence threshold filtering",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["camera-mgmt"],
+      "files_estimate": ["workers/cv_worker/"]
+    },
+    {
+      "id": "client-portal",
+      "number": 5,
+      "name": "Client Portal",
+      "description": "Odoo website portal: project timeline with photos, stage progress bars, budget overview, timelapse viewer, public share page",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["project-mgmt", "camera-mgmt"],
+      "files_estimate": ["odoo/addons/remont_portal/"]
+    },
+    {
+      "id": "timelapse-gen",
+      "number": 6,
+      "name": "Timelapse Generator",
+      "description": "FFmpeg-based daily/weekly timelapse video generation from snapshots, Redis queue consumer, MinIO storage, share token generation",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["camera-mgmt"],
+      "files_estimate": ["workers/timelapse_worker/", "odoo/addons/remont_timelapse/"]
+    },
+    {
+      "id": "budget-tracker",
+      "number": 7,
+      "name": "Budget Tracker",
+      "description": "Estimate vs actual budget comparison using Decimal type, cost categories, budget alerts, integration with Odoo Accounting",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["project-mgmt"],
+      "files_estimate": ["odoo/addons/remont_core/"]
+    },
+    {
+      "id": "ai-alerts",
+      "number": 8,
+      "name": "AI Alerts System",
+      "description": "Crew absence detection (no snapshots 24h+), budget overrun alerts (>110%), schedule delay prediction from CV progress, Telegram notifications",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["camera-mgmt", "cv-pipeline", "budget-tracker"],
+      "files_estimate": ["odoo/addons/remont_alerts/"]
+    },
+    {
+      "id": "payment-integration",
+      "number": 9,
+      "name": "Payment Integration (ЮKassa)",
+      "description": "Subscription model (basic/pro/business), ЮKassa webhook with HMAC verification, Decimal for all amounts, idempotent webhook processing",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["auth-security"],
+      "files_estimate": ["odoo/addons/remont_billing/"]
+    },
+    {
+      "id": "referral-system",
+      "number": 10,
+      "name": "Referral System",
+      "description": "Unique referral codes, share timelapse → earn 7 free days, referral tracking, bonus activation on referred user subscription",
+      "priority": "mvp",
+      "status": "planned",
+      "dependencies": ["auth-security", "payment-integration", "timelapse-gen"],
+      "files_estimate": ["odoo/addons/remont_referral/"]
+    }
+  ]
+}
