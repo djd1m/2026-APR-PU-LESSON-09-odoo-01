@@ -5,3 +5,5 @@ access_remont_stage_user,remont.stage.user,model_remont_stage,base.group_user,1,
 access_remont_stage_admin,remont.stage.admin,model_remont_stage,base.group_system,1,1,1,1
 access_remont_snapshot_user,remont.snapshot.user,model_remont_snapshot,base.group_user,1,0,0,0
 access_remont_snapshot_admin,remont.snapshot.admin,model_remont_snapshot,base.group_system,1,1,1,1
+access_remont_checklist_item_user,remont.checklist.item.user,model_remont_checklist_item,base.group_user,1,1,0,0
+access_remont_checklist_item_admin,remont.checklist.item.admin,model_remont_checklist_item,base.group_system,1,1,1,1

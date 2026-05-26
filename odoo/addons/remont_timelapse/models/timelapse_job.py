@@ -2,6 +2,7 @@ import uuid
 import logging
 
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -17,6 +18,11 @@ TIMELAPSE_STATUSES = [
     ("done", "Done"),
     ("failed", "Failed"),
 ]
+
+
+def _generate_share_token():
+    """Generate a 16-character hex share token."""
+    return uuid.uuid4().hex[:16]
 
 
 class RemontTimelapseJob(models.Model):
@@ -47,11 +53,21 @@ class RemontTimelapseJob(models.Model):
     )
     video_url = fields.Char(
         string="Video URL",
-        help="URL of the generated timelapse video",
+        help="URL of the generated timelapse video in MinIO",
+    )
+    frame_count = fields.Integer(
+        string="Frame Count",
+        default=0,
+        help="Number of frames used to generate the timelapse",
+    )
+    duration_sec = fields.Integer(
+        string="Duration (seconds)",
+        default=0,
+        help="Duration of the generated timelapse video",
     )
     share_token = fields.Char(
         string="Share Token",
-        default=lambda self: str(uuid.uuid4()),
+        default=lambda self: _generate_share_token(),
         copy=False,
         index=True,
     )
@@ -74,6 +90,18 @@ class RemontTimelapseJob(models.Model):
             "Share token must be unique.",
         ),
     ]
+
+    @api.constrains("frame_count")
+    def _check_frame_count(self):
+        for record in self:
+            if record.frame_count < 0:
+                raise ValidationError("Frame count must be non-negative.")
+
+    @api.constrains("duration_sec")
+    def _check_duration_sec(self):
+        for record in self:
+            if record.duration_sec < 0:
+                raise ValidationError("Duration must be non-negative.")
 
     @api.model
     def _cron_enqueue_daily_timelapse(self):

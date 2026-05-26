@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Scheduled action: capture snapshots from active cameras -->
+    <record id="ir_cron_camera_capture" model="ir.cron">
+        <field name="name">Camera: Capture Snapshots</field>
+        <field name="model_id" ref="model_remont_capture_service"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_capture_all_active()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

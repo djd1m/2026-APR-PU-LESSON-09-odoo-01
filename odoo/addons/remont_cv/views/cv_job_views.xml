@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_remont_cv_job_tree" model="ir.ui.view">
+        <field name="name">remont.cv.job.tree</field>
+        <field name="model">remont.cv.job</field>
+        <field name="arch" type="xml">
+            <tree string="CV Jobs"
+                  decoration-success="status == 'done' and not needs_manual_review"
+                  decoration-warning="status == 'done' and needs_manual_review"
+                  decoration-danger="status == 'failed'"
+                  decoration-info="status == 'queued' or status == 'processing'">
+                <field name="snapshot_id"/>
+                <field name="status"
+                       decoration-success="status == 'done'"
+                       decoration-danger="status == 'failed'"
+                       widget="badge"/>
+                <field name="stage_result"/>
+                <field name="confidence" widget="progressbar"
+                       options="{'max_value': 1.0}"/>
+                <field name="model_version"/>
+                <field name="needs_manual_review"
+                       widget="boolean_toggle"/>
+                <field name="processed_at"/>
+                <field name="create_date" string="Created"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_remont_cv_job_form" model="ir.ui.view">
+        <field name="name">remont.cv.job.form</field>
+        <field name="model">remont.cv.job</field>
+        <field name="arch" type="xml">
+            <form string="CV Job">
+                <header>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="queued,processing,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="snapshot_id" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Detection Result">
+                            <field name="stage_result"/>
+                            <field name="confidence"/>
+                            <field name="model_version"/>
+                            <field name="needs_manual_review"/>
+                        </group>
+                        <group string="Job Details">
+                            <field name="processed_at"/>
+                            <field name="create_date" string="Created"/>
+                        </group>
+                    </group>
+                    <group string="Error"
+                           invisible="status != 'failed'">
+                        <field name="error_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_remont_cv_job_search" model="ir.ui.view">
+        <field name="name">remont.cv.job.search</field>
+        <field name="model">remont.cv.job</field>
+        <field name="arch" type="xml">
+            <search string="Search CV Jobs">
+                <field name="snapshot_id"/>
+                <field name="stage_result"/>
+                <filter string="Queued" name="queued"
+                        domain="[('status', '=', 'queued')]"/>
+                <filter string="Processing" name="processing"
+                        domain="[('status', '=', 'processing')]"/>
+                <filter string="Done" name="done"
+                        domain="[('status', '=', 'done')]"/>
+                <filter string="Failed" name="failed"
+                        domain="[('status', '=', 'failed')]"/>
+                <separator/>
+                <filter string="Needs Review" name="needs_review"
+                        domain="[('needs_manual_review', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status"
+                            context="{'group_by': 'status'}"/>
+                    <filter string="Stage" name="group_stage"
+                            context="{'group_by': 'stage_result'}"/>
+                    <filter string="Model Version" name="group_model"
+                            context="{'group_by': 'model_version'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_remont_cv_job" model="ir.actions.act_window">
+        <field name="name">CV Jobs</field>
+        <field name="res_model">remont.cv.job</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_remont_cv_job_search"/>
+        <field name="context">{'search_default_done': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No CV jobs yet
+            </p>
+            <p>
+                CV jobs are automatically created when new camera snapshots
+                are captured. The YOLOv8 model detects renovation stages
+                from each image.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_remont_cv_root"
+              name="Computer Vision"
+              parent="remont_core.menu_remont_root"
+              sequence="30"/>
+
+    <menuitem id="menu_remont_cv_jobs"
+              name="CV Jobs"
+              parent="menu_remont_cv_root"
+              action="action_remont_cv_job"
+              sequence="10"/>
+
+</odoo>

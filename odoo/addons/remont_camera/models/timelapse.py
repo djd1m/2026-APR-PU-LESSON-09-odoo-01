@@ -41,9 +41,21 @@ class RemontTimelapse(models.Model):
         ondelete="cascade",
         index=True,
     )
+    camera_id = fields.Many2one(
+        "remont.camera",
+        string="Camera",
+        ondelete="set null",
+        index=True,
+        help="Source camera for this timelapse video.",
+    )
     share_token = fields.Char(
         string="Share Token",
         index=True,
+    )
+    frame_count = fields.Integer(
+        string="Frame Count",
+        default=0,
+        help="Number of snapshot frames used to generate this timelapse.",
     )
 
     @api.constrains("date_from", "date_to")
@@ -60,4 +72,12 @@ class RemontTimelapse(models.Model):
             if record.duration_sec < 0:
                 raise ValidationError(
                     "Duration must be non-negative."
+                )
+
+    @api.constrains("frame_count")
+    def _check_frame_count(self):
+        for record in self:
+            if record.frame_count < 0:
+                raise ValidationError(
+                    "Frame count must be non-negative."
                 )

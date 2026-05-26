@@ -14,6 +14,9 @@
                        decoration-muted="status == 'inactive'"
                        widget="badge"/>
                 <field name="project_id"/>
+                <field name="capture_interval_minutes"/>
+                <field name="last_capture_at"/>
+                <field name="snapshot_count"/>
                 <field name="installed_at"/>
                 <field name="returned_at"/>
             </tree>
@@ -31,15 +34,27 @@
                            statusbar_visible="active,inactive,maintenance"/>
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="serial_number" placeholder="Serial Number"/>
+                        </h1>
+                    </div>
                     <group>
                         <group string="Camera Details">
-                            <field name="serial_number"/>
-                            <field name="rtsp_url"/>
+                            <field name="serial_number" invisible="1"/>
+                            <field name="rtsp_url" widget="url"/>
                         </group>
                         <group string="Assignment">
                             <field name="project_id"/>
                             <field name="installed_at"/>
                             <field name="returned_at"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Capture Settings">
+                            <field name="capture_interval_minutes"/>
+                            <field name="last_capture_at" readonly="1"/>
+                            <field name="snapshot_count" readonly="1"/>
                         </group>
                     </group>
                     <notebook>

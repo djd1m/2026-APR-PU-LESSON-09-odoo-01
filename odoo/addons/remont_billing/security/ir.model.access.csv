@@ -3,3 +3,5 @@ access_remont_subscription_user,remont.subscription.user,model_remont_subscripti
 access_remont_subscription_manager,remont.subscription.manager,model_remont_subscription,base.group_system,1,1,1,1
 access_remont_payment_user,remont.payment.user,model_remont_payment,base.group_user,1,0,0,0
 access_remont_payment_manager,remont.payment.manager,model_remont_payment,base.group_system,1,1,1,1
+access_remont_webhook_log_user,remont.webhook.log.user,model_remont_webhook_log,base.group_user,1,0,0,0
+access_remont_webhook_log_manager,remont.webhook.log.manager,model_remont_webhook_log,base.group_system,1,1,1,1

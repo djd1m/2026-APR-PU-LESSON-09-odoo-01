@@ -26,4 +26,13 @@
         sequence="20"
     />
 
+    <!-- Gantt Chart Submenu -->
+    <menuitem
+        id="menu_remont_gantt"
+        name="Gantt Chart"
+        parent="menu_remont_root"
+        action="action_remont_stage_gantt"
+        sequence="30"
+    />
+
 </odoo>

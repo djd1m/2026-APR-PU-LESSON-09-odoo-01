@@ -8,13 +8,46 @@
         <field name="arch" type="xml">
             <tree string="Timelapses">
                 <field name="project_id"/>
+                <field name="camera_id"/>
                 <field name="period" widget="badge"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
                 <field name="duration_sec"/>
+                <field name="frame_count"/>
                 <field name="share_token"/>
                 <field name="video_url" widget="url"/>
             </tree>
+        </field>
+    </record>
+
+    <!-- Timelapse Form View -->
+    <record id="view_remont_timelapse_form" model="ir.ui.view">
+        <field name="name">remont.timelapse.form</field>
+        <field name="model">remont.timelapse</field>
+        <field name="arch" type="xml">
+            <form string="Timelapse">
+                <sheet>
+                    <group>
+                        <group string="Source">
+                            <field name="project_id"/>
+                            <field name="camera_id"/>
+                            <field name="period"/>
+                        </group>
+                        <group string="Details">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="duration_sec"/>
+                            <field name="frame_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Sharing">
+                            <field name="video_url" widget="url"/>
+                            <field name="share_token"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 
@@ -22,7 +55,7 @@
     <record id="action_remont_timelapse" model="ir.actions.act_window">
         <field name="name">Timelapses</field>
         <field name="res_model">remont.timelapse</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No timelapses yet

@@ -3,3 +3,5 @@ access_remont_camera_user,remont.camera.user,model_remont_camera,base.group_user
 access_remont_camera_manager,remont.camera.manager,model_remont_camera,base.group_system,1,1,1,1
 access_remont_timelapse_user,remont.timelapse.user,model_remont_timelapse,base.group_user,1,1,1,0
 access_remont_timelapse_manager,remont.timelapse.manager,model_remont_timelapse,base.group_system,1,1,1,1
+access_remont_capture_service_user,remont.capture.service.user,model_remont_capture_service,base.group_user,1,0,0,0
+access_remont_capture_service_manager,remont.capture.service.manager,model_remont_capture_service,base.group_system,1,1,1,1

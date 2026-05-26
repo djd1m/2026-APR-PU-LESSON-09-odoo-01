@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 from datetime import datetime, timedelta, timezone
 
 import jwt
@@ -17,8 +18,36 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRY_HOURS = 24
 COOKIE_NAME = "remont_session"
 
-# Fields that are NEVER accepted from registration requests.
+# SECURITY: Only these fields are accepted from registration requests.
+# Whitelist approach — everything else is ignored.
+ALLOWED_REGISTER_FIELDS = {"email", "password", "name"}
+
+# Fields that are NEVER accepted from registration requests (defense-in-depth).
 _STRIPPED_FIELDS = {"role", "remont_role", "is_admin", "groups_id"}
+
+# Password strength requirements
+_PASSWORD_MIN_LENGTH = 8
+_PASSWORD_PATTERN_DIGIT = re.compile(r"[0-9]")
+_PASSWORD_PATTERN_UPPER = re.compile(r"[A-Z]")
+
+
+def _validate_password(password):
+    """Validate password strength.
+
+    Requirements:
+    - Minimum 8 characters
+    - At least 1 digit
+    - At least 1 uppercase letter
+
+    Returns (is_valid, error_message) tuple.
+    """
+    if len(password) < _PASSWORD_MIN_LENGTH:
+        return False, f"Password must be at least {_PASSWORD_MIN_LENGTH} characters"
+    if not _PASSWORD_PATTERN_DIGIT.search(password):
+        return False, "Password must contain at least 1 digit"
+    if not _PASSWORD_PATTERN_UPPER.search(password):
+        return False, "Password must contain at least 1 uppercase letter"
+    return True, None
 
 
 def _json_response(data, status=200, headers=None):
@@ -95,15 +124,15 @@ class AuthController(http.Controller):
     def register(self, **kwargs):
         """Register a new user.
 
-        Accepts ONLY: email, password, name.
+        Accepts ONLY: email, password, name (ALLOWED_REGISTER_FIELDS whitelist).
         SECURITY: Any 'role' field in request body is silently stripped.
         Default role is always 'viewer' (lowest privilege).
         """
-        data = request.get_json_data() if hasattr(request, 'get_json_data') else kwargs
+        raw_data = request.get_json_data() if hasattr(request, 'get_json_data') else kwargs
 
-        # SECURITY: Strip any role-related fields — privilege escalation prevention.
-        for field in _STRIPPED_FIELDS:
-            data.pop(field, None)
+        # SECURITY: Whitelist approach — only accept known safe fields.
+        # All other fields (including role, remont_role, is_admin) are dropped.
+        data = {k: v for k, v in raw_data.items() if k in ALLOWED_REGISTER_FIELDS}
 
         email = data.get("email")
         password = data.get("password")
@@ -111,6 +140,11 @@ class AuthController(http.Controller):
 
         if not all([email, password, name]):
             return {"error": "email, password, and name are required", "status": 400}
+
+        # Password strength validation
+        is_valid, error_msg = _validate_password(password)
+        if not is_valid:
+            return {"error": error_msg, "status": 400}
 
         # Check if user already exists.
         existing = (

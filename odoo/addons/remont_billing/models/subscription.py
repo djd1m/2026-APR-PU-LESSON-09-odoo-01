@@ -1,11 +1,13 @@
+from datetime import timedelta
+
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
 SUBSCRIPTION_PLANS = [
-    ("basic", "Basic"),
+    ("free", "Free"),
     ("pro", "Professional"),
-    ("business", "Business"),
+    ("enterprise", "Enterprise"),
 ]
 
 SUBSCRIPTION_STATUSES = [
@@ -25,7 +27,7 @@ class RemontSubscription(models.Model):
         selection=SUBSCRIPTION_PLANS,
         string="Plan",
         required=True,
-        default="basic",
+        default="free",
     )
     status = fields.Selection(
         selection=SUBSCRIPTION_STATUSES,
@@ -42,6 +44,17 @@ class RemontSubscription(models.Model):
     end_date = fields.Date(
         string="End Date",
         required=True,
+    )
+    auto_renew = fields.Boolean(
+        string="Auto Renew",
+        default=True,
+        help="Automatically renew subscription via YuKassa saved payment method.",
+    )
+    grace_period_end = fields.Date(
+        string="Grace Period End",
+        compute="_compute_grace_period_end",
+        store=True,
+        help="3 days after end_date. User is downgraded to Free after this date.",
     )
 
     currency_id = fields.Many2one(
@@ -69,6 +82,14 @@ class RemontSubscription(models.Model):
         "subscription_id",
         string="Payments",
     )
+
+    @api.depends("end_date")
+    def _compute_grace_period_end(self):
+        for record in self:
+            if record.end_date:
+                record.grace_period_end = record.end_date + timedelta(days=3)
+            else:
+                record.grace_period_end = False
 
     @api.constrains("start_date", "end_date")
     def _check_dates(self):

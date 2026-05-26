@@ -17,6 +17,9 @@ REQUIRED_ENV_VARS = [
     "JWT_SECRET",
 ]
 
+# Minimum length for JWT_SECRET to ensure adequate cryptographic entropy.
+JWT_SECRET_MIN_LENGTH = 32
+
 # At least one database connection strategy must be configured.
 DB_ENV_GROUPS = [
     ["DATABASE_URL"],
@@ -60,6 +63,16 @@ def validate_environment():
             "NO fallback values are allowed for security-critical config."
         )
         _logger.critical(msg, ", ".join(missing))
+        sys.exit(1)
+
+    # SECURITY: JWT_SECRET must be at least 32 characters for adequate entropy.
+    jwt_secret = os.environ.get("JWT_SECRET", "")
+    if len(jwt_secret) < JWT_SECRET_MIN_LENGTH:
+        msg = (
+            "FATAL: JWT_SECRET must be at least %d characters (got %d). "
+            "Short secrets are vulnerable to brute-force attacks."
+        )
+        _logger.critical(msg, JWT_SECRET_MIN_LENGTH, len(jwt_secret))
         sys.exit(1)
 
     _logger.info("Startup validation passed: all required env vars present.")

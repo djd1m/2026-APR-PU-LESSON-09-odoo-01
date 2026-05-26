@@ -10,8 +10,10 @@ RENOVATION_TYPES = [
 
 PROJECT_STATUSES = [
     ("draft", "Draft"),
+    ("planning", "Planning"),
     ("in_progress", "In Progress"),
     ("completed", "Completed"),
+    ("on_hold", "On Hold"),
     ("cancelled", "Cancelled"),
 ]
 
@@ -94,6 +96,31 @@ class RemontProject(models.Model):
         "remont.subscription",
         string="Subscription",
     )
+
+    overall_progress = fields.Float(
+        string="Overall Progress (%)",
+        compute="_compute_overall_progress",
+        store=True,
+    )
+
+    @api.depends("stage_ids.progress_pct", "stage_ids.weight")
+    def _compute_overall_progress(self):
+        for record in self:
+            stages = record.stage_ids
+            if not stages:
+                record.overall_progress = 0.0
+                continue
+            total_weight = sum(
+                Decimal(str(s.weight or 1.0)) for s in stages
+            )
+            if total_weight == Decimal("0"):
+                record.overall_progress = 0.0
+                continue
+            weighted_sum = sum(
+                Decimal(str(s.progress_pct)) * Decimal(str(s.weight or 1.0))
+                for s in stages
+            )
+            record.overall_progress = float(weighted_sum / total_weight)
 
     @api.constrains("budget_estimate", "budget_actual")
     def _check_budget_positive(self):

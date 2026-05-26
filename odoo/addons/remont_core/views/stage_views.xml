@@ -12,6 +12,8 @@
                 <field name="project_id"/>
                 <field name="status"/>
                 <field name="progress_pct" widget="progressbar"/>
+                <field name="checklist_progress" widget="progressbar"/>
+                <field name="weight"/>
                 <field name="planned_start"/>
                 <field name="planned_end"/>
                 <field name="actual_start"/>
@@ -33,6 +35,7 @@
                             <field name="project_id"/>
                             <field name="status"/>
                             <field name="progress_pct"/>
+                            <field name="weight"/>
                             <field name="sequence"/>
                         </group>
                         <group string="Schedule">
@@ -42,16 +45,64 @@
                             <field name="actual_end"/>
                         </group>
                     </group>
+                    <group string="Dependencies">
+                        <field name="dependency_ids" widget="many2many_tags"
+                               domain="[('project_id', '=', project_id), ('id', '!=', id)]"/>
+                    </group>
+                    <notebook>
+                        <page string="Checklist" name="checklist">
+                            <field name="checklist_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="is_done"/>
+                                    <field name="completed_by"/>
+                                    <field name="completed_at"/>
+                                    <field name="photo_attachment_id"/>
+                                </list>
+                            </field>
+                            <div class="oe_inline">
+                                <label string="Checklist Progress: "/>
+                                <field name="checklist_progress" widget="progressbar"
+                                       class="oe_inline"/>
+                            </div>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Stage Action -->
+    <!-- Stage Gantt View -->
+    <record id="view_remont_stage_gantt" model="ir.ui.view">
+        <field name="name">remont.stage.gantt</field>
+        <field name="model">remont.stage</field>
+        <field name="arch" type="xml">
+            <gantt string="Renovation Gantt"
+                   date_start="planned_start"
+                   date_stop="planned_end"
+                   default_group_by="project_id"
+                   color="status"
+                   precision="{'day': 'hour:quarter', 'week': 'day:half', 'month': 'day:full'}">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="progress_pct"/>
+                <field name="project_id"/>
+            </gantt>
+        </field>
+    </record>
+
+    <!-- Stage Action (list + form + gantt) -->
     <record id="action_remont_stage" model="ir.actions.act_window">
         <field name="name">Renovation Stages</field>
         <field name="res_model">remont.stage</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,gantt</field>
+    </record>
+
+    <!-- Stage Gantt-only Action -->
+    <record id="action_remont_stage_gantt" model="ir.actions.act_window">
+        <field name="name">Stage Gantt Chart</field>
+        <field name="res_model">remont.stage</field>
+        <field name="view_mode">gantt,list,form</field>
     </record>
 
 </odoo>

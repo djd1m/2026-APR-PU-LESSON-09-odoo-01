@@ -4,7 +4,7 @@ from odoo import models, fields
 PAYMENT_STATUSES = [
     ("pending", "Pending"),
     ("succeeded", "Succeeded"),
-    ("failed", "Failed"),
+    ("canceled", "Canceled"),
     ("refunded", "Refunded"),
 ]
 
@@ -42,12 +42,22 @@ class RemontPayment(models.Model):
         string="Webhook Verified",
         default=False,
     )
+    paid_at = fields.Datetime(
+        string="Paid At",
+        help="Timestamp when payment was confirmed as succeeded.",
+    )
 
     subscription_id = fields.Many2one(
         "remont.subscription",
         string="Subscription",
         ondelete="set null",
         index=True,
+    )
+
+    webhook_log_ids = fields.One2many(
+        "remont.webhook.log",
+        "payment_id",
+        string="Webhook Logs",
     )
 
     _sql_constraints = [
