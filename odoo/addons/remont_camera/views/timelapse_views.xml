@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Timelapse Tree View -->
+    <record id="view_remont_timelapse_tree" model="ir.ui.view">
+        <field name="name">remont.timelapse.tree</field>
+        <field name="model">remont.timelapse</field>
+        <field name="arch" type="xml">
+            <tree string="Timelapses">
+                <field name="project_id"/>
+                <field name="period" widget="badge"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="duration_sec"/>
+                <field name="share_token"/>
+                <field name="video_url" widget="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Timelapse Action -->
+    <record id="action_remont_timelapse" model="ir.actions.act_window">
+        <field name="name">Timelapses</field>
+        <field name="res_model">remont.timelapse</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No timelapses yet
+            </p>
+            <p>
+                Timelapse videos are generated automatically from camera snapshots.
+            </p>
+        </field>
+    </record>
+
+    <!-- Timelapse Menu -->
+    <menuitem id="menu_remont_timelapse"
+              name="Timelapses"
+              parent="remont_core.menu_remont_root"
+              action="action_remont_timelapse"
+              sequence="25"/>
+
+</odoo>

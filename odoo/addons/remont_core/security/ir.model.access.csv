@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_remont_project_user,remont.project.user,model_remont_project,base.group_user,1,0,0,0
+access_remont_project_admin,remont.project.admin,model_remont_project,base.group_system,1,1,1,1
+access_remont_stage_user,remont.stage.user,model_remont_stage,base.group_user,1,0,0,0
+access_remont_stage_admin,remont.stage.admin,model_remont_stage,base.group_system,1,1,1,1
+access_remont_snapshot_user,remont.snapshot.user,model_remont_snapshot,base.group_user,1,0,0,0
+access_remont_snapshot_admin,remont.snapshot.admin,model_remont_snapshot,base.group_system,1,1,1,1

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root Menu -->
+    <menuitem
+        id="menu_remont_root"
+        name="RemontERP"
+        sequence="10"
+    />
+
+    <!-- Projects Submenu -->
+    <menuitem
+        id="menu_remont_projects"
+        name="Projects"
+        parent="menu_remont_root"
+        action="action_remont_project"
+        sequence="10"
+    />
+
+    <!-- Stages Submenu -->
+    <menuitem
+        id="menu_remont_stages"
+        name="Stages"
+        parent="menu_remont_root"
+        action="action_remont_stage"
+        sequence="20"
+    />
+
+</odoo>

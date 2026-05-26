@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Camera Tree View -->
+    <record id="view_remont_camera_tree" model="ir.ui.view">
+        <field name="name">remont.camera.tree</field>
+        <field name="model">remont.camera</field>
+        <field name="arch" type="xml">
+            <tree string="Cameras">
+                <field name="serial_number"/>
+                <field name="rtsp_url"/>
+                <field name="status" decoration-success="status == 'active'"
+                       decoration-danger="status == 'maintenance'"
+                       decoration-muted="status == 'inactive'"
+                       widget="badge"/>
+                <field name="project_id"/>
+                <field name="installed_at"/>
+                <field name="returned_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Camera Form View -->
+    <record id="view_remont_camera_form" model="ir.ui.view">
+        <field name="name">remont.camera.form</field>
+        <field name="model">remont.camera</field>
+        <field name="arch" type="xml">
+            <form string="Camera">
+                <header>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="active,inactive,maintenance"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Camera Details">
+                            <field name="serial_number"/>
+                            <field name="rtsp_url"/>
+                        </group>
+                        <group string="Assignment">
+                            <field name="project_id"/>
+                            <field name="installed_at"/>
+                            <field name="returned_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Snapshots" name="snapshots">
+                            <field name="snapshot_ids">
+                                <tree string="Snapshots" create="0" edit="0">
+                                    <field name="captured_at"/>
+                                    <field name="stage_detected"/>
+                                    <field name="cv_confidence"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Camera Action -->
+    <record id="action_remont_camera" model="ir.actions.act_window">
+        <field name="name">Cameras</field>
+        <field name="res_model">remont.camera</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first camera
+            </p>
+            <p>
+                Register IP cameras for automated renovation monitoring.
+            </p>
+        </field>
+    </record>
+
+    <!-- Camera Menu -->
+    <menuitem id="menu_remont_camera"
+              name="Cameras"
+              parent="remont_core.menu_remont_root"
+              action="action_remont_camera"
+              sequence="20"/>
+
+</odoo>

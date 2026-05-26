@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_remont_camera_user,remont.camera.user,model_remont_camera,base.group_user,1,1,1,0
+access_remont_camera_manager,remont.camera.manager,model_remont_camera,base.group_system,1,1,1,1
+access_remont_timelapse_user,remont.timelapse.user,model_remont_timelapse,base.group_user,1,1,1,0
+access_remont_timelapse_manager,remont.timelapse.manager,model_remont_timelapse,base.group_system,1,1,1,1

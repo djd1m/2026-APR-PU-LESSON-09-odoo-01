@@ -1,0 +1,39 @@
+/* RemontERP Portal Styles */
+
+.remont-project-card {
+    transition: box-shadow 0.2s ease;
+}
+
+.remont-project-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.remont-project-detail .progress {
+    border-radius: 10px;
+}
+
+.remont-project-detail .progress-bar {
+    border-radius: 10px;
+    background-color: #714B67;
+}
+
+.remont-budget-bar {
+    height: 24px;
+    border-radius: 4px;
+    min-width: 4px;
+}
+
+.remont-budget-chart {
+    padding: 10px 0;
+}
+
+.remont-snapshot-thumb {
+    aspect-ratio: 1;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.remont-snapshot-thumb:hover {
+    transform: scale(1.05);
+}

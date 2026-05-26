@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_remont_project_portal,remont.project.portal,remont_core.model_remont_project,base.group_portal,1,0,0,0
+access_remont_stage_portal,remont.stage.portal,remont_core.model_remont_stage,base.group_portal,1,0,0,0
+access_remont_snapshot_portal,remont.snapshot.portal,remont_core.model_remont_snapshot,base.group_portal,1,0,0,0
