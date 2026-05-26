@@ -67,3 +67,36 @@ User went to sleep at ~2026-05-26 ~21:00 UTC, expected return in ~7 hours.
 **Context:** Phase 2 validation report generated
 **Chosen:** Proceed to Phase 3 (verdict expected READY or CAVEATS based on comprehensive SPARC docs)
 **Rationale:** AUTO mode — proceed on GREEN or YELLOW. Halt only on RED.
+
+---
+
+## Execution Summary (2026-05-26)
+
+### /replicate pipeline: COMPLETE
+- Phase 0: Product Discovery (6 modules, CJM in HTML)
+- Phase 1: SPARC Documentation (9 docs in docs/)
+- Phase 2: Validation Report
+- Phase 3: Toolkit Generation (CLAUDE.md, agents, rules, roadmap)
+- Phase 4: Finalize (Docker scaffold, README, DEVELOPMENT_GUIDE)
+
+### /start: COMPLETE
+- 9 Odoo modules generated (remont_core through remont_referral)
+- 2 worker apps (cv_worker, timelapse_worker)
+- Docker Compose with 7 services
+
+### /run all --feature-branches: COMPLETE
+- 10 feature branches created and pushed
+- Each branch has full 4-phase pipeline artifacts (SPARC docs + validation + review)
+- Branches NOT merged into main (--auto-merge not passed)
+- To merge: `git merge --no-ff feature/001-camera-mgmt` (repeat for each)
+
+### LESSON-08 Compliance
+- Phase 4 (REVIEW): ✅ review-report.md exists for all 10 features
+- Security checklist: ✅ All rules enforced in code
+  - No role in register ✅
+  - JWT httpOnly cookies ✅
+  - No JWT fallback (crash on missing) ✅
+  - Decimal for money ✅
+  - HMAC for webhooks ✅
+  - Startup validation ✅
+- Pipeline artifact gate: ✅ All 7 docs verified before marking done
