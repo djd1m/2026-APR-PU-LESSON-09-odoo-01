@@ -87,3 +87,17 @@
 3. Добавлено 8 тестов: access control, share token, budget display color coding
 
 **References:** `.claude/rules/testing.md`, `odoo/addons/remont_portal/tests/test_portal.py`
+
+---
+
+## 2026-05-27 — Statusline validation score regex ложно матчит threshold descriptions
+
+**Tags:** statusline, regex, validation-report, false-match
+
+**Problem:**
+Statusline показывал `🟡 50/100` вместо `🟢 82/100`. Regex `(?:average\s+)?score[:\s]+(\d{1,3})` нашёл первый match в строке `"Blocked: 0 (score < 50)"` — захватив "50" из описания threshold, а не реальный "82" из `"Average score: 82/100"`.
+
+**Solution:**
+Переписать threshold descriptions в validation-report.md, убрав паттерн `score XX`: `"(score < 50)"` → `"(below 50)"`. Альтернативно: исправить regex в statusline.cjs чтобы матчил только `Average score:` с обязательным `Average`.
+
+**References:** `.claude/hooks/statusline.cjs:parseValidationScore()`, `docs/validation-report.md:12-15`
