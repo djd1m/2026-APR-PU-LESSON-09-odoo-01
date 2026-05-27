@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_remont_cv_job_user,remont.cv.job.user,model_remont_cv_job,base.group_user,1,0,0,0
-access_remont_cv_job_manager,remont.cv.job.manager,model_remont_cv_job,remont_core.group_remont_manager,1,1,1,0
+access_remont_cv_job_manager,remont.cv.job.manager,model_remont_cv_job,base.group_system,1,1,1,0
 access_remont_cv_job_admin,remont.cv.job.admin,model_remont_cv_job,base.group_system,1,1,1,1
