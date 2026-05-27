@@ -117,28 +117,28 @@
       "name": "Payment Integration (YuKassa)",
       "description": "YuKassa HTTP API v3 integration, subscription tiers (Free: 1 camera no timelapse, Pro: 4 cameras + daily timelapse + alerts, Enterprise: unlimited + API), payment creation flow with redirect to YuKassa checkout, webhook endpoint POST /api/v1/webhook/yukassa with HMAC-SHA256 verification using hmac.compare_digest() (constant-time), idempotent processing via unique yukassa_payment_id, supported events: payment.succeeded/canceled/refund.succeeded, recurring payments with saved methods (autopay), 3-day grace period after expiry, all amounts in Decimal, rate limit 100 req/min/IP on webhook endpoint",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "auth-security"
       ],
       "files_estimate": [
         "odoo/addons/remont_billing/"
-      ],
-      "branch": "feature/009-payment-integration"
+      ]
     },
     {
       "id": "referral-system",
       "name": "Referral System",
       "description": "Unique 8-character alphanumeric referral code per user, referral link embedded in shared timelapse URLs, referrer gets 14 free days when referee subscribes to Pro, referee gets 7 free days on first subscription, referral dashboard (total referrals, successful conversions, total days earned), max 10 referral rewards per calendar month (fraud prevention), referral code embedded in timelapse share links for viral tracking",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "payment-integration",
         "timelapse-gen"
       ],
       "files_estimate": [
         "odoo/addons/remont_referral/"
-      ]
+      ],
+      "branch": "feature/010-referral-system"
     }
   ]
 }
