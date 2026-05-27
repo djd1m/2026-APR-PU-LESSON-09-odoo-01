@@ -164,6 +164,18 @@
         "workers/cv_worker/app/detector_vllm.py",
         "workers/cv_worker/app/detector_base.py"
       ]
+    },
+    {
+      "id": "cloudru-backend",
+      "number": 12,
+      "name": "Cloud.ru Foundation Models Backend",
+      "description": "Cloud.ru Evolution Foundation Models as pre-configured provider for vLLM CV backend. OpenAI-compatible API, test script for batch photo classification.",
+      "priority": "mvp",
+      "status": "done",
+      "branch": "feature/012-cloudru-backend",
+      "dependencies": [
+        "vllm-cv-backend"
+      ]
     }
   ]
 }
