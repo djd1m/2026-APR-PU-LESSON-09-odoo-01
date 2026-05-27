@@ -260,7 +260,7 @@ class RemontProject(models.Model):
             in_progress_name = None
             max_delay = 0
             for s in stages:
-                stage_label = STAGE_LABELS.get(s.name, s.name)
+                stage_label = s.stage_display_name or STAGE_LABELS.get(s.name, s.name)
                 status_label = STATUS_LABELS.get(s.status, s.status)
                 # Calculate delay directly
                 from datetime import date as date_cls

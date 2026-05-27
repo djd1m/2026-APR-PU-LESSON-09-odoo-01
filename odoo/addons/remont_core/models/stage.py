@@ -13,6 +13,7 @@ STAGE_NAMES = [
     ("tiles", "Плитка"),
     ("painting", "Покраска"),
     ("finishing", "Чистовая отделка"),
+    ("custom", "Другое (свой этап)"),
 ]
 
 STAGE_STATUSES = [
@@ -29,9 +30,27 @@ class RemontStage(models.Model):
 
     name = fields.Selection(
         selection=STAGE_NAMES,
-        string="Stage",
+        string="Тип этапа",
         required=True,
     )
+    custom_name = fields.Char(
+        string="Название этапа",
+        help="Укажите название для пользовательского этапа (когда тип = 'Другое')",
+    )
+    stage_display_name = fields.Char(
+        string="Этап",
+        compute="_compute_stage_display_name",
+        store=True,
+    )
+
+    @api.depends("name", "custom_name")
+    def _compute_stage_display_name(self):
+        labels = dict(STAGE_NAMES)
+        for stage in self:
+            if stage.name == "custom" and stage.custom_name:
+                stage.stage_display_name = stage.custom_name
+            else:
+                stage.stage_display_name = labels.get(stage.name, stage.name or "")
     progress_pct = fields.Float(
         string="Progress (%)",
         default=0.0,
@@ -97,7 +116,7 @@ class RemontStage(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "name": f"Снимки: {dict(STAGE_NAMES).get(self.name, self.name)}",
+            "name": f"Снимки: {self.stage_display_name or self.name}",
             "res_model": "remont.snapshot",
             "view_mode": "list,form",
             "domain": [
@@ -166,8 +185,7 @@ class RemontStage(models.Model):
                 )
                 if not_done:
                     names = ", ".join(
-                        dict(STAGE_NAMES).get(d.name, d.name)
-                        for d in not_done
+                        d.stage_display_name or d.name for d in not_done
                     )
                     raise ValidationError(
                         f"Cannot start this stage. "

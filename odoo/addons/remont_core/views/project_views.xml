@@ -78,7 +78,11 @@
                                       decoration-warning="delay_status == 'yellow'"
                                       decoration-success="delay_status == 'green'">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="name"/>
+                                    <field name="name" string="Тип"/>
+                                    <field name="custom_name" string="Название"
+                                           placeholder="Введите название этапа"
+                                           invisible="name != 'custom'"/>
+                                    <field name="stage_display_name" string="Этап" optional="hide"/>
                                     <field name="status"/>
                                     <field name="progress_pct" widget="progressbar"/>
                                     <field name="planned_start"/>
