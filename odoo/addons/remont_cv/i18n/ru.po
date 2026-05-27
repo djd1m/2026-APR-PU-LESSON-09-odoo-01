@@ -1,111 +1,260 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_cv
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:28+0000\n"
+"PO-Revision-Date: 2026-05-27 15:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_cv
-msgid "Computer Vision Job"
-msgstr "Задача компьютерного зрения"
-
-#. module: remont_cv
-msgid "Computer Vision"
-msgstr "Компьютерное зрение"
-
-#. module: remont_cv
-msgid "CV Jobs"
-msgstr "Задачи ИИ"
-
-#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_form
 msgid "CV Job"
 msgstr "Задача ИИ"
 
 #. module: remont_cv
-msgid "Snapshot"
-msgstr "Снимок"
+#: model:ir.actions.act_window,name:remont_cv.action_remont_cv_job
+#: model:ir.ui.menu,name:remont_cv.menu_remont_cv_jobs
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_tree
+msgid "CV Jobs"
+msgstr "Задачи ИИ"
 
 #. module: remont_cv
-msgid "Status"
-msgstr "Статус"
+#: model:ir.model,name:remont_cv.model_remont_cv_mixin
+msgid "CV Pipeline Mixin"
+msgstr ""
 
 #. module: remont_cv
-msgid "Queued"
-msgstr "В очереди"
+#: model_terms:ir.actions.act_window,help:remont_cv.action_remont_cv_job
+msgid ""
+"CV jobs are automatically created when new camera snapshots\n"
+"                are captured. The YOLOv8 model detects renovation stages\n"
+"                from each image."
+msgstr ""
 
 #. module: remont_cv
-msgid "Processing"
-msgstr "Обрабатывается"
+#: model:ir.model.fields,help:remont_cv.field_remont_cv_job__confidence
+msgid "CV model confidence score (0.0 - 1.0)"
+msgstr ""
 
 #. module: remont_cv
-msgid "Done"
-msgstr "Готово"
+#: model:ir.ui.menu,name:remont_cv.menu_remont_cv_root
+msgid "Computer Vision"
+msgstr "Компьютерное зрение"
 
 #. module: remont_cv
-msgid "Failed"
-msgstr "Ошибка"
+#: model:ir.model,name:remont_cv.model_remont_cv_job
+msgid "Computer Vision Job"
+msgstr "Задача компьютерного зрения"
 
 #. module: remont_cv
-msgid "Detected Stage"
-msgstr "Распознанная стадия"
-
-#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__confidence
 msgid "Confidence"
 msgstr "Уверенность"
 
 #. module: remont_cv
-msgid "Model Version"
-msgstr "Версия модели"
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_form
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_tree
+msgid "Created"
+msgstr ""
 
 #. module: remont_cv
-msgid "Processed At"
-msgstr "Обработано"
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__create_uid
+msgid "Created by"
+msgstr ""
 
 #. module: remont_cv
-msgid "Needs Manual Review"
-msgstr "Требует проверки"
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__create_date
+msgid "Created on"
+msgstr ""
 
 #. module: remont_cv
-msgid "Error Message"
-msgstr "Сообщение об ошибке"
-
-#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__demolition
 msgid "Demolition"
 msgstr "Демонтаж"
 
 #. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__stage_result
+msgid "Detected Stage"
+msgstr "Распознанная стадия"
+
+#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_form
+msgid "Detection Result"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__display_name
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__status__done
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__electrical
 msgid "Electrical"
 msgstr "Электрика"
 
 #. module: remont_cv
-msgid "Plumbing"
-msgstr "Сантехника"
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_form
+msgid "Error"
+msgstr ""
 
 #. module: remont_cv
-msgid "Plaster"
-msgstr "Штукатурка"
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__error_message
+msgid "Error Message"
+msgstr "Сообщение об ошибке"
 
 #. module: remont_cv
-msgid "Screed"
-msgstr "Стяжка"
+#: model:ir.model.fields,help:remont_cv.field_remont_cv_job__error_message
+msgid "Error details if the job failed"
+msgstr ""
 
 #. module: remont_cv
-msgid "Tiles"
-msgstr "Плитка"
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__status__failed
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Failed"
+msgstr "Ошибка"
 
 #. module: remont_cv
-msgid "Painting"
-msgstr "Покраска"
-
-#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__finishing
 msgid "Finishing"
 msgstr "Чистовая отделка"
 
 #. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__id
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_form
+msgid "Job Details"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__model_version
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Model Version"
+msgstr "Версия модели"
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__needs_manual_review
+msgid "Needs Manual Review"
+msgstr "Требует проверки"
+
+#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Needs Review"
+msgstr ""
+
+#. module: remont_cv
+#: model_terms:ir.actions.act_window,help:remont_cv.action_remont_cv_job
+msgid "No CV jobs yet"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__painting
+msgid "Painting"
+msgstr "Покраска"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__plaster
+msgid "Plaster"
+msgstr "Штукатурка"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__plumbing
+msgid "Plumbing"
+msgstr "Сантехника"
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__processed_at
+msgid "Processed At"
+msgstr "Обработано"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__status__processing
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Processing"
+msgstr "Обрабатывается"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__status__queued
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Queued"
+msgstr "В очереди"
+
+#. module: remont_cv
+#: model:ir.model.fields,help:remont_cv.field_remont_cv_job__stage_result
+msgid "Renovation stage detected by the CV model"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__screed
+msgid "Screed"
+msgstr "Стяжка"
+
+#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Search CV Jobs"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__snapshot_id
+msgid "Snapshot"
+msgstr "Снимок"
+
+#. module: remont_cv
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Stage"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields,field_description:remont_cv.field_remont_cv_job__status
+#: model_terms:ir.ui.view,arch_db:remont_cv.view_remont_cv_job_search
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__tiles
+msgid "Tiles"
+msgstr "Плитка"
+
+#. module: remont_cv
+#: model:ir.model.fields,help:remont_cv.field_remont_cv_job__needs_manual_review
+msgid "True when confidence is below the configured threshold"
+msgstr ""
+
+#. module: remont_cv
+#: model:ir.model.fields.selection,name:remont_cv.selection__remont_cv_job__stage_result__unknown
 msgid "Unknown"
 msgstr "Неизвестно"
 
 #. module: remont_cv
-msgid "CV jobs are automatically created when new camera snapshots arrive."
-msgstr "Задачи ИИ создаются автоматически при поступлении новых снимков."
+#: model:ir.model.fields,help:remont_cv.field_remont_cv_job__model_version
+msgid "Version of the YOLOv8 model used for classification"
+msgstr ""

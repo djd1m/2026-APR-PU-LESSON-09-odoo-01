@@ -1,407 +1,838 @@
-#
-# Translators:
-# RemontERP <hello@remont-erp.ru>, 2026
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_core
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: RemontERP\n"
-"Language-Team: Russian\n"
-"Language: ru\n"
+"POT-Creation-Date: 2026-05-27 15:28+0000\n"
+"PO-Revision-Date: 2026-05-27 15:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: \n"
 
 #. module: remont_core
-msgid "RemontERP"
-msgstr "RemontERP"
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "<span> - Budget v</span>"
+msgstr ""
 
 #. module: remont_core
-msgid "Projects"
-msgstr "Проекты"
-
-#. module: remont_core
-msgid "Stages"
-msgstr "Этапы"
-
-#. module: remont_core
-msgid "Photos"
-msgstr "Фото"
-
-#. module: remont_core
-msgid "Renovation Project"
-msgstr "Проект ремонта"
-
-#. module: remont_core
-msgid "Renovation Projects"
-msgstr "Проекты ремонта"
-
-#. module: remont_core
-msgid "Project Name"
-msgstr "Название проекта"
-
-#. module: remont_core
-msgid "Address"
-msgstr "Адрес"
-
-#. module: remont_core
-msgid "Area (sq.m)"
-msgstr "Площадь (м²)"
-
-#. module: remont_core
-msgid "Renovation Type"
-msgstr "Тип работ"
-
-#. module: remont_core
-msgid "Currency"
-msgstr "Валюта"
-
-#. module: remont_core
-msgid "Budget Estimate"
-msgstr "Сметный бюджет"
-
-#. module: remont_core
-msgid "Budget Actual"
-msgstr "Фактический бюджет"
-
-#. module: remont_core
-msgid "Start Date"
-msgstr "Дата начала"
-
-#. module: remont_core
-msgid "Planned End Date"
-msgstr "Плановая дата окончания"
-
-#. module: remont_core
-msgid "Predicted End Date"
-msgstr "Прогноз окончания"
-
-#. module: remont_core
-msgid "Status"
-msgstr "Статус"
-
-#. module: remont_core
-msgid "Owner"
-msgstr "Владелец"
-
-#. module: remont_core
-msgid "Contractor"
-msgstr "Подрядчик"
-
-#. module: remont_core
-msgid "Overall Progress (%)"
-msgstr "Общий прогресс (%)"
-
-#. module: remont_core
-msgid "Photo Count"
-msgstr "Кол-во фото"
-
-#. module: remont_core
-msgid "General"
-msgstr "Общее"
-
-#. module: remont_core
-msgid "Schedule"
-msgstr "График"
-
-#. module: remont_core
-msgid "Budget & Progress"
-msgstr "Бюджет и прогресс"
-
-#. module: remont_core
-msgid "Renovation Progress (AI)"
-msgstr "Прогресс ремонта (ИИ)"
-
-#. module: remont_core
-msgid "Current Stage"
-msgstr "Текущая стадия"
-
-#. module: remont_core
-msgid "Stage Confidence"
-msgstr "Уверенность в стадии"
-
-#. module: remont_core
-msgid "Bottleneck Stage"
-msgstr "Что тормозит"
-
-#. module: remont_core
-msgid "Last Photo At"
-msgstr "Последнее фото"
-
-#. module: remont_core
-msgid "Needs Review"
-msgstr "Требуют проверки"
-
-#. module: remont_core
-msgid "Stage Distribution"
-msgstr "Распределение по этапам"
-
-#. module: remont_core
-msgid "Distribution"
-msgstr "Распределение"
-
-#. module: remont_core
-msgid "Demolition"
-msgstr "Демонтаж"
-
-#. module: remont_core
-msgid "Electrical"
-msgstr "Электрика"
-
-#. module: remont_core
-msgid "Plumbing"
-msgstr "Сантехника"
-
-#. module: remont_core
-msgid "Plaster"
-msgstr "Штукатурка"
-
-#. module: remont_core
-msgid "Screed"
-msgstr "Стяжка"
-
-#. module: remont_core
-msgid "Tiles"
-msgstr "Плитка"
-
-#. module: remont_core
-msgid "Painting"
-msgstr "Покраска"
-
-#. module: remont_core
-msgid "Finishing"
-msgstr "Чистовая отделка"
-
-#. module: remont_core
-msgid "Unknown"
-msgstr "Неизвестно"
-
-#. module: remont_core
-msgid "New Construction"
-msgstr "Новое строительство"
-
-#. module: remont_core
-msgid "Renovation"
-msgstr "Ремонт"
-
-#. module: remont_core
-msgid "Draft"
-msgstr "Черновик"
-
-#. module: remont_core
-msgid "Planning"
-msgstr "Планирование"
-
-#. module: remont_core
-msgid "In Progress"
-msgstr "В работе"
-
-#. module: remont_core
-msgid "Completed"
-msgstr "Завершён"
-
-#. module: remont_core
-msgid "On Hold"
-msgstr "Приостановлен"
-
-#. module: remont_core
-msgid "Cancelled"
-msgstr "Отменён"
-
-#. module: remont_core
-msgid "Stage"
-msgstr "Этап"
-
-#. module: remont_core
-msgid "Stage Name"
-msgstr "Название этапа"
-
-#. module: remont_core
-msgid "Sequence"
-msgstr "Порядок"
-
-#. module: remont_core
-msgid "Progress %"
-msgstr "Прогресс %"
-
-#. module: remont_core
-msgid "Weight"
-msgstr "Вес"
-
-#. module: remont_core
-msgid "Planned Start"
-msgstr "Плановое начало"
-
-#. module: remont_core
-msgid "Planned End"
-msgstr "Плановое окончание"
-
-#. module: remont_core
-msgid "Actual Start"
-msgstr "Фактическое начало"
-
-#. module: remont_core
-msgid "Actual End"
-msgstr "Фактическое окончание"
-
-#. module: remont_core
-msgid "Planned"
-msgstr "Запланирован"
-
-#. module: remont_core
-msgid "Done"
-msgstr "Готово"
-
-#. module: remont_core
-msgid "Camera Snapshot"
-msgstr "Снимок с камеры"
-
-#. module: remont_core
-msgid "Stage Photo"
-msgstr "Фото этапа"
-
-#. module: remont_core
-msgid "Stage Photos"
-msgstr "Фото этапов"
-
-#. module: remont_core
-msgid "Image URL"
-msgstr "URL изображения"
-
-#. module: remont_core
-msgid "Thumbnail URL"
-msgstr "URL миниатюры"
-
-#. module: remont_core
-msgid "Captured At"
-msgstr "Время съёмки"
-
-#. module: remont_core
-msgid "Camera ID"
-msgstr "ID камеры"
-
-#. module: remont_core
-msgid "Project"
-msgstr "Проект"
-
-#. module: remont_core
-msgid "Detected Stage"
-msgstr "Распознанная стадия"
-
-#. module: remont_core
-msgid "CV Confidence"
-msgstr "Уверенность ИИ"
-
-#. module: remont_core
-msgid "AI Explanation"
-msgstr "Пояснение ИИ"
-
-#. module: remont_core
-msgid "CV Backend"
-msgstr "Бэкенд ИИ"
-
-#. module: remont_core
-msgid "Model Version"
-msgstr "Версия модели"
-
-#. module: remont_core
-msgid "Photo"
-msgstr "Фото"
-
-#. module: remont_core
-msgid "Full URL"
-msgstr "Полный URL"
-
-#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
 msgid "AI Diagnostics"
 msgstr "Диагностика ИИ"
 
 #. module: remont_core
-msgid "Search Photos"
-msgstr "Поиск фото"
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__cv_explanation
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "AI Explanation"
+msgstr "Пояснение ИИ"
 
 #. module: remont_core
-msgid "High confidence (>=65%)"
-msgstr "Высокая уверенность (≥65%)"
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__actual_amount
+msgid "Actual"
+msgstr ""
 
 #. module: remont_core
-msgid "Low confidence (<65%)"
-msgstr "Низкая уверенность (<65%)"
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__actual_end
+msgid "Actual End"
+msgstr "Фактическое окончание"
 
 #. module: remont_core
-msgid "Unanalyzed"
-msgstr "Не анализировалось"
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__actual_start
+msgid "Actual Start"
+msgstr "Фактическое начало"
 
 #. module: remont_core
-msgid "YOLO backend"
-msgstr "Бэкенд YOLO"
+#: model:ir.model.fields,help:remont_core.field_remont_budget_line__variance
+msgid "Actual minus Estimate. Positive = over budget."
+msgstr ""
 
 #. module: remont_core
-msgid "vLLM backend"
-msgstr "Бэкенд vLLM"
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__address
+msgid "Address"
+msgstr "Адрес"
 
 #. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Approve"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget__status__approved
+msgid "Approved"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__area_sqm
+msgid "Area (sq.m)"
+msgstr "Площадь (м²)"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
 msgid "Backend"
 msgstr "Бэкенд"
 
 #. module: remont_core
-msgid "Open Project"
-msgstr "Перейти к проекту"
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_kanban
+msgid "Bottleneck"
+msgstr ""
 
 #. module: remont_core
-msgid "No photos yet"
-msgstr "Пока нет фото"
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__bottleneck_stage
+msgid "Bottleneck Stage"
+msgstr "Что тормозит"
 
 #. module: remont_core
-msgid "No photos captured yet."
-msgstr "Снимков пока нет."
-
-#. module: remont_core
-msgid "Photos appear here once cameras start capturing and CV worker analyzes renovation stages."
-msgstr "Фото появятся здесь, как только камеры начнут съёмку и ИИ-обработчик начнёт анализ этапов ремонта."
-
-#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__budget_id
 msgid "Budget"
 msgstr "Бюджет"
 
 #. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Budget & Progress"
+msgstr "Бюджет и прогресс"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__budget_actual
+msgid "Budget Actual"
+msgstr "Фактический бюджет"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__budget_estimate
+msgid "Budget Estimate"
+msgstr "Сметный бюджет"
+
+#. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_budget_line
+msgid "Budget Line Item"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__line_ids
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Budget Lines"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.actions.act_window,name:remont_core.action_remont_budget
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_list
 msgid "Budgets"
 msgstr "Бюджеты"
 
 #. module: remont_core
-msgid "Budget Line"
-msgstr "Строка бюджета"
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__cv_backend
+msgid "CV Backend"
+msgstr "Бэкенд ИИ"
 
 #. module: remont_core
-msgid "Amount"
-msgstr "Сумма"
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__cv_confidence
+msgid "CV Confidence"
+msgstr "Уверенность ИИ"
 
 #. module: remont_core
-msgid "Description"
-msgstr "Описание"
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__camera_id
+msgid "Camera ID"
+msgstr "ID камеры"
 
 #. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_snapshot
+msgid "Camera Snapshot"
+msgstr "Снимок с камеры"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_snapshot__camera_id
+msgid "Camera reference (populated by remont_camera module)"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__cancelled
+msgid "Cancelled"
+msgstr "Отменён"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "Captured"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__captured_at
+msgid "Captured At"
+msgstr "Время съёмки"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__category
 msgid "Category"
 msgstr "Категория"
 
 #. module: remont_core
-msgid "Checklist Item"
-msgstr "Пункт чек-листа"
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_form
+msgid "Checklist"
+msgstr ""
 
 #. module: remont_core
-msgid "Active"
-msgstr "Активно"
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__checklist_ids
+msgid "Checklist Items"
+msgstr ""
 
 #. module: remont_core
-msgid "Budget estimate must be positive."
-msgstr "Сметный бюджет должен быть положительным."
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__checklist_progress
+msgid "Checklist Progress (%)"
+msgstr ""
 
 #. module: remont_core
-msgid "Budget actual must be positive."
-msgstr "Фактический бюджет должен быть положительным."
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__completed
+msgid "Completed"
+msgstr "Завершён"
 
 #. module: remont_core
-msgid "Planned end date must be after start date."
-msgstr "Плановая дата окончания должна быть позже даты начала."
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__completed_at
+msgid "Completed At"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__completed_by
+msgid "Completed By"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_project__current_stage_confidence
+msgid "Confidence (0.0–1.0) that current_stage is the actual stage."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__contractor_id
+msgid "Contractor"
+msgstr "Подрядчик"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__create_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__create_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__create_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__create_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__create_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__create_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__create_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__create_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__create_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__create_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__currency_id
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__currency_id
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__currency_id
+msgid "Currency"
+msgstr "Валюта"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__current_stage
+msgid "Current Stage"
+msgstr "Текущая стадия"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__demolition
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__demolition
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__demolition
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__demolition
+msgid "Demolition"
+msgstr "Демонтаж"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__dependency_ids
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_form
+msgid "Dependencies"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__description
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__name
+msgid "Description"
+msgstr "Описание"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Details"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__stage_detected
+msgid "Detected Stage"
+msgstr "Распознанная стадия"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__display_name
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__display_name
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__display_name
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__display_name
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__display_name
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Distribution"
+msgstr "Распределение"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__is_done
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__status__done
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget__status__draft
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__draft
+msgid "Draft"
+msgstr "Черновик"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__electrical
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__electrical
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__electrical
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__electrical
+msgid "Electrical"
+msgstr "Электрика"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget_line__category__equipment
+msgid "Equipment"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__estimate_amount
+msgid "Estimate"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__finishing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__finishing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__finishing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__finishing
+msgid "Finishing"
+msgstr "Чистовая отделка"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "Full URL"
+msgstr "Полный URL"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "General"
+msgstr "Общее"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "High confidence (>=65%)"
+msgstr "Высокая уверенность (≥65%)"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__id
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__id
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__id
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__id
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__id
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__image_url
+msgid "Image URL"
+msgstr "URL изображения"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__in_progress
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__status__in_progress
+msgid "In Progress"
+msgstr "В работе"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__is_original
+msgid "Is Original"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_project__stage_distribution_json
+msgid ""
+"JSON object mapping stage name to snapshot count across the whole project."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget_line__category__labor
+msgid "Labor"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__last_snapshot_at
+msgid "Last Photo At"
+msgstr "Последнее фото"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__write_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__write_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__write_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__write_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__write_uid
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__write_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__write_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__write_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__write_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__write_date
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Lock"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget__status__locked
+msgid "Locked"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "Low confidence (<65%)"
+msgstr "Низкая уверенность (<65%)"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget_line__category__materials
+msgid "Materials"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__model_version
+msgid "Model Version"
+msgstr "Версия модели"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_project__current_stage
+msgid ""
+"Most likely current renovation stage based on weighted voting over the most "
+"recent snapshots (confidence × recency)."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_snapshot__cv_explanation
+msgid "Natural language description of what AI detected (vLLM backend only)."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__needs_review_count
+msgid "Needs Review"
+msgstr "Требуют проверки"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__type__new
+msgid "New Construction"
+msgstr "Новое строительство"
+
+#. module: remont_core
+#: model_terms:ir.actions.act_window,help:remont_core.action_remont_snapshot
+msgid "No photos yet"
+msgstr "Пока нет фото"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_project__needs_review_count
+msgid ""
+"Number of snapshots whose CV confidence is below the review threshold "
+"(0.65). These photos need a human to verify the AI's stage detection."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__on_hold
+msgid "On Hold"
+msgstr "Приостановлен"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "Open Project"
+msgstr "Перейти к проекту"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget_line__category__other
+msgid "Other"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__overall_progress
+msgid "Overall Progress (%)"
+msgstr "Общий прогресс (%)"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_budget_line__category__overhead
+msgid "Overhead"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__owner_id
+msgid "Owner"
+msgstr "Владелец"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__painting
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__painting
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__painting
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__painting
+msgid "Painting"
+msgstr "Покраска"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_list
+msgid "Photo"
+msgstr "Фото"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__snapshot_count
+msgid "Photo Count"
+msgstr "Кол-во фото"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__photo_attachment_id
+msgid "Photo Evidence"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.ui.menu,name:remont_core.menu_remont_snapshots
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_list
+msgid "Photos"
+msgstr "Фото"
+
+#. module: remont_core
+#: model_terms:ir.actions.act_window,help:remont_core.action_remont_snapshot
+msgid ""
+"Photos appear here once cameras start capturing and CV worker\n"
+"                analyzes renovation stages."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__status__planned
+msgid "Planned"
+msgstr "Запланирован"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__planned_end
+msgid "Planned End"
+msgstr "Плановое окончание"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__end_date_plan
+msgid "Planned End Date"
+msgstr "Плановая дата окончания"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__planned_start
+msgid "Planned Start"
+msgstr "Плановое начало"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__status__planning
+msgid "Planning"
+msgstr "Планирование"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__plaster
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__plaster
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__plaster
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__plaster
+msgid "Plaster"
+msgstr "Штукатурка"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__plumbing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__plumbing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__plumbing
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__plumbing
+msgid "Plumbing"
+msgstr "Сантехника"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_stage__dependency_ids
+msgid "Predecessor stages that must be completed before this stage can start."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__end_date_predict
+msgid "Predicted End Date"
+msgstr "Прогноз окончания"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__progress_pct
+msgid "Progress (%)"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__project_id
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__project_id
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__project_id
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__name
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Project Name"
+msgstr "Название проекта"
+
+#. module: remont_core
+#: model:ir.ui.menu,name:remont_core.menu_remont_projects
+msgid "Projects"
+msgstr "Проекты"
+
+#. module: remont_core
+#: model:ir.ui.menu,name:remont_core.menu_remont_root
+msgid "RemontERP"
+msgstr "RemontERP"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__type__renovation
+msgid "Renovation"
+msgstr "Ремонт"
+
+#. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_budget
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Renovation Budget"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Renovation Progress (AI)"
+msgstr "Прогресс ремонта (ИИ)"
+
+#. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_project
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Renovation Project"
+msgstr "Проект ремонта"
+
+#. module: remont_core
+#: model:ir.actions.act_window,name:remont_core.action_remont_project
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_list
+msgid "Renovation Projects"
+msgstr "Проекты ремонта"
+
+#. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_stage
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_form
+msgid "Renovation Stage"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.actions.act_window,name:remont_core.action_remont_stage
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_list
+msgid "Renovation Stages"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__type
+msgid "Renovation Type"
+msgstr "Тип работ"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_form
+msgid "Schedule"
+msgstr "График"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__screed
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__screed
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__screed
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__screed
+msgid "Screed"
+msgstr "Стяжка"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "Search Photos"
+msgstr "Поиск фото"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__sequence
+msgid "Sequence"
+msgstr "Порядок"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__snapshot_ids
+msgid "Snapshots"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_checklist_item__stage_id
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__name
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "Stage"
+msgstr "Этап"
+
+#. module: remont_core
+#: model:ir.model,name:remont_core.model_remont_checklist_item
+msgid "Stage Checklist Item"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__current_stage_confidence
+msgid "Stage Confidence"
+msgstr "Уверенность в стадии"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__stage_distribution_json
+msgid "Stage Distribution"
+msgstr "Распределение по этапам"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_stage_form
+msgid "Stage Info"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "Stage Photo"
+msgstr "Фото этапа"
+
+#. module: remont_core
+#: model:ir.actions.act_window,name:remont_core.action_remont_snapshot
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_list
+msgid "Stage Photos"
+msgstr "Фото этапов"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__stage_ids
+#: model:ir.ui.menu,name:remont_core.menu_remont_stages
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_project_form
+msgid "Stages"
+msgstr "Этапы"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__start_date
+msgid "Start Date"
+msgstr "Дата начала"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__status
+#: model:ir.model.fields,field_description:remont_core.field_remont_project__status
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__status
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_project__bottleneck_stage
+msgid ""
+"The stage that is slowing the project down — either the stage with the most "
+"low-confidence snapshots, or the oldest stage that still has activity "
+"(stuck)."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_snapshot__thumbnail_url
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "Thumbnail URL"
+msgstr "URL миниатюры"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__tiles
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__tiles
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__tiles
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_stage__name__tiles
+msgid "Tiles"
+msgstr "Плитка"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__total_actual
+msgid "Total Actual"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__total_estimate
+msgid "Total Estimate"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_budget_form
+msgid "Totals"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_budget__is_original
+msgid "True for the first budget version (version=1)."
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "Unanalyzed"
+msgstr "Не анализировалось"
+
+#. module: remont_core
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__bottleneck_stage__unknown
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_project__current_stage__unknown
+#: model:ir.model.fields.selection,name:remont_core.selection__remont_snapshot__stage_detected__unknown
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget_line__variance
+msgid "Variance"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_budget__version
+msgid "Version"
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_snapshot__model_version
+msgid "Version of the model or backend that produced this detection."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,field_description:remont_core.field_remont_stage__weight
+msgid "Weight"
+msgstr "Вес"
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_stage__weight
+msgid "Weight for overall project progress calculation."
+msgstr ""
+
+#. module: remont_core
+#: model:ir.model.fields,help:remont_core.field_remont_snapshot__cv_backend
+msgid "Which backend produced this detection: 'yolo' or 'vllm'."
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "YOLO backend"
+msgstr "Бэкенд YOLO"
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_form
+msgid "in project"
+msgstr ""
+
+#. module: remont_core
+#: model_terms:ir.ui.view,arch_db:remont_core.view_remont_snapshot_search
+msgid "vLLM backend"
+msgstr "Бэкенд vLLM"

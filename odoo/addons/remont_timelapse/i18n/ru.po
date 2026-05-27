@@ -1,71 +1,179 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_timelapse
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:29+0000\n"
+"PO-Revision-Date: 2026-05-27 15:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_timelapse
-msgid "Timelapse Job"
-msgstr "Задача таймлапса"
-
-#. module: remont_timelapse
-msgid "Timelapses"
-msgstr "Таймлапсы"
-
-#. module: remont_timelapse
-msgid "Timelapse"
-msgstr "Таймлапс"
-
-#. module: remont_timelapse
-msgid "Status"
-msgstr "Статус"
-
-#. module: remont_timelapse
-msgid "Queued"
-msgstr "В очереди"
-
-#. module: remont_timelapse
-msgid "Processing"
-msgstr "Обрабатывается"
-
-#. module: remont_timelapse
-msgid "Done"
-msgstr "Готово"
-
-#. module: remont_timelapse
-msgid "Failed"
-msgstr "Ошибка"
-
-#. module: remont_timelapse
-msgid "Project"
-msgstr "Проект"
-
-#. module: remont_timelapse
-msgid "Video URL"
-msgstr "URL видео"
-
-#. module: remont_timelapse
-msgid "Frame Count"
-msgstr "Кол-во кадров"
-
-#. module: remont_timelapse
-msgid "Duration (s)"
-msgstr "Длительность (с)"
-
-#. module: remont_timelapse
-msgid "Created At"
-msgstr "Создано"
-
-#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__completed_at
 msgid "Completed At"
 msgstr "Завершено"
 
 #. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__created_at
+msgid "Created At"
+msgstr "Создано"
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__period__daily
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Daily"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__status__done
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__duration_sec
+msgid "Duration (seconds)"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,help:remont_timelapse.field_remont_timelapse_job__duration_sec
+msgid "Duration of the generated timelapse video"
+msgstr ""
+
+#. module: remont_timelapse
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_form
 msgid "Error"
 msgstr "Ошибка"
 
 #. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__error_message
 msgid "Error Message"
 msgstr "Сообщение об ошибке"
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__status__failed
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Failed"
+msgstr "Ошибка"
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__frame_count
+msgid "Frame Count"
+msgstr "Кол-во кадров"
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,help:remont_timelapse.field_remont_timelapse_job__frame_count
+msgid "Number of frames used to generate the timelapse"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__period
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Period"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__status__processing
+msgid "Processing"
+msgstr "Обрабатывается"
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__project_id
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__status__queued
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Queued"
+msgstr "В очереди"
+
+#. module: remont_timelapse
+#: model:ir.actions.server,name:remont_timelapse.ir_cron_enqueue_daily_timelapse_ir_actions_server
+msgid "RemontERP: Enqueue Daily Timelapse Generation"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__share_token
+msgid "Share Token"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__status
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_timelapse
+#: model:ir.model,name:remont_timelapse.model_remont_timelapse_job
+msgid "Timelapse Generation Job"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.actions.act_window,name:remont_timelapse.action_timelapse_job
+msgid "Timelapse Jobs"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.ui.menu,name:remont_timelapse.menu_timelapse
+msgid "Timelapses"
+msgstr "Таймлапсы"
+
+#. module: remont_timelapse
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_form
+msgid "Timestamps"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,help:remont_timelapse.field_remont_timelapse_job__video_url
+msgid "URL of the generated timelapse video in MinIO"
+msgstr ""
+
+#. module: remont_timelapse
+#: model:ir.model.fields,field_description:remont_timelapse.field_remont_timelapse_job__video_url
+msgid "Video URL"
+msgstr "URL видео"
+
+#. module: remont_timelapse
+#: model:ir.model.fields.selection,name:remont_timelapse.selection__remont_timelapse_job__period__weekly
+#: model_terms:ir.ui.view,arch_db:remont_timelapse.view_timelapse_job_search
+msgid "Weekly"
+msgstr ""

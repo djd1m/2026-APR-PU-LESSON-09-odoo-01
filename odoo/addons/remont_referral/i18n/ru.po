@@ -1,47 +1,157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_referral
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:29+0000\n"
+"PO-Revision-Date: 2026-05-27 15:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_referral
-msgid "Referral"
-msgstr "Реферал"
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_form
+msgid "Activate"
+msgstr ""
 
 #. module: remont_referral
-msgid "Referrals"
-msgstr "Рефералы"
-
-#. module: remont_referral
-msgid "All Referrals"
-msgstr "Все рефералы"
-
-#. module: remont_referral
-msgid "Referrer"
-msgstr "Реферер"
-
-#. module: remont_referral
-msgid "Referred Email"
-msgstr "Email приглашённого"
-
-#. module: remont_referral
-msgid "Status"
-msgstr "Статус"
-
-#. module: remont_referral
-msgid "Pending"
-msgstr "Ожидает"
-
-#. module: remont_referral
+#: model:ir.model.fields.selection,name:remont_referral.selection__remont_referral__status__activated
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
 msgid "Activated"
 msgstr "Активирован"
 
 #. module: remont_referral
-msgid "Rewarded"
-msgstr "Вознаграждён"
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__activated_at
+msgid "Activated At"
+msgstr ""
 
 #. module: remont_referral
+#: model:ir.ui.menu,name:remont_referral.menu_remont_referral_list
+msgid "All Referrals"
+msgstr "Все рефералы"
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__bonus_days
+msgid "Bonus Days"
+msgstr ""
+
+#. module: remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_tree
+msgid "Created"
+msgstr ""
+
+#. module: remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_form
 msgid "Created At"
 msgstr "Создан"
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_form
+msgid "Details"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields.selection,name:remont_referral.selection__remont_referral__status__expired
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
+msgid "Expired"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_referral
+#: model_terms:ir.actions.act_window,help:remont_referral.action_remont_referral
+msgid "No referrals yet"
+msgstr ""
+
+#. module: remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_form
+msgid "Participants"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields.selection,name:remont_referral.selection__remont_referral__status__pending
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
+msgid "Pending"
+msgstr "Ожидает"
+
+#. module: remont_referral
+#: model:ir.model,name:remont_referral.model_remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_form
+msgid "Referral"
+msgstr "Реферал"
+
+#. module: remont_referral
+#: model:ir.actions.act_window,name:remont_referral.action_remont_referral
+#: model:ir.ui.menu,name:remont_referral.menu_remont_referral_root
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_tree
+msgid "Referrals"
+msgstr "Рефералы"
+
+#. module: remont_referral
+#: model_terms:ir.actions.act_window,help:remont_referral.action_remont_referral
+msgid ""
+"Referrals are created automatically when users share their\n"
+"                referral codes. Activate pending referrals to grant bonus\n"
+"                subscription days."
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__referred_id
+msgid "Referred User"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__referrer_id
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
+msgid "Referrer"
+msgstr "Реферер"
+
+#. module: remont_referral
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
+msgid "Search Referrals"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__share_token
+msgid "Share Token"
+msgstr ""
+
+#. module: remont_referral
+#: model:ir.model.fields,field_description:remont_referral.field_remont_referral__status
+#: model_terms:ir.ui.view,arch_db:remont_referral.view_remont_referral_search
+msgid "Status"
+msgstr "Статус"

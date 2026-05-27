@@ -1,87 +1,198 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_alerts
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:28+0000\n"
+"PO-Revision-Date: 2026-05-27 15:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_alerts
-msgid "Renovation Alert"
-msgstr "Уведомление о ремонте"
-
-#. module: remont_alerts
-msgid "Alerts"
-msgstr "Уведомления"
-
-#. module: remont_alerts
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_form
 msgid "Alert"
 msgstr "Уведомление"
 
 #. module: remont_alerts
-msgid "Search Alerts"
-msgstr "Поиск уведомлений"
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_form
+msgid "Alert Details"
+msgstr ""
 
 #. module: remont_alerts
-msgid "Type"
-msgstr "Тип"
+#: model:ir.model,name:remont_alerts.model_remont_alert_engine
+msgid "Alert Engine"
+msgstr ""
 
 #. module: remont_alerts
-msgid "Severity"
-msgstr "Важность"
+#: model:ir.actions.act_window,name:remont_alerts.action_remont_alert
+#: model:ir.ui.menu,name:remont_alerts.menu_remont_alerts
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_tree
+msgid "Alerts"
+msgstr "Уведомления"
 
 #. module: remont_alerts
-msgid "Message"
-msgstr "Сообщение"
+#: model_terms:ir.actions.act_window,help:remont_alerts.action_remont_alert
+msgid ""
+"Alerts are generated automatically when the system detects\n"
+"                crew absence, budget overruns, or schedule delays."
+msgstr ""
 
 #. module: remont_alerts
-msgid "Project"
-msgstr "Проект"
-
-#. module: remont_alerts
-msgid "User"
-msgstr "Пользователь"
-
-#. module: remont_alerts
-msgid "Is Read"
-msgstr "Прочитано"
-
-#. module: remont_alerts
-msgid "Unread"
-msgstr "Непрочитанные"
-
-#. module: remont_alerts
-msgid "Crew Absence"
-msgstr "Отсутствие бригады"
-
-#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__type__overbudget
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
 msgid "Budget Overrun"
 msgstr "Перерасход бюджета"
 
 #. module: remont_alerts
-msgid "Schedule Delay"
-msgstr "Задержка графика"
-
-#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__type__camera_error
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
 msgid "Camera Error"
 msgstr "Ошибка камеры"
 
 #. module: remont_alerts
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_form
+msgid "Context"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__cooldown_until
+msgid "Cooldown Until"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__created_at
+msgid "Created At"
+msgstr "Создано"
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__type__absence
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Crew Absence"
+msgstr "Отсутствие бригады"
+
+#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__severity__critical
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
 msgid "Critical"
 msgstr "Критично"
 
 #. module: remont_alerts
-msgid "Warning"
-msgstr "Предупреждение"
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__display_name
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert_engine__display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__id
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert_engine__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__severity__info
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
 msgid "Info"
 msgstr "Информация"
 
 #. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__message
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_form
+msgid "Message"
+msgstr "Сообщение"
+
+#. module: remont_alerts
+#: model_terms:ir.actions.act_window,help:remont_alerts.action_remont_alert
 msgid "No alerts"
 msgstr "Нет уведомлений"
 
 #. module: remont_alerts
-msgid "Created At"
-msgstr "Создано"
+#: model:ir.model.fields,help:remont_alerts.field_remont_alert__cooldown_until
+msgid "No duplicate alert of the same type/project before this time."
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__project_id
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_alerts
+#: model:ir.model,name:remont_alerts.model_remont_alert
+msgid "Project Alert"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__is_read
+msgid "Read"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.actions.server,name:remont_alerts.ir_cron_remont_alert_check_ir_actions_server
+msgid "RemontERP: Check Project Alerts"
+msgstr ""
+
+#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__type__delay
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Schedule Delay"
+msgstr "Задержка графика"
+
+#. module: remont_alerts
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Search Alerts"
+msgstr "Поиск уведомлений"
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__severity
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Severity"
+msgstr "Важность"
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__type
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Type"
+msgstr "Тип"
+
+#. module: remont_alerts
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Unread"
+msgstr "Непрочитанные"
+
+#. module: remont_alerts
+#: model:ir.model.fields,field_description:remont_alerts.field_remont_alert__user_id
+msgid "User"
+msgstr "Пользователь"
+
+#. module: remont_alerts
+#: model:ir.model.fields.selection,name:remont_alerts.selection__remont_alert__severity__warning
+#: model_terms:ir.ui.view,arch_db:remont_alerts.view_remont_alert_search
+msgid "Warning"
+msgstr "Предупреждение"

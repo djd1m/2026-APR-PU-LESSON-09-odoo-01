@@ -1,107 +1,308 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_camera
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:28+0000\n"
+"PO-Revision-Date: 2026-05-27 15:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_camera
-msgid "Renovation Camera"
-msgstr "Камера для ремонта"
-
-#. module: remont_camera
-msgid "Camera Name"
-msgstr "Название камеры"
-
-#. module: remont_camera
-msgid "RTSP URL"
-msgstr "RTSP URL"
-
-#. module: remont_camera
-msgid "Capture Interval (min)"
-msgstr "Интервал съёмки (мин)"
-
-#. module: remont_camera
-msgid "Capture Interval Minutes"
-msgstr "Интервал съёмки (мин)"
-
-#. module: remont_camera
-msgid "Status"
-msgstr "Статус"
-
-#. module: remont_camera
-msgid "Online"
-msgstr "Онлайн"
-
-#. module: remont_camera
-msgid "Offline"
-msgstr "Оффлайн"
-
-#. module: remont_camera
-msgid "Error"
-msgstr "Ошибка"
-
-#. module: remont_camera
-msgid "Last Capture At"
-msgstr "Последняя съёмка"
-
-#. module: remont_camera
-msgid "Snapshot Count"
-msgstr "Кол-во снимков"
-
-#. module: remont_camera
-msgid "Cameras"
-msgstr "Камеры"
-
-#. module: remont_camera
-msgid "Camera"
-msgstr "Камера"
-
-#. module: remont_camera
-msgid "Snapshots"
-msgstr "Снимки"
-
-#. module: remont_camera
-msgid "Project"
-msgstr "Проект"
-
-#. module: remont_camera
+#: model_terms:ir.actions.act_window,help:remont_camera.action_remont_camera
 msgid "Add your first camera"
 msgstr "Добавьте первую камеру"
 
 #. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Assignment"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__camera_id
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Camera"
+msgstr "Камера"
+
+#. module: remont_camera
+#: model:ir.model,name:remont_camera.model_remont_capture_service
+msgid "Camera Capture Scheduling Service"
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Camera Details"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__name
+msgid "Camera Name"
+msgstr "Название камеры"
+
+#. module: remont_camera
+#: model:ir.actions.server,name:remont_camera.ir_cron_camera_capture_ir_actions_server
+msgid "Camera: Capture Snapshots"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.actions.act_window,name:remont_camera.action_remont_camera
+#: model:ir.ui.menu,name:remont_camera.menu_remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_tree
+msgid "Cameras"
+msgstr "Камеры"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__capture_interval_minutes
+msgid "Capture Interval (minutes)"
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Capture Settings"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__create_uid
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__create_date
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_timelapse__period__daily
+msgid "Daily"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_camera__name
+msgid ""
+"Descriptive name for the camera location (e.g., 'Kitchen', 'Living Room')."
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_timelapse_form
+msgid "Details"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__display_name
+#: model:ir.model.fields,field_description:remont_camera.field_remont_capture_service__display_name
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__duration_sec
+msgid "Duration (seconds)"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_camera__status__error
+msgid "Error"
+msgstr "Ошибка"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__frame_count
+msgid "Frame Count"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__id
+#: model:ir.model.fields,field_description:remont_camera.field_remont_capture_service__id
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__installed_at
+msgid "Installed At"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_camera__capture_interval_minutes
+msgid "Interval between snapshot captures in minutes (5-60)."
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__last_capture_at
+msgid "Last Capture At"
+msgstr "Последняя съёмка"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__last_error
+msgid "Last Error"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__write_uid
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__write_date
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_camera__last_error
+msgid "Last error message from capture attempt."
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.actions.act_window,help:remont_camera.action_remont_timelapse
+msgid "No timelapses yet"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_timelapse__frame_count
+msgid "Number of snapshot frames used to generate this timelapse."
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_camera__status__offline
+msgid "Offline"
+msgstr "Оффлайн"
+
+#. module: remont_camera
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_camera__status__online
+msgid "Online"
+msgstr "Онлайн"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__period
+msgid "Period"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__project_id
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__project_id
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__rtsp_url
+msgid "RTSP URL"
+msgstr "RTSP URL"
+
+#. module: remont_camera
+#: model_terms:ir.actions.act_window,help:remont_camera.action_remont_camera
 msgid "Register IP cameras for automated renovation monitoring."
 msgstr "Зарегистрируйте IP-камеры для автоматического мониторинга ремонта."
 
 #. module: remont_camera
-msgid "Timelapses"
-msgstr "Таймлапсы"
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_camera__status__returned
+msgid "Returned"
+msgstr ""
 
 #. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__returned_at
+msgid "Returned At"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__serial_number
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Serial Number"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__share_token
+msgid "Share Token"
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_timelapse_form
+msgid "Sharing"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__snapshot_count
+msgid "Snapshot Count"
+msgstr "Кол-во снимков"
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__snapshot_ids
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_camera_form
+msgid "Snapshots"
+msgstr "Снимки"
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_timelapse_form
+msgid "Source"
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_timelapse__camera_id
+msgid "Source camera for this timelapse video."
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_camera__status
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_camera
+#: model:ir.model,name:remont_camera.model_remont_camera
+msgid "Surveillance Camera"
+msgstr ""
+
+#. module: remont_camera
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_timelapse_form
 msgid "Timelapse"
 msgstr "Таймлапс"
 
 #. module: remont_camera
-msgid "Renovation Timelapse"
-msgstr "Таймлапс ремонта"
+#: model:ir.model,name:remont_camera.model_remont_timelapse
+msgid "Timelapse Video"
+msgstr ""
 
 #. module: remont_camera
+#: model_terms:ir.actions.act_window,help:remont_camera.action_remont_timelapse
+msgid "Timelapse videos are generated automatically from camera snapshots."
+msgstr "Видео-таймлапсы создаются автоматически из снимков камер."
+
+#. module: remont_camera
+#: model:ir.actions.act_window,name:remont_camera.action_remont_timelapse
+#: model:ir.ui.menu,name:remont_camera.menu_remont_timelapse
+#: model_terms:ir.ui.view,arch_db:remont_camera.view_remont_timelapse_tree
+msgid "Timelapses"
+msgstr "Таймлапсы"
+
+#. module: remont_camera
+#: model:ir.model.fields,help:remont_camera.field_remont_camera__last_capture_at
+msgid "Timestamp of the last successful snapshot capture."
+msgstr ""
+
+#. module: remont_camera
+#: model:ir.model.fields,field_description:remont_camera.field_remont_timelapse__video_url
 msgid "Video URL"
 msgstr "URL видео"
 
 #. module: remont_camera
-msgid "Created At"
-msgstr "Создан"
-
-#. module: remont_camera
-msgid "Frames"
-msgstr "Кадров"
-
-#. module: remont_camera
-msgid "Duration (s)"
-msgstr "Длительность (с)"
-
-#. module: remont_camera
-msgid "Timelapse videos are generated automatically from camera snapshots."
-msgstr "Видео-таймлапсы создаются автоматически из снимков камер."
+#: model:ir.model.fields.selection,name:remont_camera.selection__remont_timelapse__period__weekly
+msgid "Weekly"
+msgstr ""

@@ -1,55 +1,179 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_portal
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:29+0000\n"
+"PO-Revision-Date: 2026-05-27 15:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_portal
-msgid "My Projects"
-msgstr "Мои проекты"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-arrow-left me-1\"/> Back to Projects"
+msgstr ""
 
 #. module: remont_portal
-msgid "Project"
-msgstr "Проект"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_my_projects
+msgid ""
+"<i class=\"fa fa-calendar me-1\"/>\n"
+"                                            Started:"
+msgstr ""
 
 #. module: remont_portal
-msgid "Projects"
-msgstr "Проекты"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-camera me-2\"/>Photos"
+msgstr ""
 
 #. module: remont_portal
-msgid "Photos"
-msgstr "Фото"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid ""
+"<i class=\"fa fa-film me-2\"/>\n"
+"                            Timelapse:"
+msgstr ""
 
 #. module: remont_portal
-msgid "Status"
-msgstr "Статус"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-film me-2\"/>Latest Timelapse"
+msgstr ""
 
 #. module: remont_portal
-msgid "Progress"
-msgstr "Прогресс"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_my_projects
+msgid ""
+"<i class=\"fa fa-home fa-2x mb-2 d-block\"/>\n"
+"                        You have no renovation projects yet."
+msgstr ""
 
 #. module: remont_portal
-msgid "Budget"
-msgstr "Бюджет"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-pie-chart me-2\"/>Budget Usage"
+msgstr ""
 
 #. module: remont_portal
-msgid "Estimate"
-msgstr "Смета"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-rub me-2\"/>Budget Overview"
+msgstr ""
 
 #. module: remont_portal
-msgid "Actual"
-msgstr "Факт"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<i class=\"fa fa-tasks me-2\"/>Stage Progress"
+msgstr ""
 
 #. module: remont_portal
-msgid "Timelapse"
-msgstr "Таймлапс"
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid ""
+"<span class=\"badge bg-success me-1\">≤ 80%</span> Within budget\n"
+"                                    <span class=\"badge bg-warning ms-2 me-1\">80-100%</span> Caution\n"
+"                                    <span class=\"badge bg-danger ms-2 me-1\">&gt; 100%</span> Over budget"
+msgstr ""
 
 #. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "<span>Consumed</span>"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "Camera monitoring, stage detection, budget tracking, and more."
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "Estimated"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "Get RemontERP"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_my_home_remont
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_my_projects
+msgid "My Renovations"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "No photos captured yet."
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "No stages defined yet."
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "Overall Progress:"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "Period:"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "Planned:"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "Remaining"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
 msgid "Showing 20 of"
 msgstr "Показано 20 из"
 
 #. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+msgid "Spent"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "Track your renovation with AI"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_my_home_remont
+msgid "View your renovation projects"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "Your browser does not support the video tag."
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
 msgid "photos"
 msgstr "фото"
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "s"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_project_detail
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "to"
+msgstr ""
+
+#. module: remont_portal
+#: model_terms:ir.ui.view,arch_db:remont_portal.portal_share_timelapse
+msgid "| Duration:"
+msgstr ""

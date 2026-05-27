@@ -1,95 +1,281 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* remont_billing
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: ru\n"
+"Project-Id-Version: Odoo Server 19.0-20260513\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 15:28+0000\n"
+"PO-Revision-Date: 2026-05-27 15:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: remont_billing
-msgid "Billing"
-msgstr "Биллинг"
+#: model:ir.model.fields,help:remont_billing.field_remont_subscription__grace_period_end
+msgid "3 days after end_date. User is downgraded to Free after this date."
+msgstr ""
 
 #. module: remont_billing
-msgid "Subscription"
-msgstr "Подписка"
-
-#. module: remont_billing
-msgid "Subscriptions"
-msgstr "Подписки"
-
-#. module: remont_billing
-msgid "Payment"
-msgstr "Платёж"
-
-#. module: remont_billing
-msgid "Payments"
-msgstr "Платежи"
-
-#. module: remont_billing
-msgid "Customer"
-msgstr "Клиент"
-
-#. module: remont_billing
-msgid "Plan"
-msgstr "Тариф"
-
-#. module: remont_billing
-msgid "Amount"
-msgstr "Сумма"
-
-#. module: remont_billing
-msgid "Status"
-msgstr "Статус"
-
-#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__status__active
 msgid "Active"
 msgstr "Активна"
 
 #. module: remont_billing
-msgid "Expired"
-msgstr "Истекла"
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__amount
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__amount
+msgid "Amount"
+msgstr "Сумма"
 
 #. module: remont_billing
-msgid "Cancelled"
-msgstr "Отменена"
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__auto_renew
+msgid "Auto Renew"
+msgstr ""
 
 #. module: remont_billing
-msgid "Pending"
-msgstr "Ожидает"
+#: model:ir.model.fields,help:remont_billing.field_remont_subscription__auto_renew
+msgid "Automatically renew subscription via YuKassa saved payment method."
+msgstr ""
 
 #. module: remont_billing
-msgid "Succeeded"
-msgstr "Успешно"
+#: model:ir.ui.menu,name:remont_billing.menu_billing
+#: model_terms:ir.ui.view,arch_db:remont_billing.view_subscription_form
+msgid "Billing"
+msgstr "Биллинг"
 
 #. module: remont_billing
-msgid "Failed"
-msgstr "Ошибка"
-
-#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_payment__status__canceled
 msgid "Canceled"
 msgstr "Отменён"
 
 #. module: remont_billing
-msgid "YuKassa Payment ID"
-msgstr "ID платежа YuKassa"
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__status__cancelled
+msgid "Cancelled"
+msgstr "Отменена"
 
 #. module: remont_billing
-msgid "Created At"
-msgstr "Создано"
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__create_uid
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__create_uid
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__create_uid
+msgid "Created by"
+msgstr ""
 
 #. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__create_date
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__create_date
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__currency_id
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__display_name
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__display_name
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__end_date
+msgid "End Date"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__plan__enterprise
+msgid "Enterprise"
+msgstr "Корпоративный"
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__event_type
+msgid "Event Type"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__status__expired
+msgid "Expired"
+msgstr "Истекла"
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__plan__free
+msgid "Free"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__grace_period_end
+msgid "Grace Period End"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__id
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__id
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__id
+msgid "ID"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,help:remont_billing.field_remont_webhook_log__source_ip
+msgid "IP address of the webhook sender."
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__write_uid
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__write_uid
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__write_date
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__write_date
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__paid_at
 msgid "Paid At"
 msgstr "Оплачено"
 
 #. module: remont_billing
-msgid "Basic"
-msgstr "Базовый"
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__payload_hash
+msgid "Payload Hash"
+msgstr ""
 
 #. module: remont_billing
-msgid "Pro"
-msgstr "Профессиональный"
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__payment_id
+msgid "Payment"
+msgstr "Платёж"
 
 #. module: remont_billing
-msgid "Enterprise"
-msgstr "Корпоративный"
+#: model:ir.model,name:remont_billing.model_remont_payment
+msgid "Payment Record"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.actions.act_window,name:remont_billing.action_payment
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__payment_ids
+#: model:ir.ui.menu,name:remont_billing.menu_payment
+msgid "Payments"
+msgstr "Платежи"
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_payment__status__pending
+msgid "Pending"
+msgstr "Ожидает"
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__plan
+msgid "Plan"
+msgstr "Тариф"
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__plan__pro
+msgid "Professional"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__received_at
+msgid "Received At"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_payment__status__refunded
+msgid "Refunded"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,help:remont_billing.field_remont_webhook_log__payload_hash
+msgid "SHA256 hash of the raw request body for audit purposes."
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__signature_valid
+msgid "Signature Valid"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_webhook_log__source_ip
+msgid "Source IP"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__start_date
+msgid "Start Date"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__status
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__status
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__subscription_id
+#: model_terms:ir.ui.view,arch_db:remont_billing.view_subscription_form
+msgid "Subscription"
+msgstr "Подписка"
+
+#. module: remont_billing
+#: model:ir.model,name:remont_billing.model_remont_subscription
+msgid "Subscription Plan"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.actions.act_window,name:remont_billing.action_subscription
+#: model:ir.ui.menu,name:remont_billing.menu_subscription
+msgid "Subscriptions"
+msgstr "Подписки"
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_payment__status__succeeded
+msgid "Succeeded"
+msgstr "Успешно"
+
+#. module: remont_billing
+#: model:ir.model.fields,help:remont_billing.field_remont_payment__paid_at
+msgid "Timestamp when payment was confirmed as succeeded."
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields.selection,name:remont_billing.selection__remont_subscription__status__trial
+msgid "Trial"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_subscription__user_id
+msgid "User"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model,name:remont_billing.model_remont_webhook_log
+msgid "Webhook Audit Log"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__webhook_log_ids
+msgid "Webhook Logs"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__webhook_verified
+msgid "Webhook Verified"
+msgstr ""
+
+#. module: remont_billing
+#: model:ir.model.fields,field_description:remont_billing.field_remont_payment__yukassa_id
+msgid "YuKassa Payment ID"
+msgstr "ID платежа YuKassa"
+
+#. module: remont_billing
+#: model:ir.model.fields,help:remont_billing.field_remont_webhook_log__event_type
+msgid "YuKassa event type, e.g. payment.succeeded, payment.canceled"
+msgstr ""
