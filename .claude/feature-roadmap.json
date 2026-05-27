@@ -21,15 +21,14 @@
       "name": "Project Management Module",
       "description": "Odoo Project customization for renovation workflows: Gantt chart with drag-and-drop scheduling, 8 renovation stages (demolition through finishing), checklist-based stage completion, multi-project dashboard for contractors, resource allocation view, PDF export, stage dependency tracking",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_core/models/",
         "odoo/addons/remont_core/views/"
-      ],
-      "branch": "feature/003-project-mgmt"
+      ]
     },
     {
       "id": "auth-security",
@@ -62,14 +61,15 @@
       "name": "CV Pipeline (YOLOv8 Stage Detection)",
       "description": "Separate Docker service consuming Redis queue, YOLOv8 model classifying snapshots into 8 renovation stages (demolition/electrical/plumbing/plaster/screed/tiles/painting/finishing), confidence threshold 0.65, GPU (NVIDIA runtime) and CPU fallback support, model versioning stored with each classification, batch processing mode for backfill, progress percentage calculation (completed/expected snapshots), auto-update of project stages via JSON-RPC, <3s GPU / <15s CPU per image",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_cv/",
         "workers/cv_worker/"
-      ]
+      ],
+      "branch": "feature/004-cv-pipeline"
     },
     {
       "id": "timelapse-gen",
