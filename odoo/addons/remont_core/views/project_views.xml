@@ -65,10 +65,18 @@
                                    readonly="1"/>
                         </group>
                     </group>
+                    <group string="Задержки и прогноз">
+                        <group>
+                            <field name="delay_days"/>
+                        </group>
+                    </group>
                     <notebook>
-                        <page string="Stages" name="stages">
+                        <page string="Этапы ремонта" name="stages">
                             <field name="stage_ids">
-                                <list editable="bottom">
+                                <list editable="bottom"
+                                      decoration-danger="delay_status == 'red'"
+                                      decoration-warning="delay_status == 'yellow'"
+                                      decoration-success="delay_status == 'green'">
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="status"/>
@@ -77,10 +85,28 @@
                                     <field name="planned_end"/>
                                     <field name="actual_start"/>
                                     <field name="actual_end"/>
+                                    <field name="delay_days"/>
+                                    <field name="delay_status" invisible="1"/>
+                                    <button name="action_view_stage_snapshots"
+                                            type="object"
+                                            string="Снимки"
+                                            icon="fa-camera"
+                                            class="btn-link"/>
                                 </list>
                             </field>
                         </page>
-                        <!-- Snapshots tab added by remont_camera module -->
+                        <page string="AI Отчёт" name="ai_summary">
+                            <group>
+                                <button name="action_generate_ai_summary"
+                                        type="object"
+                                        string="Сгенерировать AI отчёт"
+                                        icon="fa-magic"
+                                        class="btn-primary"/>
+                                <field name="ai_summary_date" readonly="1"/>
+                            </group>
+                            <field name="ai_summary" readonly="1"
+                                   placeholder="Нажмите кнопку выше для генерации AI отчёта о состоянии ремонта"/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -92,11 +118,15 @@
         <field name="name">remont.project.list</field>
         <field name="model">remont.project</field>
         <field name="arch" type="xml">
-            <list string="Renovation Projects">
+            <list string="Renovation Projects"
+                  decoration-danger="delay_days > 3"
+                  decoration-warning="delay_days > 0 and delay_days &lt;= 3">
                 <field name="name"/>
                 <field name="address"/>
                 <field name="type"/>
                 <field name="status"/>
+                <field name="overall_progress" widget="progressbar"/>
+                <field name="delay_days"/>
                 <field name="current_stage"
                        decoration-success="current_stage_confidence &gt;= 0.65"
                        decoration-warning="current_stage_confidence &gt; 0 and current_stage_confidence &lt; 0.65"
