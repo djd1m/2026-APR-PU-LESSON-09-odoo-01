@@ -20,9 +20,10 @@ PROJECT_STATUSES = [
 
 class RemontProject(models.Model):
     _name = "remont.project"
-    _inherit = ["project.project"]
     _description = "Renovation Project"
+    _order = "create_date desc"
 
+    name = fields.Char(string="Project Name", required=True)
     address = fields.Char(string="Address")
     area_sqm = fields.Float(string="Area (sq.m)")
     type = fields.Selection(
@@ -67,39 +68,12 @@ class RemontProject(models.Model):
         tracking=True,
     )
 
-    camera_ids = fields.One2many(
-        "remont.camera",
-        "project_id",
-        string="Cameras",
-    )
+    # One2many fields — defined here, comodels in their respective modules.
+    # Odoo resolves these lazily when the dependent module is installed.
     stage_ids = fields.One2many(
         "remont.stage",
         "project_id",
         string="Stages",
-    )
-    snapshot_ids = fields.One2many(
-        "remont.snapshot",
-        "project_id",
-        string="Snapshots",
-    )
-    timelapse_ids = fields.One2many(
-        "remont.timelapse",
-        "project_id",
-        string="Timelapses",
-    )
-    alert_ids = fields.One2many(
-        "remont.alert",
-        "project_id",
-        string="Alerts",
-    )
-    budget_ids = fields.One2many(
-        "remont.budget",
-        "project_id",
-        string="Budgets",
-    )
-    subscription_id = fields.Many2one(
-        "remont.subscription",
-        string="Subscription",
     )
 
     overall_progress = fields.Float(

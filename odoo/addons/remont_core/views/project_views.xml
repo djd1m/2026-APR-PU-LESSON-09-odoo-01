@@ -56,16 +56,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Snapshots" name="snapshots">
-                            <field name="snapshot_ids">
-                                <list>
-                                    <field name="captured_at"/>
-                                    <field name="stage_detected"/>
-                                    <field name="cv_confidence"/>
-                                    <field name="image_url"/>
-                                </list>
-                            </field>
-                        </page>
+                        <!-- Snapshots tab added by remont_camera module -->
                     </notebook>
                 </sheet>
             </form>

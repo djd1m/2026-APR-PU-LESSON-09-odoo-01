@@ -11,7 +11,7 @@
     """,
     "author": "RemontERP",
     "license": "LGPL-3",
-    "depends": ["base", "project", "account"],
+    "depends": ["base"],
     "data": [
         "security/ir.model.access.csv",
         "views/project_views.xml",
