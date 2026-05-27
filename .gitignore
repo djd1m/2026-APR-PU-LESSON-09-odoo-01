@@ -1,7 +1,12 @@
 # ── Environment & Secrets ───────────────────────────────────
 .env
 .env.*
+env.bak
 !.env.example
+
+# DB backups — keep .dump in repo, never include env-style secrets
+.backups/*.bak
+.backups/env*
 
 # ── Python ──────────────────────────────────────────────────
 __pycache__/
