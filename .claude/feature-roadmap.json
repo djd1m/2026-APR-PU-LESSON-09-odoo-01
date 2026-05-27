@@ -75,29 +75,29 @@
       "name": "Timelapse Generator",
       "description": "Separate Docker service: FFmpeg-based daily 30-second MP4 generation at 02:00 local time (H.264, 1080p, 30fps), weekly timelapse on Sundays, on-demand timelapse for custom date ranges (max 30 days), storage in MinIO, share links with 7-day expiry, Telegram/Instagram share formats (1080x1080 square crop, 9:16 vertical), branded watermark overlay, view count tracking per shared link, generation must complete within 60 seconds",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_timelapse/",
         "workers/timelapse_worker/"
-      ],
-      "branch": "feature/006-timelapse-gen"
+      ]
     },
     {
       "id": "budget-tracker",
       "name": "Budget Tracker",
       "description": "Budget creation with line items per cost category (materials/labor/equipment/overhead), all monetary fields NUMERIC(12,2) with Python Decimal -- NEVER float, estimate vs actual variance report per line item and total, budget versioning (original immutable, amendments create new versions), PDF/XLSX export within 10 seconds, overrun alerts at 80% (warning) and 100% (critical) thresholds, one-time alert per threshold crossing",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "project-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_core/models/budget.py",
         "odoo/addons/remont_core/views/budget_views.xml"
-      ]
+      ],
+      "branch": "feature/007-budget-tracker"
     },
     {
       "id": "ai-alerts",
