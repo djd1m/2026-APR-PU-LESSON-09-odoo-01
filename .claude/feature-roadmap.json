@@ -46,7 +46,7 @@
       "name": "Client Portal",
       "description": "Odoo website portal for homeowners: renovation timeline with photos grouped by day, stage filter, lazy-loading (20 per scroll batch), budget summary card (estimate vs actual with green/yellow/red color coding), embedded timelapse viewer with date picker, mobile-responsive design (375px+), push notifications via Telegram Bot API/email/Web Push with configurable preferences, rate limit 20 notifications/user/day",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "camera-mgmt",
         "project-mgmt",
@@ -54,8 +54,7 @@
       ],
       "files_estimate": [
         "odoo/addons/remont_portal/"
-      ],
-      "branch": "feature/005-client-portal"
+      ]
     },
     {
       "id": "cv-pipeline",
@@ -76,14 +75,15 @@
       "name": "Timelapse Generator",
       "description": "Separate Docker service: FFmpeg-based daily 30-second MP4 generation at 02:00 local time (H.264, 1080p, 30fps), weekly timelapse on Sundays, on-demand timelapse for custom date ranges (max 30 days), storage in MinIO, share links with 7-day expiry, Telegram/Instagram share formats (1080x1080 square crop, 9:16 vertical), branded watermark overlay, view count tracking per shared link, generation must complete within 60 seconds",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_timelapse/",
         "workers/timelapse_worker/"
-      ]
+      ],
+      "branch": "feature/006-timelapse-gen"
     },
     {
       "id": "budget-tracker",
