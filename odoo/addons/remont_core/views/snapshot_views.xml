@@ -10,6 +10,8 @@
                   decoration-warning="cv_confidence &gt; 0 and cv_confidence &lt; 0.65"
                   decoration-success="cv_confidence &gt;= 0.65"
                   decoration-muted="cv_confidence == 0">
+                <field name="thumbnail_url" widget="image_url"
+                       options="{'size': [80, 60]}" string="Photo"/>
                 <field name="captured_at"/>
                 <field name="project_id"/>
                 <field name="stage_detected"/>
@@ -37,9 +39,11 @@
                         </div>
                     </div>
                     <group>
-                        <group string="Image">
-                            <field name="image_url" widget="url"/>
-                            <field name="thumbnail_url" widget="url"/>
+                        <group string="Photo">
+                            <field name="image_url" widget="image_url"
+                                   options="{'size': [400, 300]}" nolabel="1" colspan="2"/>
+                            <field name="image_url" widget="url" string="Full URL"/>
+                            <field name="thumbnail_url" widget="url" string="Thumbnail URL"/>
                         </group>
                         <group string="AI Diagnostics">
                             <field name="stage_detected"/>
