@@ -1,0 +1,25 @@
+# Port overrides to avoid conflicts with other running containers
+# Ports: 10xxx range (unique for this project)
+
+services:
+  nginx:
+    ports:
+      - "10080:80"
+      - "10443:443"
+
+  postgres:
+    ports:
+      - "10432:5432"
+
+  redis:
+    ports:
+      - "10379:6379"
+
+  minio:
+    ports:
+      - "10900:9000"
+      - "10901:9001"
+
+  odoo:
+    ports:
+      - "10069:8069"
