@@ -96,15 +96,17 @@
                             </field>
                         </page>
                         <page string="AI Отчёт" name="ai_summary">
-                            <group>
+                            <div class="d-flex align-items-center gap-2 mb-3 mt-2">
                                 <button name="action_generate_ai_summary"
                                         type="object"
                                         string="Сгенерировать AI отчёт"
                                         icon="fa-magic"
                                         class="btn-primary"/>
-                                <field name="ai_summary_date" readonly="1"/>
-                            </group>
-                            <field name="ai_summary" readonly="1"
+                                <span class="text-muted ms-3" invisible="not ai_summary_date">
+                                    Дата отчёта: <field name="ai_summary_date" readonly="1" widget="datetime"/>
+                                </span>
+                            </div>
+                            <field name="ai_summary" readonly="1" widget="html"
                                    placeholder="Нажмите кнопку выше для генерации AI отчёта о состоянии ремонта"/>
                         </page>
                     </notebook>

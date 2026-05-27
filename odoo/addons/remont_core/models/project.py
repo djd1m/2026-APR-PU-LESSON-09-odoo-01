@@ -207,9 +207,10 @@ class RemontProject(models.Model):
     )
 
     # Dashboard: AI Summary + Delay tracking
-    ai_summary = fields.Text(
+    ai_summary = fields.Html(
         string="AI Отчёт",
         help="AI-сгенерированный отчёт о состоянии ремонта (Cloud.ru vLLM)",
+        sanitize=True,
     )
     ai_summary_date = fields.Datetime(
         string="Дата AI отчёта",
@@ -284,19 +285,97 @@ class RemontProject(models.Model):
                 response = client.chat.completions.create(
                     model=SUMMARY_MODEL,
                     messages=[{"role": "user", "content": prompt}],
-                    max_tokens=300,
+                    max_tokens=500,
                     temperature=0.3,
                 )
                 content = response.choices[0].message.content
                 if content:
-                    project.ai_summary = content.strip()
+                    html = self._markdown_to_html_with_links(project, content.strip())
+                    project.ai_summary = html
                 else:
-                    project.ai_summary = "Модель не вернула ответ. Попробуйте позже."
+                    project.ai_summary = "<p>Модель не вернула ответ. Попробуйте позже.</p>"
             except Exception as e:
                 _logger.error("AI summary generation failed: %s", e)
-                project.ai_summary = f"Ошибка генерации отчёта: {e}"
+                project.ai_summary = f"<p style='color:red'>Ошибка генерации отчёта: {e}</p>"
 
             project.ai_summary_date = fields.Datetime.now()
+
+    def _markdown_to_html_with_links(self, project, text):
+        """Convert markdown AI response to HTML with clickable Odoo links.
+
+        Injects links to:
+        - Stage names → drill-down to snapshots for that stage
+        - 'бюджет/budget' → budget list
+        - 'снимки/фото' → snapshots list
+        """
+        import re
+        import markupsafe
+
+        # Basic markdown → HTML conversion
+        lines = text.split('\n')
+        html_parts = []
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            # Bold **text**
+            line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', line)
+            # Headers
+            if line.startswith('### '):
+                html_parts.append(f'<h4>{line[4:]}</h4>')
+            elif line.startswith('## '):
+                html_parts.append(f'<h3>{line[3:]}</h3>')
+            elif line.startswith('# '):
+                html_parts.append(f'<h2>{line[2:]}</h2>')
+            elif line.startswith('- ') or line.startswith('* '):
+                html_parts.append(f'<li>{line[2:]}</li>')
+            else:
+                html_parts.append(f'<p>{line}</p>')
+
+        html = '\n'.join(html_parts)
+
+        # Wrap <li> in <ul>
+        html = re.sub(r'(<li>.*?</li>\n?)+', lambda m: f'<ul>{m.group()}</ul>', html)
+
+        # Inject clickable links for stage names
+        base_url = f'/odoo/remont.snapshot?project_id={project.id}'
+        STAGE_LINKS = {
+            'демонтаж': ('demolition', 'Демонтаж'),
+            'электрик': ('electrical', 'Электрика'),
+            'сантехник': ('plumbing', 'Сантехника'),
+            'штукатурк': ('plaster', 'Штукатурка'),
+            'стяжк': ('screed', 'Стяжка пола'),
+            'плитк': ('tiles', 'Плитка'),
+            'покраск': ('painting', 'Покраска'),
+            'отделк': ('finishing', 'Чистовая отделка'),
+        }
+
+        for keyword, (stage_key, stage_label) in STAGE_LINKS.items():
+            # Find stage record for direct link
+            stage = self.env['remont.stage'].search([
+                ('project_id', '=', project.id),
+                ('name', '=', stage_key),
+            ], limit=1)
+
+            if stage:
+                link_url = f'/odoo/remont.snapshot?stage_detected={stage_key}&amp;project_id={project.id}'
+                # Replace stage mentions with clickable links (case-insensitive)
+                pattern = re.compile(f'({keyword}\\w*)', re.IGNORECASE)
+                replacement = f'<a href="{link_url}" style="color:#007bff;text-decoration:underline" title="Открыть снимки: {stage_label}">\\1</a>'
+                html = pattern.sub(replacement, html, count=1)
+
+        # Link budget mentions
+        budget_url = f'/odoo/remont.budget?project_id={project.id}'
+        for word in ['бюджет', 'Бюджет', 'расход', 'Расход']:
+            if word in html:
+                html = html.replace(
+                    word,
+                    f'<a href="{budget_url}" style="color:#007bff;text-decoration:underline" title="Открыть бюджет">{word}</a>',
+                    1,
+                )
+                break
+
+        return markupsafe.Markup(html)
 
     # Stage aggregation (computed from snapshots)
     current_stage = fields.Selection(
