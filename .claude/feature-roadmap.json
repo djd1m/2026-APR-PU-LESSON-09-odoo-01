@@ -148,6 +148,22 @@
         "odoo/addons/remont_referral/"
       ],
       "branch": "feature/010-referral-system"
+    },
+    {
+      "id": "vllm-cv-backend",
+      "number": 11,
+      "name": "vLLM CV Backend (Vision Language Model)",
+      "description": "Alternative CV backend using OpenAI-compatible Vision LLM API for zero-shot renovation stage classification with natural language explanations",
+      "priority": "mvp",
+      "status": "done",
+      "branch": "feature/011-vllm-cv-backend",
+      "dependencies": [
+        "cv-pipeline"
+      ],
+      "files_estimate": [
+        "workers/cv_worker/app/detector_vllm.py",
+        "workers/cv_worker/app/detector_base.py"
+      ]
     }
   ]
 }

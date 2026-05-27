@@ -43,3 +43,15 @@ class RemontSnapshot(models.Model):
         string="CV Confidence",
         default=0.0,
     )
+    cv_explanation = fields.Text(
+        string="AI Explanation",
+        help="Natural language description of what AI detected (vLLM backend only).",
+    )
+    cv_backend = fields.Char(
+        string="CV Backend",
+        help="Which backend produced this detection: 'yolo' or 'vllm'.",
+    )
+    model_version = fields.Char(
+        string="Model Version",
+        help="Version of the model or backend that produced this detection.",
+    )
