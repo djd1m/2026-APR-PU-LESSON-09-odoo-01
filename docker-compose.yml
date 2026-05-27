@@ -108,6 +108,9 @@ services:
       YUKASSA_SECRET_KEY: ${YUKASSA_SECRET_KEY}
       YUKASSA_SHOP_ID: ${YUKASSA_SHOP_ID}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      VLLM_API_URL: ${VLLM_API_URL}
+      VLLM_API_KEY: ${VLLM_API_KEY}
+      VLLM_MODEL: ${VLLM_MODEL:-GigaChat/GigaChat-2-Max}
     volumes:
       - odoo_data:/var/lib/odoo
       - ./odoo/addons:/mnt/extra-addons

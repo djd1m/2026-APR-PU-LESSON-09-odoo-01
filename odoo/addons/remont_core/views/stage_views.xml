@@ -6,7 +6,7 @@
         <field name="name">remont.stage.list</field>
         <field name="model">remont.stage</field>
         <field name="arch" type="xml">
-            <list string="Renovation Stages">
+            <list string="Этапы ремонта">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="project_id"/>
@@ -27,10 +27,10 @@
         <field name="name">remont.stage.form</field>
         <field name="model">remont.stage</field>
         <field name="arch" type="xml">
-            <form string="Renovation Stage">
+            <form string="Этап ремонта">
                 <sheet>
                     <group>
-                        <group string="Stage Info">
+                        <group string="Информация">
                             <field name="name"/>
                             <field name="project_id"/>
                             <field name="status"/>
@@ -45,12 +45,12 @@
                             <field name="actual_end"/>
                         </group>
                     </group>
-                    <group string="Dependencies">
+                    <group string="Зависимости">
                         <field name="dependency_ids" widget="many2many_tags"
                                domain="[('project_id', '=', project_id), ('id', '!=', id)]"/>
                     </group>
                     <notebook>
-                        <page string="Checklist" name="checklist">
+                        <page string="Чек-лист" name="checklist">
                             <field name="checklist_ids">
                                 <list editable="bottom">
                                     <field name="name"/>
@@ -75,7 +75,7 @@
 
     <!-- Stage Action (list + form) -->
     <record id="action_remont_stage" model="ir.actions.act_window">
-        <field name="name">Renovation Stages</field>
+        <field name="name">Этапы ремонта</field>
         <field name="res_model">remont.stage</field>
         <field name="view_mode">list,form</field>
     </record>

@@ -4,14 +4,14 @@
     <!-- Root Menu -->
     <menuitem
         id="menu_remont_root"
-        name="RemontERP"
+        name="Ремонт"
         sequence="10"
     />
 
     <!-- Projects Submenu -->
     <menuitem
         id="menu_remont_projects"
-        name="Projects"
+        name="Проекты"
         parent="menu_remont_root"
         action="action_remont_project"
         sequence="10"
@@ -20,12 +20,28 @@
     <!-- Stages Submenu -->
     <menuitem
         id="menu_remont_stages"
-        name="Stages"
+        name="Этапы"
         parent="menu_remont_root"
         action="action_remont_stage"
         sequence="20"
     />
 
-    <!-- Gantt Chart: Enterprise-only, removed for Community -->
+    <!-- Snapshots Submenu -->
+    <menuitem
+        id="menu_remont_snapshots"
+        name="Снимки"
+        parent="menu_remont_root"
+        action="action_remont_snapshot"
+        sequence="25"
+    />
+
+    <!-- Budgets Submenu -->
+    <menuitem
+        id="menu_remont_budgets"
+        name="Бюджеты"
+        parent="menu_remont_root"
+        action="action_remont_budget"
+        sequence="30"
+    />
 
 </odoo>

@@ -6,13 +6,13 @@
         <field name="name">remont.budget.form</field>
         <field name="model">remont.budget</field>
         <field name="arch" type="xml">
-            <form string="Renovation Budget">
+            <form string="Бюджет ремонта">
                 <header>
                     <button name="action_approve" type="object"
-                            string="Approve" class="btn-primary"
+                            string="Утвердить" class="btn-primary"
                             invisible="status != 'draft'"/>
                     <button name="action_lock" type="object"
-                            string="Lock" class="btn-warning"
+                            string="Заблокировать" class="btn-warning"
                             invisible="status != 'approved'"/>
                     <field name="status" widget="statusbar"
                            statusbar_visible="draft,approved,locked"/>
@@ -26,7 +26,7 @@
                         </h1>
                     </div>
                     <group>
-                        <group string="Details">
+                        <group string="Детали">
                             <field name="is_original" readonly="1"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="create_date" readonly="1"/>
@@ -37,7 +37,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Budget Lines" name="lines">
+                        <page string="Статьи бюджета" name="lines">
                             <field name="line_ids">
                                 <list editable="bottom">
                                     <field name="category"/>

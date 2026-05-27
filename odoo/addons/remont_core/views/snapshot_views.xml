@@ -26,11 +26,11 @@
         <field name="name">remont.snapshot.form</field>
         <field name="model">remont.snapshot</field>
         <field name="arch" type="xml">
-            <form string="Stage Photo">
+            <form string="Снимок ремонта">
                 <header>
                     <button name="action_open_project"
                             type="object"
-                            string="Open Project"
+                            string="Открыть проект"
                             class="oe_highlight"
                             icon="fa-folder-open"/>
                 </header>
@@ -70,7 +70,7 @@
         <field name="name">remont.snapshot.search</field>
         <field name="model">remont.snapshot</field>
         <field name="arch" type="xml">
-            <search string="Search Photos">
+            <search string="Поиск снимков">
                 <field name="project_id"/>
                 <field name="stage_detected"/>
                 <field name="cv_backend"/>
@@ -90,7 +90,7 @@
                 <group>
                     <filter string="Project" name="group_project"
                             context="{'group_by': 'project_id'}"/>
-                    <filter string="Stage" name="group_stage"
+                    <filter string="Этап" name="group_stage"
                             context="{'group_by': 'stage_detected'}"/>
                     <filter string="Backend" name="group_backend"
                             context="{'group_by': 'cv_backend'}"/>
@@ -101,7 +101,7 @@
 
     <!-- Snapshot Action -->
     <record id="action_remont_snapshot" model="ir.actions.act_window">
-        <field name="name">Stage Photos</field>
+        <field name="name">Снимки ремонта</field>
         <field name="res_model">remont.snapshot</field>
         <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_remont_snapshot_search"/>
@@ -110,7 +110,7 @@
                 No photos yet
             </p>
             <p>
-                Photos appear here once cameras start capturing and CV worker
+                Снимки появятся после подключения камеры and CV worker
                 analyzes renovation stages.
             </p>
         </field>
@@ -118,7 +118,7 @@
 
     <!-- Snapshot Menu -->
     <menuitem id="menu_remont_snapshots"
-              name="Photos"
+              name="Снимки"
               parent="menu_remont_root"
               action="action_remont_snapshot"
               sequence="15"/>

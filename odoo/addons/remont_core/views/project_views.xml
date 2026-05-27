@@ -6,7 +6,7 @@
         <field name="name">remont.project.form</field>
         <field name="model">remont.project</field>
         <field name="arch" type="xml">
-            <form string="Renovation Project">
+            <form string="Проект ремонта">
                 <header>
                     <field name="status" widget="statusbar"
                            statusbar_visible="draft,planning,in_progress,completed"/>
@@ -18,7 +18,7 @@
                                 class="oe_stat_button"
                                 icon="fa-camera">
                             <field name="snapshot_count" widget="statinfo"
-                                   string="Photos"/>
+                                   string="Фото"/>
                         </button>
                     </div>
                     <div class="oe_title">
@@ -27,20 +27,20 @@
                         </h1>
                     </div>
                     <group>
-                        <group string="General">
+                        <group string="Общее">
                             <field name="address"/>
                             <field name="area_sqm"/>
                             <field name="type"/>
                             <field name="owner_id"/>
                             <field name="contractor_id"/>
                         </group>
-                        <group string="Schedule">
+                        <group string="Сроки">
                             <field name="start_date"/>
                             <field name="end_date_plan"/>
                             <field name="end_date_predict"/>
                         </group>
                     </group>
-                    <group string="Budget &amp; Progress">
+                    <group string="Бюджет и прогресс">
                         <group>
                             <field name="currency_id" invisible="1"/>
                             <field name="budget_estimate"/>
@@ -50,7 +50,7 @@
                             <field name="overall_progress" widget="progressbar"/>
                         </group>
                     </group>
-                    <group string="Renovation Progress (AI)">
+                    <group string="Прогресс ремонта (AI)">
                         <group>
                             <field name="current_stage"/>
                             <field name="current_stage_confidence"
@@ -61,7 +61,7 @@
                             <field name="bottleneck_stage"/>
                             <field name="needs_review_count"/>
                             <field name="stage_distribution_json"
-                                   string="Distribution"
+                                   string="Распределение"
                                    readonly="1"/>
                         </group>
                     </group>
@@ -118,7 +118,7 @@
         <field name="name">remont.project.list</field>
         <field name="model">remont.project</field>
         <field name="arch" type="xml">
-            <list string="Renovation Projects"
+            <list string="Проекты ремонта"
                   decoration-danger="delay_days > 3"
                   decoration-warning="delay_days > 0 and delay_days &lt;= 3">
                 <field name="name"/>
@@ -134,7 +134,7 @@
                 <field name="current_stage_confidence" widget="progressbar"/>
                 <field name="bottleneck_stage" optional="show"/>
                 <field name="needs_review_count" optional="show"/>
-                <field name="snapshot_count" optional="show" string="Photos"/>
+                <field name="snapshot_count" optional="show" string="Фото"/>
                 <field name="owner_id" optional="hide"/>
                 <field name="contractor_id" optional="hide"/>
                 <field name="start_date" optional="hide"/>
@@ -229,7 +229,7 @@
 
     <!-- Project Action -->
     <record id="action_remont_project" model="ir.actions.act_window">
-        <field name="name">Renovation Projects</field>
+        <field name="name">Проекты ремонта</field>
         <field name="res_model">remont.project</field>
         <field name="view_mode">kanban,list,form</field>
     </record>
