@@ -6,18 +6,17 @@
         <field name="name">remont.snapshot.list</field>
         <field name="model">remont.snapshot</field>
         <field name="arch" type="xml">
-            <list string="Stage Photos"
+            <list string="Снимки ремонта"
                   decoration-warning="cv_confidence &gt; 0 and cv_confidence &lt; 0.65"
                   decoration-success="cv_confidence &gt;= 0.65"
                   decoration-muted="cv_confidence == 0">
-                <field name="thumbnail_url" widget="image_url"
-                       options="{'size': [80, 60]}" string="Photo"/>
-                <field name="captured_at"/>
-                <field name="project_id"/>
-                <field name="stage_detected"/>
-                <field name="cv_confidence" widget="progressbar"/>
-                <field name="cv_backend"/>
-                <field name="model_version"/>
+                <field name="captured_at" string="Дата"/>
+                <field name="project_id" string="Проект"/>
+                <field name="stage_detected" string="Этап"/>
+                <field name="cv_confidence" widget="progressbar" string="Уверенность AI"/>
+                <field name="cv_explanation" string="AI описание"/>
+                <field name="cv_backend" string="Модель" optional="hide"/>
+                <field name="image_url" widget="url" string="Фото"/>
             </list>
         </field>
     </record>
@@ -46,20 +45,18 @@
                         </div>
                     </div>
                     <group>
-                        <group string="Photo">
-                            <field name="image_url" widget="image_url"
-                                   options="{'size': [400, 300]}" nolabel="1" colspan="2"/>
-                            <field name="image_url" widget="url" string="Full URL"/>
-                            <field name="thumbnail_url" widget="url" string="Thumbnail URL"/>
+                        <group string="Фото">
+                            <field name="image_url" widget="url" string="Ссылка на фото"/>
+                            <field name="thumbnail_url" widget="url" string="Миниатюра"/>
                         </group>
-                        <group string="AI Diagnostics">
-                            <field name="stage_detected"/>
-                            <field name="cv_confidence" widget="progressbar"/>
-                            <field name="cv_backend"/>
-                            <field name="model_version"/>
+                        <group string="AI Диагностика">
+                            <field name="stage_detected" string="Определённый этап"/>
+                            <field name="cv_confidence" widget="progressbar" string="Уверенность"/>
+                            <field name="cv_backend" string="Модель AI"/>
+                            <field name="model_version" string="Версия модели"/>
                         </group>
                     </group>
-                    <group string="AI Explanation"
+                    <group string="AI Описание"
                            invisible="not cv_explanation">
                         <field name="cv_explanation" nolabel="1" readonly="1"/>
                     </group>

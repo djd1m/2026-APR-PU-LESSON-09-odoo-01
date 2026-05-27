@@ -239,14 +239,26 @@ class RemontProject(models.Model):
             self.ai_summary_date = fields.Datetime.now()
             return
 
+        # Status labels for readable summary
+        STATUS_LABELS = {"planned": "Запланировано", "in_progress": "В работе", "done": "Завершено"}
+        STAGE_LABELS = dict([
+            ("demolition", "Демонтаж"), ("electrical", "Электрика"),
+            ("plumbing", "Сантехника"), ("plaster", "Штукатурка"),
+            ("screed", "Стяжка пола"), ("tiles", "Плитка"),
+            ("painting", "Покраска"), ("finishing", "Чистовая отделка"),
+        ])
+
+        # Use GigaChat for text summaries (not vision model)
+        SUMMARY_MODEL = "GigaChat/GigaChat-2-Max"
+
         for project in self:
-            # Build context about stages
             stages_text = []
             for s in project.stage_ids.sorted(key=lambda r: r.sequence):
-                stage_label = dict(self.env["remont.stage"]._fields["name"].selection).get(s.name, s.name)
-                delay_info = f", задержка {s.delay_days} дн." if s.delay_days > 0 else ""
+                stage_label = STAGE_LABELS.get(s.name, s.name)
+                status_label = STATUS_LABELS.get(s.status, s.status)
+                delay_info = f", задержка {s.delay_days} дн." if s.delay_days and s.delay_days > 0 else ""
                 stages_text.append(
-                    f"- {stage_label}: {s.get_selection_label('status')} ({s.progress_pct:.0f}%){delay_info}"
+                    f"- {stage_label}: {status_label} ({s.progress_pct:.0f}%){delay_info}"
                 )
 
             budget_pct = round(project.budget_actual / project.budget_estimate * 100, 1) if project.budget_estimate else 0
@@ -270,7 +282,7 @@ class RemontProject(models.Model):
                 from openai import OpenAI
                 client = OpenAI(base_url=api_url, api_key=api_key, timeout=30)
                 response = client.chat.completions.create(
-                    model=os.environ.get("VLLM_MODEL", "GigaChat/GigaChat-2-Max"),
+                    model=SUMMARY_MODEL,
                     messages=[{"role": "user", "content": prompt}],
                     max_tokens=300,
                     temperature=0.3,
@@ -281,7 +293,7 @@ class RemontProject(models.Model):
                 else:
                     project.ai_summary = "Модель не вернула ответ. Попробуйте позже."
             except Exception as e:
-                _logger.error("AI summary failed: %s", e)
+                _logger.error("AI summary generation failed: %s", e)
                 project.ai_summary = f"Ошибка генерации отчёта: {e}"
 
             project.ai_summary_date = fields.Datetime.now()
