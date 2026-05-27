@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Referral Tree View -->
+    <record id="view_remont_referral_tree" model="ir.ui.view">
+        <field name="name">remont.referral.tree</field>
+        <field name="model">remont.referral</field>
+        <field name="arch" type="xml">
+            <tree string="Referrals">
+                <field name="referrer_id"/>
+                <field name="referred_id"/>
+                <field name="share_token"/>
+                <field name="bonus_days"/>
+                <field name="status" decoration-success="status == 'activated'"
+                       decoration-warning="status == 'pending'"
+                       decoration-danger="status == 'expired'"
+                       widget="badge"/>
+                <field name="activated_at"/>
+                <field name="create_date" string="Created"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Referral Form View -->
+    <record id="view_remont_referral_form" model="ir.ui.view">
+        <field name="name">remont.referral.form</field>
+        <field name="model">remont.referral</field>
+        <field name="arch" type="xml">
+            <form string="Referral">
+                <header>
+                    <button name="action_activate" string="Activate"
+                            type="object" class="btn-primary"
+                            invisible="status != 'pending'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="pending,activated"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Participants">
+                            <field name="referrer_id"/>
+                            <field name="referred_id"/>
+                        </group>
+                        <group string="Details">
+                            <field name="share_token"/>
+                            <field name="bonus_days"/>
+                            <field name="activated_at"/>
+                            <field name="create_date" string="Created At"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Referral Search View -->
+    <record id="view_remont_referral_search" model="ir.ui.view">
+        <field name="name">remont.referral.search</field>
+        <field name="model">remont.referral</field>
+        <field name="arch" type="xml">
+            <search string="Search Referrals">
+                <field name="referrer_id"/>
+                <field name="referred_id"/>
+                <field name="share_token"/>
+                <filter string="Pending" name="pending"
+                        domain="[('status', '=', 'pending')]"/>
+                <filter string="Activated" name="activated"
+                        domain="[('status', '=', 'activated')]"/>
+                <filter string="Expired" name="expired"
+                        domain="[('status', '=', 'expired')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status"
+                            context="{'group_by': 'status'}"/>
+                    <filter string="Referrer" name="group_referrer"
+                            context="{'group_by': 'referrer_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Referral Action -->
+    <record id="action_remont_referral" model="ir.actions.act_window">
+        <field name="name">Referrals</field>
+        <field name="res_model">remont.referral</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_remont_referral_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No referrals yet
+            </p>
+            <p>
+                Referrals are created automatically when users share their
+                referral codes. Activate pending referrals to grant bonus
+                subscription days.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_remont_referral_root"
+              name="Referrals"
+              parent="remont_core.menu_remont_root"
+              sequence="90"/>
+
+    <menuitem id="menu_remont_referral_list"
+              name="All Referrals"
+              parent="menu_remont_referral_root"
+              action="action_remont_referral"
+              sequence="10"/>
+
+</odoo>

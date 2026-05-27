@@ -15,6 +15,7 @@
     "depends": ["base", "website", "portal", "remont_core", "remont_camera"],
     "data": [
         "security/ir.model.access.csv",
+        "security/portal_rules.xml",
         "views/portal_templates.xml",
         "views/portal_menus.xml",
     ],

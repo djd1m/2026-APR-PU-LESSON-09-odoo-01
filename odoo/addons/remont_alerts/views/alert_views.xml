@@ -34,6 +34,7 @@
                             <field name="severity"/>
                             <field name="is_read"/>
                             <field name="created_at"/>
+                            <field name="cooldown_until"/>
                         </group>
                         <group string="Context">
                             <field name="project_id"/>
@@ -48,11 +49,53 @@
         </field>
     </record>
 
+    <!-- Alert Search View -->
+    <record id="view_remont_alert_search" model="ir.ui.view">
+        <field name="name">remont.alert.search</field>
+        <field name="model">remont.alert</field>
+        <field name="arch" type="xml">
+            <search string="Search Alerts">
+                <field name="message"/>
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter string="Unread" name="unread"
+                        domain="[('is_read', '=', False)]"/>
+                <separator/>
+                <filter string="Crew Absence" name="type_absence"
+                        domain="[('type', '=', 'absence')]"/>
+                <filter string="Budget Overrun" name="type_overbudget"
+                        domain="[('type', '=', 'overbudget')]"/>
+                <filter string="Schedule Delay" name="type_delay"
+                        domain="[('type', '=', 'delay')]"/>
+                <filter string="Camera Error" name="type_camera_error"
+                        domain="[('type', '=', 'camera_error')]"/>
+                <separator/>
+                <filter string="Critical" name="severity_critical"
+                        domain="[('severity', '=', 'critical')]"/>
+                <filter string="Warning" name="severity_warning"
+                        domain="[('severity', '=', 'warning')]"/>
+                <filter string="Info" name="severity_info"
+                        domain="[('severity', '=', 'info')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_type"
+                            context="{'group_by': 'type'}"/>
+                    <filter string="Severity" name="group_severity"
+                            context="{'group_by': 'severity'}"/>
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <!-- Alert Action -->
     <record id="action_remont_alert" model="ir.actions.act_window">
         <field name="name">Alerts</field>
         <field name="res_model">remont.alert</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_remont_alert_search"/>
         <field name="context">{'search_default_unread': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
