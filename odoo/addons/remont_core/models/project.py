@@ -288,10 +288,18 @@ class RemontProject(models.Model):
 
             # Also update "Прогресс ремонта (AI)" section
             project.current_stage = next((s.name for s in stages if s.status == 'in_progress'), False)
-            project.current_stage_confidence = 0.9 if project.current_stage else 0.0
+            # Confidence in 0-100 scale (progressbar expects 0-100)
+            if project.current_stage and project.snapshot_ids:
+                stage_snaps = [s for s in project.snapshot_ids if s.stage_detected == project.current_stage and s.cv_confidence]
+                avg_conf = sum(s.cv_confidence for s in stage_snaps) / len(stage_snaps) if stage_snaps else 0
+                # If data is in 0-1 scale, convert to 0-100
+                project.current_stage_confidence = avg_conf if avg_conf > 1 else avg_conf * 100
+            else:
+                project.current_stage_confidence = 0
             project.last_snapshot_at = max((s.captured_at for s in project.snapshot_ids), default=False) if project.snapshot_ids else False
             project.bottleneck_stage = next((s.name for s in stages if s.status == 'in_progress' and s.planned_end and today > s.planned_end), False)
-            project.needs_review_count = len([s for s in project.snapshot_ids if s.cv_confidence and s.cv_confidence < 0.65])
+            # Threshold: 65 (on 0-100 scale)
+            project.needs_review_count = len([s for s in project.snapshot_ids if s.cv_confidence and s.cv_confidence < 65])
             project.overall_progress = real_progress
 
             prompt = f"""Ты — AI-ассистент для управления ремонтом квартир RemontERP.
