@@ -103,28 +103,28 @@
       "name": "AI Alerts System",
       "description": "Scheduled alert engine (ir.cron) checking all active projects: crew absence detection via SSIM (<5% visual difference in 4 consecutive snapshots during configurable work hours Mon-Sat 08:00-18:00), budget overrun alerts (80% warning, 100% critical), schedule delay prediction via linear regression on CV progress data (alert at >3 days predicted delay, min 5 completed projects for reliable predictions), configurable notification preferences per user per channel, 4-hour cooldown between repeat alerts, holiday exclusion, Telegram/email delivery",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "cv-pipeline",
         "budget-tracker"
       ],
       "files_estimate": [
         "odoo/addons/remont_alerts/"
-      ],
-      "branch": "feature/008-ai-alerts"
+      ]
     },
     {
       "id": "payment-integration",
       "name": "Payment Integration (YuKassa)",
       "description": "YuKassa HTTP API v3 integration, subscription tiers (Free: 1 camera no timelapse, Pro: 4 cameras + daily timelapse + alerts, Enterprise: unlimited + API), payment creation flow with redirect to YuKassa checkout, webhook endpoint POST /api/v1/webhook/yukassa with HMAC-SHA256 verification using hmac.compare_digest() (constant-time), idempotent processing via unique yukassa_payment_id, supported events: payment.succeeded/canceled/refund.succeeded, recurring payments with saved methods (autopay), 3-day grace period after expiry, all amounts in Decimal, rate limit 100 req/min/IP on webhook endpoint",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "auth-security"
       ],
       "files_estimate": [
         "odoo/addons/remont_billing/"
-      ]
+      ],
+      "branch": "feature/009-payment-integration"
     },
     {
       "id": "referral-system",
