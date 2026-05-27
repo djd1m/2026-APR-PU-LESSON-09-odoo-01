@@ -562,6 +562,83 @@ Create a `docs/decisions/autonomous_decisions_log.md` at the start of any autono
 
 ---
 
+---
+
+## Category: Insights (added in harvest v2)
+
+### 13. sparc-prd-mini Silently Skips "if applicable" Documents
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+When sparc-prd-mini runs in AUTO mode, it evaluates "if applicable" documents (ADR.md, C4_Diagrams.md) and may silently skip them if the LLM judges them unnecessary. This leaves SPARC at 9/11 without any warning. Statusline correctly shows the gap, but no pipeline step flags it as an error.
+
+**Reusability:**
+After any SPARC document generation, add a post-check: count generated files vs expected 11. If `present < total`, log a warning and generate the missing docs. ADR is always applicable (every project makes architecture decisions). C4 Context+Container is always applicable.
+
+**Prevention pattern:**
+```python
+EXPECTED_SPARC = ['PRD.md', 'Solution_Strategy.md', 'Specification.md',
+    'Pseudocode.md', 'Architecture.md', 'Refinement.md', 'Completion.md',
+    'Research_Findings.md', 'Final_Summary.md', 'C4_Diagrams.md', 'ADR.md']
+missing = [f for f in EXPECTED_SPARC if not os.path.exists(f'docs/{f}')]
+if missing:
+    log.warning(f"SPARC incomplete: missing {missing}")
+    # Generate missing docs
+```
+
+### 14. Toolkit Generator Does Not Create .claude/insights/
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+`cc-toolkit-generator-enhanced` (Phase 3 of /replicate) generates CLAUDE.md, agents, rules, commands, hooks, and feature-roadmap — but does NOT create `.claude/insights/index.md`. The `session-insights.cjs` hook reads from insights but never creates the directory. Result: 0 insights across entire autonomous session despite multiple notable issues.
+
+**Reusability:**
+After toolkit generation, always verify `.claude/insights/index.md` exists. If not, create with empty template. Consider adding this to the toolkit generator's Phase 3 output list.
+
+### 15. Feature Branch Roadmap Merge Conflicts
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+`/run all --feature-branches` creates N branches, each updating `.claude/feature-roadmap.json` to mark its feature "done". Merging all branches back creates N-1 merge conflicts on the same JSON file. Conflicts are trivial (different array elements) but require manual resolution for each branch.
+
+**Reusability:**
+Two solutions: (1) Don't update roadmap on feature branch — update it on main after merge. (2) Use `--auto-merge` flag to merge each branch immediately, preventing conflict accumulation. Solution 1 is simpler: move the roadmap update to the `/run` loop's post-merge step.
+
+### 16. User-Facing Modules Generated Without Tests
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Agent-generated Odoo modules prioritize models and views. Controllers (especially portal/client-facing) are treated as "glue code" and generated without tests. The `remont_portal` module — the most user-visible component with ACL logic and financial display calculations — had zero tests until manual audit caught it.
+
+**Reusability:**
+Add to code-reviewer agent: "any controller with ACL checks or financial display logic = test MANDATORY, severity HIGH if missing". When reviewing agent-generated code, check controllers FIRST for test presence.
+
+### 17. CJM in HTML with Inline Source Links
+
+- **Category:** Template
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Customer Journey Map generated as a self-contained HTML file with 3 interactive variants (tabs), comparison table, scoring bars, and clickable inline links to all research sources. Uses vanilla HTML/CSS/JS with no build step. Mobile-responsive. CJM overlay toggle shows AARRR stage, emotions, KPIs, and CustDev questions per screen.
+
+**Reusability:**
+Reuse the HTML template structure for any product analysis CJM. Replace variant data (VARIANTS object) with new product's segments, Aha moments, and pricing. Industry-specific color palette (amber for construction, blue for fintech, etc.) is configurable via CSS variables. The `sources-section` pattern with `<a>` tags ensures all claims are traceable.
+
+---
+
 ## Summary
 
 | # | Name | Category | Maturity |
@@ -578,3 +655,8 @@ Create a `docs/decisions/autonomous_decisions_log.md` at the start of any autono
 | 10 | Docker Compose Multi-Service | Template | Alpha |
 | 11 | Parallel Agents Skip Phase 4 | Insight | Alpha |
 | 12 | Autonomous Decision Logging | Insight | Alpha |
+| 13 | sparc-prd-mini Skips Optional Docs | Insight | Alpha |
+| 14 | Toolkit Generator Missing Insights Dir | Insight | Alpha |
+| 15 | Feature Branch Roadmap Conflicts | Insight | Alpha |
+| 16 | User-Facing Modules Without Tests | Insight | Alpha |
+| 17 | CJM HTML with Inline Sources | Template | Alpha |
