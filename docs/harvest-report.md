@@ -702,6 +702,85 @@ Reuse for any image classification validation pipeline. Change the `PROMPT` cons
 
 ---
 
+---
+
+## Category: Insights (harvest v4 — deployment & Odoo 19)
+
+### 22. Odoo 19 Community — No Gantt, No Delegation Inheritance
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Odoo 19 Community has stricter validation. `_name + _inherit` (delegation inheritance) on `project.project` causes Many2many table conflicts. Gantt view (`<gantt>`) is Enterprise-only and raises ParseError. `<label>` tags require `for` attribute. `tracking=True` needs `mail` module.
+
+**Prevention:**
+Use standalone models instead of delegation inheritance from core Odoo models. Remove Gantt/Map/Dashboard views. Always test module install on Community edition before committing.
+
+### 23. SQL Bypass Breaks Computed Stored Fields
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Test data inserted via `INSERT INTO` SQL bypasses Odoo ORM completely. Computed fields with `store=True` (`overall_progress`, `delay_days`, `current_stage`) are never triggered — they stay NULL. AI report then shows "0% progress" when 3/8 stages are 100% done.
+
+**Prevention:**
+When building prompts or dashboards from computed fields, always recalculate from source records directly. In `action_generate_ai_summary`, compute progress from `stage_ids` instead of trusting `project.overall_progress`.
+
+### 24. Odoo Internal Link Format
+
+- **Category:** Pattern
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Odoo SPA uses hash-based routing. Correct link format for internal navigation:
+- Form view: `/web#model=remont.stage&view_type=form&id=4`
+- List with action: `/web#action=ACTION_ID`
+- WRONG: `/odoo/remont.snapshot?params` (leads to 404 or bot)
+
+**Reusability:**
+When injecting links into Html fields (AI reports, dashboards), always use `/web#model=X&view_type=form&id=N`. Get action IDs via `self.env.ref('module.action_xmlid').id`.
+
+### 25. progressbar Widget Expects 0-100 Scale
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Odoo's `widget="progressbar"` renders the raw field value as percentage. Storing confidence as 0.87 shows "0.87%" instead of "87%". All percentage/confidence values for progressbar must be stored as 0-100, not 0.0-1.0.
+
+**Prevention:**
+Before using `widget="progressbar"`, verify the field stores values in 0-100 range. Document the convention in coding-style rules.
+
+### 26. Selection + "Другое" + custom_name Pattern
+
+- **Category:** Pattern
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+When users need to extend a fixed Selection field with custom values, don't replace Selection with Char. Add a "custom" option to Selection + a separate Char field for the custom name + a computed display_name field.
+
+**Reusability:**
+```python
+name = fields.Selection([..., ("custom", "Другое")], required=True)
+custom_name = fields.Char(help="For custom option")
+display_name = fields.Char(compute="_compute_display", store=True)
+
+@api.depends("name", "custom_name")
+def _compute_display(self):
+    for r in self:
+        r.display_name = r.custom_name if r.name == "custom" else dict(SELECTION).get(r.name)
+```
+View: `<field name="custom_name" invisible="name != 'custom'" required="name == 'custom'"/>`
+
+---
+
 ## Summary
 
 | # | Name | Category | Maturity |
@@ -727,3 +806,8 @@ Reuse for any image classification validation pipeline. Change the `PROMPT` cons
 | 19 | Camera Pipeline Gap (Missing Worker) | Insight | Alpha |
 | 20 | OpenAI-Compatible Universal Vision Backend | Pattern | Alpha |
 | 21 | Batch Photo Test Script for CV | Template | Alpha |
+| 22 | Odoo 19 Community Compatibility | Insight | Alpha |
+| 23 | SQL Bypass Breaks Computed Fields | Insight | Alpha |
+| 24 | Odoo Internal Link Format | Pattern | Alpha |
+| 25 | progressbar Widget 0-100 Scale | Insight | Alpha |
+| 26 | Selection + Custom Name Pattern | Pattern | Alpha |
