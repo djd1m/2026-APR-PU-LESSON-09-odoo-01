@@ -132,6 +132,11 @@ docker compose exec timelapse_worker python -m pytest tests/ -v
 
 ## Documentation
 
+- [Dokumentaciya na russkom](./README/ru/README.md)
+- [English documentation](./README/eng/README.md)
+
+### SPARC Documents
+
 | Document | Path |
 |----------|------|
 | Product Requirements | `docs/PRD.md` |
@@ -140,6 +145,7 @@ docker compose exec timelapse_worker python -m pytest tests/ -v
 | Pseudocode | `docs/Pseudocode.md` |
 | Refinement | `docs/Refinement.md` |
 | Feature Roadmap | `.claude/feature-roadmap.json` |
+| CJM Prototype | `docs/CJM_RemontERP.html` |
 
 ## Target Metrics (Month 6)
 
