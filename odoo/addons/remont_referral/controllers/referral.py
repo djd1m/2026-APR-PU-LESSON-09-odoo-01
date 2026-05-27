@@ -24,6 +24,7 @@ class ReferralController(http.Controller):
         - Token exists and maps to a pending referral
         - Current user is not the referrer (self-referral prevention)
         - Current user has not already been referred (duplicate prevention)
+        - Referral code actually exists in the system
         """
         try:
             body = json.loads(request.httprequest.data or "{}")
@@ -43,9 +44,10 @@ class ReferralController(http.Controller):
             )
 
         current_user = request.env.user
+        Referral = request.env["remont.referral"].sudo()
 
         # Find the referral by token
-        referral = request.env["remont.referral"].sudo().search(
+        referral = Referral.search(
             [("share_token", "=", token), ("status", "=", "pending")],
             limit=1,
         )
@@ -57,7 +59,7 @@ class ReferralController(http.Controller):
             )
 
         # Prevent self-referral
-        if referral.referrer_id == current_user:
+        if referral.referrer_id.id == current_user.id:
             return Response(
                 json.dumps({"error": "Cannot use your own referral code"}),
                 status=400,
@@ -65,7 +67,7 @@ class ReferralController(http.Controller):
             )
 
         # Check if user was already referred (any status)
-        existing = request.env["remont.referral"].sudo().search(
+        existing = Referral.search(
             [("referred_id", "=", current_user.id)],
             limit=1,
         )
@@ -77,8 +79,8 @@ class ReferralController(http.Controller):
             )
 
         try:
-            referral.sudo().write({"referred_id": current_user.id})
-            referral.sudo().action_activate()
+            referral.write({"referred_id": current_user.id})
+            referral.action_activate()
         except ValidationError as e:
             return Response(
                 json.dumps({"error": str(e)}),
@@ -87,7 +89,7 @@ class ReferralController(http.Controller):
             )
 
         _logger.info(
-            "Referral applied: user %s referred by user %s (token: %s...)",
+            "Referral applied: user %s referred by user %s (token: %s)",
             current_user.id,
             referral.referrer_id.id,
             token[:8],
@@ -119,6 +121,7 @@ class ReferralController(http.Controller):
         current_user = request.env.user
         Referral = request.env["remont.referral"].sudo()
 
+        # All referrals where current user is the referrer
         referrals = Referral.search(
             [("referrer_id", "=", current_user.id)]
         )
@@ -136,7 +139,7 @@ class ReferralController(http.Controller):
             if r.status == "activated"
         )
 
-        # Get the user's own share token (first pending referral)
+        # Get the user's own share token (first pending referral without a referee)
         own_referral = Referral.search(
             [
                 ("referrer_id", "=", current_user.id),

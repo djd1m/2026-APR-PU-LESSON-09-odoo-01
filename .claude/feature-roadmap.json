@@ -36,11 +36,12 @@
       "name": "Auth & Security Module",
       "description": "JWT-based authentication with httpOnly cookies (Secure, SameSite=Strict), RBAC (viewer/owner/contractor/worker/admin), registration without role field (default=viewer), startup validation that crashes on missing JWT_SECRET/DATABASE_URL/YUKASSA_SECRET_KEY/MINIO_ACCESS_KEY, CSRF double-submit cookie, rate limiting (5 reg/hr/IP), audit logging for role changes, password strength validation (min 8 chars, 1 digit, 1 uppercase)",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [],
       "files_estimate": [
         "odoo/addons/remont_auth/"
-      ]
+      ],
+      "branch": "feature/002-auth-security"
     },
     {
       "id": "client-portal",

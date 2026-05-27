@@ -1,5 +1,7 @@
 /* RemontERP Portal Styles */
 
+/* ===== Project Cards ===== */
+
 .remont-project-card {
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     border: 1px solid #e9ecef;
@@ -10,14 +12,29 @@
     transform: translateY(-2px);
 }
 
+/* ===== Project Detail ===== */
+
+.remont-project-detail .card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.remont-project-detail .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
 .remont-project-detail .progress {
     border-radius: 10px;
+    background-color: #e9ecef;
 }
 
 .remont-project-detail .progress-bar {
     border-radius: 10px;
-    background-color: #714B67;
+    transition: width 0.6s ease;
 }
+
+/* ===== Budget ===== */
 
 .remont-budget-bar {
     height: 24px;
@@ -27,6 +44,17 @@
 
 .remont-budget-chart {
     padding: 10px 0;
+}
+
+.remont-budget-legend {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* ===== Snapshot Grid ===== */
+
+.remont-snapshot-grid {
+    gap: 0;
 }
 
 .remont-snapshot-thumb {
@@ -43,10 +71,6 @@
     border-color: #714B67;
 }
 
-.remont-snapshot-grid {
-    gap: 0;
-}
-
 /* ===== Share / CTA ===== */
 
 .remont-share-cta {
@@ -55,11 +79,6 @@
 
 .remont-share-cta h4 {
     color: #714B67;
-}
-
-.remont-budget-legend {
-    font-size: 0.8rem;
-    color: #6c757d;
 }
 
 /* ===== Responsive: Mobile (375px+) ===== */
@@ -97,6 +116,24 @@
 
     .remont-share-cta p {
         font-size: 0.9rem;
+    }
+}
+
+/* ===== Responsive: Tablet (768px+) ===== */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .o_portal_my_projects .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* ===== Responsive: Desktop (992px+) ===== */
+
+@media (min-width: 992px) {
+    .o_portal_my_projects .col-lg-4 {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
     }
 }
 
