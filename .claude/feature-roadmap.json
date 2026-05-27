@@ -89,29 +89,29 @@
       "name": "Budget Tracker",
       "description": "Budget creation with line items per cost category (materials/labor/equipment/overhead), all monetary fields NUMERIC(12,2) with Python Decimal -- NEVER float, estimate vs actual variance report per line item and total, budget versioning (original immutable, amendments create new versions), PDF/XLSX export within 10 seconds, overrun alerts at 80% (warning) and 100% (critical) thresholds, one-time alert per threshold crossing",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "project-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_core/models/budget.py",
         "odoo/addons/remont_core/views/budget_views.xml"
-      ],
-      "branch": "feature/007-budget-tracker"
+      ]
     },
     {
       "id": "ai-alerts",
       "name": "AI Alerts System",
       "description": "Scheduled alert engine (ir.cron) checking all active projects: crew absence detection via SSIM (<5% visual difference in 4 consecutive snapshots during configurable work hours Mon-Sat 08:00-18:00), budget overrun alerts (80% warning, 100% critical), schedule delay prediction via linear regression on CV progress data (alert at >3 days predicted delay, min 5 completed projects for reliable predictions), configurable notification preferences per user per channel, 4-hour cooldown between repeat alerts, holiday exclusion, Telegram/email delivery",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "cv-pipeline",
         "budget-tracker"
       ],
       "files_estimate": [
         "odoo/addons/remont_alerts/"
-      ]
+      ],
+      "branch": "feature/008-ai-alerts"
     },
     {
       "id": "payment-integration",
