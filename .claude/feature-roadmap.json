@@ -8,40 +8,39 @@
       "name": "Camera Management Module",
       "description": "RTSP stream intake from rental cameras (Wyze/TP-Link), scheduled photo capture every 15 min, JPEG storage in MinIO with path /{project_id}/{camera_id}/{date}/{time}.jpg, camera status tracking (online/offline/error), max 4 cameras per project, retry on capture failure, health check endpoint",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [],
       "files_estimate": [
         "odoo/addons/remont_core/",
         "odoo/addons/remont_camera/",
         "docker-compose.yml"
-      ],
-      "branch": "feature/001-camera-mgmt"
+      ]
     },
     {
       "id": "project-mgmt",
       "name": "Project Management Module",
       "description": "Odoo Project customization for renovation workflows: Gantt chart with drag-and-drop scheduling, 8 renovation stages (demolition through finishing), checklist-based stage completion, multi-project dashboard for contractors, resource allocation view, PDF export, stage dependency tracking",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_core/models/",
         "odoo/addons/remont_core/views/"
-      ]
+      ],
+      "branch": "feature/003-project-mgmt"
     },
     {
       "id": "auth-security",
       "name": "Auth & Security Module",
       "description": "JWT-based authentication with httpOnly cookies (Secure, SameSite=Strict), RBAC (viewer/owner/contractor/worker/admin), registration without role field (default=viewer), startup validation that crashes on missing JWT_SECRET/DATABASE_URL/YUKASSA_SECRET_KEY/MINIO_ACCESS_KEY, CSRF double-submit cookie, rate limiting (5 reg/hr/IP), audit logging for role changes, password strength validation (min 8 chars, 1 digit, 1 uppercase)",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [],
       "files_estimate": [
         "odoo/addons/remont_auth/"
-      ],
-      "branch": "feature/002-auth-security"
+      ]
     },
     {
       "id": "client-portal",
