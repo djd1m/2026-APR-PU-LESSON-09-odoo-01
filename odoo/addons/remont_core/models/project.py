@@ -253,31 +253,62 @@ class RemontProject(models.Model):
         SUMMARY_MODEL = "GigaChat/GigaChat-2-Max"
 
         for project in self:
+            # Read stage data directly (not from computed fields which may be stale)
+            stages = project.stage_ids.sorted(key=lambda r: r.sequence)
             stages_text = []
-            for s in project.stage_ids.sorted(key=lambda r: r.sequence):
+            done_count = 0
+            in_progress_name = None
+            max_delay = 0
+            for s in stages:
                 stage_label = STAGE_LABELS.get(s.name, s.name)
                 status_label = STATUS_LABELS.get(s.status, s.status)
-                delay_info = f", задержка {s.delay_days} дн." if s.delay_days and s.delay_days > 0 else ""
+                # Calculate delay directly
+                from datetime import date as date_cls
+                today = date_cls.today()
+                if s.status == 'done' and s.actual_end and s.planned_end:
+                    delay = max(0, (s.actual_end - s.planned_end).days)
+                elif s.status == 'in_progress' and s.planned_end:
+                    delay = max(0, (today - s.planned_end).days)
+                else:
+                    delay = 0
+                if delay > max_delay:
+                    max_delay = delay
+                delay_info = f", задержка {delay} дн." if delay > 0 else ""
                 stages_text.append(
                     f"- {stage_label}: {status_label} ({s.progress_pct:.0f}%){delay_info}"
                 )
+                if s.status == 'done':
+                    done_count += 1
+                if s.status == 'in_progress':
+                    in_progress_name = stage_label
 
+            total_stages = len(stages)
+            real_progress = round(sum(s.progress_pct for s in stages) / total_stages, 1) if total_stages else 0
             budget_pct = round(project.budget_actual / project.budget_estimate * 100, 1) if project.budget_estimate else 0
+
+            # Also update "Прогресс ремонта (AI)" section
+            project.current_stage = next((s.name for s in stages if s.status == 'in_progress'), False)
+            project.current_stage_confidence = 0.9 if project.current_stage else 0.0
+            project.last_snapshot_at = max((s.captured_at for s in project.snapshot_ids), default=False) if project.snapshot_ids else False
+            project.bottleneck_stage = next((s.name for s in stages if s.status == 'in_progress' and s.planned_end and today > s.planned_end), False)
+            project.needs_review_count = len([s for s in project.snapshot_ids if s.cv_confidence and s.cv_confidence < 0.65])
+            project.overall_progress = real_progress
 
             prompt = f"""Ты — AI-ассистент для управления ремонтом квартир RemontERP.
 Напиши краткий отчёт (3-5 предложений) о состоянии ремонта на русском языке.
+ВАЖНО: основывайся ТОЛЬКО на данных ниже, не додумывай!
 
 Проект: {project.name}
 Адрес: {project.address or 'не указан'}
 Площадь: {project.area_sqm} м²
-Статус: {project.status}
-Общий прогресс: {project.overall_progress:.0f}%
+Общий прогресс: {real_progress}% (завершено {done_count} из {total_stages} этапов)
 Бюджет: план {project.budget_estimate:.0f} руб, факт {project.budget_actual:.0f} руб ({budget_pct}% использовано)
-Задержка: {project.delay_days} дней
-Этапы ремонта:
+Максимальная задержка: {max_delay} дней
+Текущий этап в работе: {in_progress_name or 'нет'}
+Этапы ремонта (единственный источник правды):
 {chr(10).join(stages_text)}
 
-Укажи: текущий этап работ, проблемные зоны (задержки, перерасход), прогноз завершения."""
+Укажи: какие этапы завершены, какой сейчас в работе, задержки, бюджет, прогноз."""
 
             try:
                 from openai import OpenAI
@@ -337,8 +368,8 @@ class RemontProject(models.Model):
         # Wrap <li> in <ul>
         html = re.sub(r'(<li>.*?</li>\n?)+', lambda m: f'<ul>{m.group()}</ul>', html)
 
-        # Inject clickable links for stage names
-        base_url = f'/odoo/remont.snapshot?project_id={project.id}'
+        # Inject clickable Odoo links for stage names
+        # Format: /web#model=remont.stage&view_type=form&id=N
         STAGE_LINKS = {
             'демонтаж': ('demolition', 'Демонтаж'),
             'электрик': ('electrical', 'Электрика'),
@@ -351,26 +382,33 @@ class RemontProject(models.Model):
         }
 
         for keyword, (stage_key, stage_label) in STAGE_LINKS.items():
-            # Find stage record for direct link
             stage = self.env['remont.stage'].search([
                 ('project_id', '=', project.id),
                 ('name', '=', stage_key),
             ], limit=1)
 
             if stage:
-                link_url = f'/odoo/remont.snapshot?stage_detected={stage_key}&amp;project_id={project.id}'
-                # Replace stage mentions with clickable links (case-insensitive)
+                # Link to stage form in Odoo
+                link_url = f'/web#model=remont.stage&amp;view_type=form&amp;id={stage.id}'
                 pattern = re.compile(f'({keyword}\\w*)', re.IGNORECASE)
-                replacement = f'<a href="{link_url}" style="color:#007bff;text-decoration:underline" title="Открыть снимки: {stage_label}">\\1</a>'
+                replacement = (
+                    f'<a href="{link_url}" '
+                    f'style="color:#007bff;text-decoration:underline;font-weight:bold" '
+                    f'title="Открыть этап: {stage_label} ({stage.progress_pct:.0f}%)">\\1</a>'
+                )
                 html = pattern.sub(replacement, html, count=1)
 
-        # Link budget mentions
-        budget_url = f'/odoo/remont.budget?project_id={project.id}'
+        # Link budget mentions → budget list for this project
+        budget_action = self.env.ref('remont_core.action_remont_budget', raise_if_not_found=False)
+        if budget_action:
+            budget_url = f'/web#action={budget_action.id}'
+        else:
+            budget_url = '/web#model=remont.budget&amp;view_type=list'
         for word in ['бюджет', 'Бюджет', 'расход', 'Расход']:
             if word in html:
                 html = html.replace(
                     word,
-                    f'<a href="{budget_url}" style="color:#007bff;text-decoration:underline" title="Открыть бюджет">{word}</a>',
+                    f'<a href="{budget_url}" style="color:#007bff;text-decoration:underline" title="Открыть бюджет проекта">{word}</a>',
                     1,
                 )
                 break
