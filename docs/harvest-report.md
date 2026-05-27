@@ -639,6 +639,69 @@ Reuse the HTML template structure for any product analysis CJM. Replace variant 
 
 ---
 
+---
+
+## Category: Insights (harvest v3 — post-implementation)
+
+### 18. Statusline Regex Matches Threshold Description Before Actual Score
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+`parseValidationScore()` regex `(?:average\s+)?score[:\s]+(\d{1,3})` finds the first occurrence in the file. If validation-report.md contains threshold descriptions like `"Blocked: 0 (score < 50)"`, it captures "50" instead of the real "82" from `"Average score: 82/100"`.
+
+**Prevention:**
+Never use `score XX` in threshold descriptions. Use `"below 50"`, `"range 50-69"` instead. Or fix regex to require `Average` prefix.
+
+### 19. Camera Pipeline Gap — Missing Capture Worker
+
+- **Category:** Insight
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+The camera pipeline was designed as Odoo cron → Redis "camera_capture" → ??? → MinIO → Redis "cv_jobs" → CV Worker. But nobody consumed the "camera_capture" queue. The Capture Worker service was completely missing from the architecture. Discovered only when user asked "how does video-to-snapshot conversion work?"
+
+**Prevention:**
+When designing queue-based pipelines, draw the full chain and verify every queue has exactly one producer and one consumer. Missing consumers are invisible until runtime.
+
+### 20. OpenAI-Compatible API as Universal Vision Backend
+
+- **Category:** Pattern
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+Building the CV detector against the OpenAI Python SDK with configurable `base_url` gives automatic compatibility with OpenAI, Cloud.ru, Together.ai, Groq, Fireworks, and self-hosted vLLM — all without code changes. Only 3 env vars switch providers: `VLLM_API_URL`, `VLLM_API_KEY`, `VLLM_MODEL`.
+
+**Reusability:**
+For any vision/LLM feature, use `openai.OpenAI(base_url=..., api_key=...)` as the universal client. Add provider presets to `.env.example`. Include a test script that works with any provider by changing env vars.
+
+```python
+from openai import OpenAI
+client = OpenAI(
+    base_url=os.environ['VLLM_API_URL'],  # any OpenAI-compatible endpoint
+    api_key=os.environ['VLLM_API_KEY'],
+)
+# Works with: OpenAI, Cloud.ru, vLLM, llama.cpp, Ollama, etc.
+```
+
+### 21. Batch Photo Test Script for CV Validation
+
+- **Category:** Template
+- **Maturity:** Alpha
+- **Source:** RemontERP (2026-05-27)
+
+**Description:**
+A standalone Python script that takes a directory of labeled test photos (`test_photos/{stage_name}/*.jpg`), sends each to the vision API, compares detected stage vs expected (directory name), and produces accuracy metrics per stage + JSON results file. Works with any OpenAI-compatible API.
+
+**Reusability:**
+Reuse for any image classification validation pipeline. Change the `PROMPT` constant and `VALID_STAGES` list. The directory-as-label pattern (`photos/{label}/*.jpg`) is a simple convention for labeled test sets without annotation files.
+
+---
+
 ## Summary
 
 | # | Name | Category | Maturity |
@@ -660,3 +723,7 @@ Reuse the HTML template structure for any product analysis CJM. Replace variant 
 | 15 | Feature Branch Roadmap Conflicts | Insight | Alpha |
 | 16 | User-Facing Modules Without Tests | Insight | Alpha |
 | 17 | CJM HTML with Inline Sources | Template | Alpha |
+| 18 | Statusline Regex False Match | Insight | Alpha |
+| 19 | Camera Pipeline Gap (Missing Worker) | Insight | Alpha |
+| 20 | OpenAI-Compatible Universal Vision Backend | Pattern | Alpha |
+| 21 | Batch Photo Test Script for CV | Template | Alpha |
