@@ -45,7 +45,7 @@
                         <field name="created_at"/>
                         <field name="completed_at"/>
                     </group>
-                    <group string="Error" attrs="{'invisible': [('status', '!=', 'failed')]}">
+                    <group string="Error" invisible="status != 'failed'">
                         <field name="error_message"/>
                     </group>
                 </sheet>
