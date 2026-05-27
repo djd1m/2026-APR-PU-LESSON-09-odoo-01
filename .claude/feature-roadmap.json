@@ -46,7 +46,7 @@
       "name": "Client Portal",
       "description": "Odoo website portal for homeowners: renovation timeline with photos grouped by day, stage filter, lazy-loading (20 per scroll batch), budget summary card (estimate vs actual with green/yellow/red color coding), embedded timelapse viewer with date picker, mobile-responsive design (375px+), push notifications via Telegram Bot API/email/Web Push with configurable preferences, rate limit 20 notifications/user/day",
       "priority": "mvp",
-      "status": "planned",
+      "status": "done",
       "dependencies": [
         "camera-mgmt",
         "project-mgmt",
@@ -54,22 +54,22 @@
       ],
       "files_estimate": [
         "odoo/addons/remont_portal/"
-      ]
+      ],
+      "branch": "feature/005-client-portal"
     },
     {
       "id": "cv-pipeline",
       "name": "CV Pipeline (YOLOv8 Stage Detection)",
       "description": "Separate Docker service consuming Redis queue, YOLOv8 model classifying snapshots into 8 renovation stages (demolition/electrical/plumbing/plaster/screed/tiles/painting/finishing), confidence threshold 0.65, GPU (NVIDIA runtime) and CPU fallback support, model versioning stored with each classification, batch processing mode for backfill, progress percentage calculation (completed/expected snapshots), auto-update of project stages via JSON-RPC, <3s GPU / <15s CPU per image",
       "priority": "mvp",
-      "status": "done",
+      "status": "planned",
       "dependencies": [
         "camera-mgmt"
       ],
       "files_estimate": [
         "odoo/addons/remont_cv/",
         "workers/cv_worker/"
-      ],
-      "branch": "feature/004-cv-pipeline"
+      ]
     },
     {
       "id": "timelapse-gen",
