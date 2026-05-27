@@ -2,7 +2,7 @@
 
 ### Продукт
 
-**RemontERP** — вертикальная ERP-платформа на базе Odoo 19 для управления ремонтом квартир с AI-камерами. Камера в квартире фиксирует этапы ремонта 24/7, Computer Vision (YOLOv8) распознаёт прогресс, FFmpeg генерирует таймлапс-видео, а клиентский портал даёт заказчику полную прозрачность.
+**RemontERP** — вертикальная ERP-платформа на базе Odoo 19 для управления ремонтом квартир с AI-камерами. Камера в квартире фиксирует этапы ремонта 24/7, Computer Vision (YOLOv8 или Vision LLM) распознаёт прогресс, FFmpeg генерирует таймлапс-видео, а клиентский портал даёт заказчику полную прозрачность.
 
 **Ниша:** "OpenSpace для квартир" — AI-мониторинг стройплощадок существует (OpenSpace $900M, Buildots $300M), но для квартирного ремонта решений нет. Рынок: TAM $5.13B, SOM $8.7-15.6M (Россия).
 
@@ -36,9 +36,9 @@
 
 **Phase 2: Validation** — verdict READY (82/100), 70+ BDD Gherkin-сценариев
 
-**Phase 3: Toolkit** — CLAUDE.md, 7 агентов, 8 правил, feature-roadmap (10 фич)
+**Phase 3: Toolkit** — CLAUDE.md, 7 агентов, 8 правил, feature-roadmap
 
-**Phase 4: Finalize** — Docker scaffold (7 сервисов), README, DEVELOPMENT_GUIDE
+**Phase 4: Finalize** — Docker scaffold (8 сервисов), README, DEVELOPMENT_GUIDE
 
 #### 3. `/start` — Bootstrap проекта
 
@@ -56,20 +56,21 @@
 | remont_alerts | Alert engine (absence, overbudget, delay) | 575 | 264 |
 | remont_referral | Referral codes, bonus activation, monthly cap | 517 | 182 |
 
-**2 Python-воркера:**
+**3 Python-воркера:**
 
 | Воркер | Назначение | Код | Тесты |
 |--------|-----------|:---:|:-----:|
-| cv_worker | YOLOv8 inference, Redis consumer | 541 | 268 |
+| capture_worker | FFmpeg RTSP → MinIO (захват кадров с камер) | 220 | — |
+| cv_worker | YOLOv8 / vLLM inference, Redis consumer | 726 | 464 |
 | timelapse_worker | FFmpeg generation, Telegram notify | 453 | 155 |
 
-**Docker Compose** — 7 сервисов: Odoo 19, PostgreSQL 16, Redis 7, MinIO, CV Worker, Timelapse Worker, Nginx
+**Docker Compose** — 8 сервисов: Odoo 19, PostgreSQL 16, Redis 7, MinIO, Capture Worker, CV Worker, Timelapse Worker, Nginx
 
-#### 4. `/run all --feature-branches` — 10 фич с полным pipeline
+#### 4. `/run all --feature-branches` — 11 фич с полным pipeline
 
 Каждая фича на отдельной ветке, 4-фазный SPARC lifecycle:
 
-| # | Feature | Branch | SPARC docs | Verdict |
+| # | Feature | Branch | SPARC | Verdict |
 |---|---------|--------|:---:|:---:|
 | 1 | camera-mgmt | feature/001-camera-mgmt | 7/7 | PASS WITH CAVEATS |
 | 2 | auth-security | feature/002-auth-security | 7/7 | PASS |
@@ -81,21 +82,57 @@
 | 8 | ai-alerts | feature/008-ai-alerts | 7/7 | PASS |
 | 9 | payment-integration | feature/009-payment-integration | 7/7 | PASS |
 | 10 | referral-system | feature/010-referral-system | 7/7 | PASS |
+| **11** | **vllm-cv-backend** | **feature/011-vllm-cv-backend** | **7/7** | **PASS** |
 
-Все 10 веток merged в main с `--no-ff`.
+Все 11 веток merged в main.
 
-#### 5. Доработка реализации (v2)
+#### 5. vLLM CV Backend (Feature #11)
 
-После аудита обнаружено, что 3 модуля не имели тестов, 2 не имели views. Добавлено:
+Альтернативный backend для CV pipeline на базе Vision Language Models:
+
+| Параметр | YOLOv8 (default) | vLLM (альтернативный) |
+|----------|:-----------------:|:---------------------:|
+| Fine-tune | Нужен (500+ фото) | Не нужен (zero-shot) |
+| Скорость | ~0.1-3 сек | ~2-10 сек |
+| Стоимость | Бесплатно | ~$0.01-0.05/фото |
+| Объяснение | Нет | Да (текст) |
+| Offline | Да | Зависит от API |
+
+Архитектура:
+```
+BaseDetector (ABC)
+├── YOLODetector  — локальная модель (CV_BACKEND=yolo)
+└── VLLMDetector  — OpenAI-совместимый API (CV_BACKEND=vllm)
+                    Поддерживает: GPT-4o, Claude, Qwen2.5-VL, self-hosted vLLM
+```
+
+Переключение: `CV_BACKEND=vllm` + `VLLM_API_URL` + `VLLM_API_KEY` в `.env`
+
+#### 6. Capture Worker (исправление пропуска в pipeline)
+
+Обнаружено и исправлено: в оригинальной архитектуре отсутствовал сервис захвата кадров с камер. Pipeline имел разрыв:
+
+```
+БЫЛО:  Odoo cron → Redis "camera_capture" → НИКТО НЕ СЛУШАЕТ
+СТАЛО: Odoo cron → Redis → Capture Worker (FFmpeg) → MinIO → Redis "cv_jobs" → CV Worker
+```
+
+#### 7. Доработка реализации (v2)
+
+После аудита добавлено:
 - 35 новых тестов для `remont_cv`, `remont_timelapse`, `remont_portal`
-- XML views для `remont_timelapse` (tree/form/search) и `remont_billing` (subscription/payment)
-- Обновлены манифесты с data entries
+- XML views для `remont_timelapse` и `remont_billing`
+- Обновлены манифесты
 
-#### 6. `/docs` — Билингвальная документация
+#### 8. `/docs` — Билингвальная документация
 
 16 файлов (8 RU + 8 EN): quickstart, user guide, admin guide, API reference, architecture, troubleshooting, changelog, TOC.
 
-#### 7. `/harvest` v1 + v2 — 17 reusable artifacts
+Документация обновлена:
+- User guide: полное описание как работают камеры (не видео, а периодические снимки), таблица RTSP URL, статусы камер
+- Admin guide: диаграмма pipeline из 8 сервисов, таблица ресурсов с capture_worker
+
+#### 9. `/harvest` v1 + v2 — 17 reusable artifacts
 
 | # | Артефакт | Категория |
 |---|----------|-----------|
@@ -108,7 +145,7 @@
 | 7 | Security Checklist (6 LESSON-08 rules) | Rule |
 | 8 | Phase 4 Enforcement (never skip review) | Rule |
 | 9 | Odoo 19 Module Skeleton | Template |
-| 10 | Docker Compose Multi-Service (7 containers) | Template |
+| 10 | Docker Compose Multi-Service (8 containers) | Template |
 | 11 | Parallel Agents Skip Phase 4 | Insight |
 | 12 | Autonomous Decision Logging | Insight |
 | 13 | sparc-prd-mini Skips "if applicable" Docs | Insight |
@@ -117,16 +154,23 @@
 | 16 | User-Facing Modules Generated Without Tests | Insight |
 | 17 | CJM HTML with Inline Source Links | Template |
 
-#### 8. Исправление пропусков и багов
+#### 10. Исправление пропусков и багов
 
 | Проблема | Причина | Статус |
 |----------|---------|--------|
 | ADR.md (0 → 7 ADR) | sparc-prd-mini: "if applicable" = skip в AUTO | Исправлено |
 | C4_Diagrams.md | Аналогично | Исправлено |
 | `.claude/insights/` (0 → 6) | Toolkit generator не создаёт каталог | Исправлено |
-| Validation score 50 вместо 82 | Regex в statusline.cjs ложно матчил `"(score < 50)"` из описания threshold вместо `"Average score: 82"` | Исправлено |
+| Validation score 50 вместо 82 | Regex в statusline ложно матчил threshold description | Исправлено |
+| Capture Worker отсутствовал | Pipeline gap: никто не слушал очередь camera_capture | Исправлено |
 | Тесты portal/cv/timelapse | Агенты пропускают тесты controllers | Исправлено в v2 |
 | Plans = 0 | Все фичи через `/feature`, не `/plan` | Корректное поведение |
+
+#### 11. Dev-инструменты для тестирования без камер
+
+- `scripts/fake_rtsp_server.sh` — стрим локального видео как RTSP через mediamtx
+- `scripts/generate_test_snapshots.py` — генерация синтетических фото этапов ремонта
+- `docker-compose.dev.yml` — добавляет fake RTSP сервер в dev-стек
 
 ---
 
@@ -134,29 +178,29 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Коммитов | 48 |
-| Файлов в репозитории | 251 |
-| Feature branches | 12 (10 feature + 1 v2 + main) |
-| Python код | 6,788 строк |
-| Python тесты | 2,881 строк (42%) |
+| Коммитов | 56 |
+| Файлов в репозитории | 269 |
+| Feature branches | 13 (11 feature + 1 v2 + main) |
+| Python код | 7,514 строк |
+| Python тесты | 3,077 строк (41%) |
 | XML views | 1,627 строк |
-| Тестовых файлов | 13 |
+| Тестовых файлов | 15 |
 | SPARC docs (project level) | 11/11 |
-| SPARC docs (per feature) | 7 x 10 = 70 |
+| SPARC docs (per feature) | 7 x 11 = 77 |
 | ADR | 7 |
 | Insights | 6 |
 | Harvest artifacts | 17 |
 | Документация RU + EN | 16 файлов |
 | Odoo модулей | 9 |
-| Docker сервисов | 7 |
-| Feature roadmap | 10/10 done |
+| Docker сервисов | 8 |
+| Feature roadmap | 11/11 done |
 | Memory entries | 7 |
 
 ### LESSON-08 compliance
 
 | Проблема LESSON-08 | LESSON-09 |
 |---|---|
-| Phase 4 пропущена 13/13 | **0/10 пропусков** |
+| Phase 4 пропущена 13/13 | **0/11 пропусков** |
 | Privilege escalation (role in register) | **Заблокирован** — whitelist + readonly |
 | JWT secret fallback | **Нет** — crash on missing |
 | Tokens в localStorage | **Нет** — httpOnly cookies |
@@ -171,14 +215,46 @@
 3. **Параллельные агенты** (10 одновременно) теряют Phase 4 — тот же паттерн LESSON-08
 4. **Feature branches** конфликтуют при merge из-за общего `feature-roadmap.json`
 5. **Portal module** (самый user-facing) был без тестов до ручного аудита
-6. **Statusline regex** ложно матчит `"score < 50"` из threshold описания вместо реального `"Average score: 82"` — показывал 🟡 50/100 вместо 🟢 82/100
+6. **Statusline regex** ложно матчит threshold описания вместо реального score
 
 ### Statusline (после всех фиксов)
 
 ```
 📊 SPARC ●11/11  │  🟢 82/100  │  Plans 0  │  ADRs ●7
-🎯 Roadmap [●●●●●●●●] mvp 10/10  │  Done 10/10
+🎯 Roadmap [●●●●●●●●] mvp 11/11  │  Done 11/11
 💡 Insights ●6
+```
+
+### Pipeline обработки камер
+
+```
+Камера (RTSP 24/7)
+    │
+    ▼  ir.cron каждые 5 мин
+[Odoo] capture_service: пора снимать?
+    │
+    ▼
+[Redis] очередь "camera_capture"
+    │
+    ▼
+[Capture Worker] FFmpeg: 1 кадр из RTSP → JPEG
+    │
+    ├── [MinIO] сохранение снимка + миниатюры
+    ├── [Odoo] создание remont.snapshot
+    │
+    ▼
+[Redis] очередь "cv_jobs"
+    │
+    ▼
+[CV Worker] выбор backend:
+    ├── CV_BACKEND=yolo → YOLOv8 (локальная модель, нужен fine-tune)
+    └── CV_BACKEND=vllm → Vision LLM API (zero-shot, GPT-4o/Claude/Qwen)
+    │
+    ▼
+[Odoo] обновление stage + progress + explanation
+
+[Timelapse Worker] ночью 03:00
+    └── FFmpeg: ~96 снимков → 30-сек MP4 → MinIO → Telegram уведомление
 ```
 
 ### Сохранённые memory (7 записей)
