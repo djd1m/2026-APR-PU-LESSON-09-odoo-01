@@ -194,6 +194,20 @@
         "odoo/addons/remont_*/i18n/ru.po",
         "scripts/seed_locale.py"
       ]
+    },
+    {
+      "id": "drill-down-dashboard",
+      "number": 13,
+      "name": "Drill-Down Dashboard with AI Summary",
+      "description": "Project dashboard with stage delay indicators (green/yellow/red), drill-down to snapshots per stage, AI project summary via Cloud.ru vLLM",
+      "priority": "mvp",
+      "status": "done",
+      "branch": "feature/013-drill-down-dashboard",
+      "dependencies": [
+        "project-mgmt",
+        "cv-pipeline",
+        "cloudru-backend"
+      ]
     }
   ]
 }

@@ -206,6 +206,86 @@ class RemontProject(models.Model):
         store=True,
     )
 
+    # Dashboard: AI Summary + Delay tracking
+    ai_summary = fields.Text(
+        string="AI Отчёт",
+        help="AI-сгенерированный отчёт о состоянии ремонта (Cloud.ru vLLM)",
+    )
+    ai_summary_date = fields.Datetime(
+        string="Дата AI отчёта",
+    )
+    delay_days = fields.Integer(
+        string="Задержка (дней)",
+        compute="_compute_project_delay",
+        store=True,
+    )
+
+    @api.depends("stage_ids.delay_days")
+    def _compute_project_delay(self):
+        for project in self:
+            delays = [s.delay_days for s in project.stage_ids if s.delay_days and s.delay_days > 0]
+            project.delay_days = max(delays) if delays else 0
+
+    def action_generate_ai_summary(self):
+        """Generate AI project summary via Cloud.ru Foundation Models."""
+        import os
+        import logging
+        _logger = logging.getLogger(__name__)
+
+        api_url = os.environ.get("VLLM_API_URL")
+        api_key = os.environ.get("VLLM_API_KEY")
+        if not api_url or not api_key:
+            self.ai_summary = "Ошибка: не настроен API Cloud.ru (VLLM_API_URL / VLLM_API_KEY)"
+            self.ai_summary_date = fields.Datetime.now()
+            return
+
+        for project in self:
+            # Build context about stages
+            stages_text = []
+            for s in project.stage_ids.sorted(key=lambda r: r.sequence):
+                stage_label = dict(self.env["remont.stage"]._fields["name"].selection).get(s.name, s.name)
+                delay_info = f", задержка {s.delay_days} дн." if s.delay_days > 0 else ""
+                stages_text.append(
+                    f"- {stage_label}: {s.get_selection_label('status')} ({s.progress_pct:.0f}%){delay_info}"
+                )
+
+            budget_pct = round(project.budget_actual / project.budget_estimate * 100, 1) if project.budget_estimate else 0
+
+            prompt = f"""Ты — AI-ассистент для управления ремонтом квартир RemontERP.
+Напиши краткий отчёт (3-5 предложений) о состоянии ремонта на русском языке.
+
+Проект: {project.name}
+Адрес: {project.address or 'не указан'}
+Площадь: {project.area_sqm} м²
+Статус: {project.status}
+Общий прогресс: {project.overall_progress:.0f}%
+Бюджет: план {project.budget_estimate:.0f} руб, факт {project.budget_actual:.0f} руб ({budget_pct}% использовано)
+Задержка: {project.delay_days} дней
+Этапы ремонта:
+{chr(10).join(stages_text)}
+
+Укажи: текущий этап работ, проблемные зоны (задержки, перерасход), прогноз завершения."""
+
+            try:
+                from openai import OpenAI
+                client = OpenAI(base_url=api_url, api_key=api_key, timeout=30)
+                response = client.chat.completions.create(
+                    model=os.environ.get("VLLM_MODEL", "GigaChat/GigaChat-2-Max"),
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=300,
+                    temperature=0.3,
+                )
+                content = response.choices[0].message.content
+                if content:
+                    project.ai_summary = content.strip()
+                else:
+                    project.ai_summary = "Модель не вернула ответ. Попробуйте позже."
+            except Exception as e:
+                _logger.error("AI summary failed: %s", e)
+                project.ai_summary = f"Ошибка генерации отчёта: {e}"
+
+            project.ai_summary_date = fields.Datetime.now()
+
     # Stage aggregation (computed from snapshots)
     current_stage = fields.Selection(
         selection=STAGE_OPTIONS,
