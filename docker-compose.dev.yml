@@ -1,0 +1,24 @@
+# Development overrides — adds fake RTSP server for testing without real cameras
+#
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# The mediamtx service provides a fake RTSP server.
+# Stream a test video to it:
+#   ffmpeg -re -stream_loop -1 -i test_video.mp4 -c:v copy -f rtsp rtsp://localhost:8554/camera1
+#
+# Then register camera in RemontERP with URL: rtsp://mediamtx:8554/camera1
+
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: remont_mediamtx
+    ports:
+      - "8554:8554"   # RTSP
+      - "8888:8888"   # WebRTC (optional)
+    restart: unless-stopped
+    networks:
+      - remont_net
+
+networks:
+  remont_net:
+    external: true
