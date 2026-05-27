@@ -176,6 +176,24 @@
       "dependencies": [
         "vllm-cv-backend"
       ]
+    },
+    {
+      "id": "russian-ui-and-stage-aggregation",
+      "name": "Russian UI + Project Stage Aggregation",
+      "description": "Full Russian localization of remont_* modules via .po files plus project-level stage aggregation (current_stage, bottleneck_stage, drill-down from project to filtered snapshots)",
+      "priority": "mvp",
+      "status": "in_progress",
+      "dependencies": [
+        "project-mgmt",
+        "cv-pipeline"
+      ],
+      "files_estimate": [
+        "odoo/addons/remont_core/models/project.py",
+        "odoo/addons/remont_core/views/project_views.xml",
+        "odoo/addons/remont_core/views/snapshot_views.xml",
+        "odoo/addons/remont_*/i18n/ru.po",
+        "scripts/seed_locale.py"
+      ]
     }
   ]
 }
