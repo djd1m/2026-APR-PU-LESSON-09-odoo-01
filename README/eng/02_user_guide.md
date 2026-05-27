@@ -45,9 +45,50 @@ End-user workflows for homeowners, contractors, and workers.
 
 ## 2.4 Connecting a Camera
 
+### How cameras work in RemontERP
+
+The camera **does not record video continuously**. Instead, the system periodically connects to the camera's video stream and captures **a single frame** (default: every 15 minutes). This saves storage and is sufficient for tracking renovation progress.
+
+The full pipeline:
+
+```
+1. Camera streams RTSP video 24/7 over Wi-Fi
+2. Odoo checks every 5 minutes: is it time for a snapshot?
+3. Capture Worker connects via FFmpeg, grabs 1 frame → JPEG
+4. Snapshot + thumbnail uploaded to MinIO storage
+5. Snapshot record created in Odoo
+6. CV Worker (YOLOv8) analyzes the image → detects renovation stage
+7. Stage progress updated automatically
+```
+
+From accumulated snapshots (~96/day at 15-min intervals), a **30-second timelapse video** is generated nightly.
+
+### Compatible cameras
+
+Any IP camera supporting **RTSP** protocol:
+
+| Camera | Price | RTSP | Notes |
+|--------|:-----:|:----:|-------|
+| TP-Link Tapo C220 | ~$40 | Built-in | Recommended |
+| Wyze Cam v4 | ~$35 | Via wz_mini_hacks firmware | Budget option |
+| Any IP camera | — | Built-in | Check for RTSP support |
+
+### Finding the RTSP URL
+
+RTSP URL format: `rtsp://username:password@IP:554/path`
+
+| Camera | Typical RTSP URL |
+|--------|-----------------|
+| TP-Link Tapo | `rtsp://admin:password@192.168.1.100:554/stream1` |
+| Wyze (wz_mini) | `rtsp://192.168.1.101:8554/unicast` |
+| Hikvision | `rtsp://admin:password@192.168.1.102:554/Streaming/Channels/101` |
+
+### Connecting
+
 1. Open your project and go to the **Cameras** tab.
 2. Click **Add Camera** and enter:
-   - **RTSP URL** of the camera (e.g., `rtsp://192.168.1.100:554/stream1`)
+   - **RTSP URL** of the camera
+   - **Name** (e.g., "Kitchen", "Living Room")
    - **Capture interval** (default: 15 minutes, range: 5-60 minutes)
 3. The system validates that the RTSP stream is reachable and displays a preview frame.
 4. Once connected, the camera status shows as **Online** in the project dashboard.
@@ -60,7 +101,20 @@ End-user workflows for homeowners, contractors, and workers.
 | Pro | 4 |
 | Enterprise | Unlimited |
 
-> **Note:** Compatible cameras include Wyze Cam v4, TP-Link Tapo C220, and any RTSP-capable model.
+### Camera statuses
+
+| Status | Meaning |
+|--------|---------|
+| Online (green) | Camera connected, snapshots being captured regularly |
+| Error (red) | Capture failed — check Wi-Fi, RTSP URL, power |
+| Offline (gray) | Registered but not yet capturing |
+| Returned (gray) | Camera returned after renovation complete |
+
+### Storage usage
+
+- One snapshot: ~200-500 KB (JPEG, 1920px)
+- Per day (~96 snapshots): ~30-50 MB
+- Per month: ~1-1.5 GB per camera
 
 ---
 

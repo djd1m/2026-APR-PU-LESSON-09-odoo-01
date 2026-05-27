@@ -53,15 +53,54 @@ docker compose restart odoo
 
 ### Распределение ресурсов по сервисам
 
-| Сервис | CPU | RAM | Диск |
-|--------|:---:|:---:|:----:|
-| Odoo | 2 ядра | 2 ГБ | 10 ГБ |
-| PostgreSQL | 1 ядро | 2 ГБ | 50 ГБ |
-| CV Worker | 2 ядра (GPU жел.) | 4 ГБ | 2 ГБ + модели |
-| Timelapse Worker | 2 ядра | 1 ГБ | временное |
-| MinIO | 1 ядро | 1 ГБ | 500+ ГБ |
-| Redis | 0.5 ядра | 512 МБ | 1 ГБ |
-| Nginx | 0.5 ядра | 256 МБ | -- |
+| Сервис | CPU | RAM | Диск | Назначение |
+|--------|:---:|:---:|:----:|------------|
+| Odoo | 2 ядра | 2 ГБ | 10 ГБ | Ядро ERP, бизнес-логика, портал |
+| PostgreSQL | 1 ядро | 2 ГБ | 50 ГБ | База данных Odoo |
+| Capture Worker | 1 ядро | 512 МБ | временное | Захват кадров с камер через FFmpeg |
+| CV Worker | 2 ядра (GPU жел.) | 4 ГБ | 2 ГБ + модели | AI-анализ снимков (YOLOv8) |
+| Timelapse Worker | 2 ядра | 1 ГБ | временное | Генерация таймлапс-видео (FFmpeg) |
+| MinIO | 1 ядро | 1 ГБ | 500+ ГБ | Хранилище снимков и видео |
+| Redis | 0.5 ядра | 512 МБ | 1 ГБ | Очереди задач между сервисами |
+| Nginx | 0.5 ядра | 256 МБ | -- | Reverse proxy, SSL |
+
+### Pipeline обработки камер (8 сервисов)
+
+```
+Камера (RTSP 24/7)
+    |
+    v
+[Odoo] ir.cron каждые 5 мин: "пора снимать?"
+    |   Проверяет capture_interval каждой камеры (default: 15 мин)
+    v
+[Redis] очередь "camera_capture"
+    |
+    v
+[Capture Worker] FFmpeg грабит 1 кадр из RTSP потока
+    |   ffmpeg -rtsp_transport tcp -i rtsp://... -frames:v 1 frame.jpg
+    |   Ресайз до 1920px + миниатюра 320px
+    v
+[MinIO] сохраняет JPEG: projects/{id}/snapshots/{date}/{time}.jpg
+    |
+    +---> [Odoo] создаёт запись remont.snapshot (JSON-RPC)
+    |
+    v
+[Redis] очередь "cv_jobs"
+    |
+    v
+[CV Worker] YOLOv8 анализирует снимок
+    |   Определяет этап: demolition/electrical/plumbing/plaster/screed/tiles/painting/finishing
+    |   Если confidence >= 0.65 — обновляет прогресс этапа
+    v
+[Odoo] обновляет remont.stage.progress_pct
+
+[Timelapse Worker] каждую ночь в 03:00
+    |   FFmpeg собирает ~96 снимков за день → 30-секундное MP4 видео
+    v
+[MinIO] сохраняет видео + [Odoo] создаёт запись + [Telegram] уведомление
+```
+
+> **Важно:** Камера НЕ записывает видео непрерывно. Система берёт отдельные кадры (1 каждые 15 мин). Таймлапс собирается из накопленных кадров.
 
 ---
 
