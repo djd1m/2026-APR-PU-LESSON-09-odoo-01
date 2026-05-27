@@ -8,7 +8,9 @@
         <field name="arch" type="xml">
             <list string="Этапы ремонта">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
+                <field name="stage_display_name" string="Этап"/>
+                <field name="name" string="Тип" optional="hide"/>
+                <field name="custom_name" string="Свой этап" optional="hide"/>
                 <field name="project_id"/>
                 <field name="status"/>
                 <field name="progress_pct" widget="progressbar"/>
@@ -31,7 +33,11 @@
                 <sheet>
                     <group>
                         <group string="Информация">
-                            <field name="name"/>
+                            <field name="name" string="Тип этапа"/>
+                            <field name="custom_name" string="Название этапа"
+                                   placeholder="Введите название"
+                                   invisible="name != 'custom'"
+                                   required="name == 'custom'"/>
                             <field name="project_id"/>
                             <field name="status"/>
                             <field name="progress_pct"/>
