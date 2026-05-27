@@ -182,7 +182,7 @@
       "name": "Russian UI + Project Stage Aggregation",
       "description": "Full Russian localization of remont_* modules via .po files plus project-level stage aggregation (current_stage, bottleneck_stage, drill-down from project to filtered snapshots)",
       "priority": "mvp",
-      "status": "in_progress",
+      "status": "done",
       "dependencies": [
         "project-mgmt",
         "cv-pipeline"
