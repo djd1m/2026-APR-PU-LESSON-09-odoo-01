@@ -1,50 +1,50 @@
-# RemontERP (LESSON-09) — Итоговая статистика
+# RemontERP (LESSON-09) — Финальная статистика
 
 ## GIT
 
 | Метрика | Значение |
 |---------|----------|
-| Коммитов | 63 |
-| Feature branches | 13 |
-| Последний коммит | `d9f67f0` docs: harvest v3 — 21 artifacts |
+| Коммитов | 100 |
+| Feature branches | 34 (16 feature + main) |
+| Последний коммит | `9b8d6cd` merge: custom-stages |
 
 ## Файлы
 
 | Тип | Количество |
 |-----|:----------:|
-| Всего файлов | 292 |
-| Python (.py) | 91 |
-| XML (.xml) | 17 |
-| Markdown (.md) | 140 |
-| JPEG (test photos) | 14 |
+| Всего | 327 |
+| Python (.py) | 95 |
+| XML (.xml) | 18 |
+| Markdown (.md) | 156 |
 | HTML (CJM) | 1 |
 | Dockerfile | 4 |
+| JPEG (test photos) | 14 |
+| i18n (.po) | 9 |
 
 ## Код
 
 | Компонент | Строк |
 |-----------|:-----:|
-| Python (модули + воркеры) | 7,219 |
-| Python (тесты) | 3,077 (42%) |
-| Python (скрипты) | 318 |
-| XML (views + data) | 1,627 |
-| Тестовых файлов | 10 |
+| Python (модули + воркеры) | 7,869 |
+| Python (тесты) | 3,221 (40%) |
+| Python (скрипты) | 527 |
+| XML (views + data + i18n) | 1,810 |
 
-## Odoo модули
+## Odoo модули (9)
 
-| Модуль | Код | Тесты | Views |
-|--------|:---:|:-----:|:-----:|
-| remont_core | 1,320 | 680 | 401 |
-| remont_auth | 723 | 329 | — |
-| remont_camera | 594 | 264 | 190 |
-| remont_cv | 507 | 206 | 131 |
-| remont_timelapse | 324 | 176 | 109 |
-| remont_portal | 253 | 122 | 430 |
-| remont_billing | 698 | 235 | 122 |
-| remont_alerts | 575 | 264 | 134 |
-| remont_referral | 517 | 182 | 110 |
+| Модуль | Код | Тесты | Views | i18n |
+|--------|:---:|:-----:|:-----:|:----:|
+| remont_core | 1,952 | 824 | 589 | 838 |
+| remont_auth | 723 | 329 | — | 81 |
+| remont_camera | 612 | 264 | 174 | 308 |
+| remont_cv | 507 | 206 | 131 | 260 |
+| remont_timelapse | 324 | 176 | 93 | 179 |
+| remont_portal | 253 | 122 | 360 | 179 |
+| remont_billing | 698 | 235 | 122 | 281 |
+| remont_alerts | 575 | 264 | 118 | 198 |
+| remont_referral | 517 | 182 | 110 | 157 |
 
-## Воркеры
+## Воркеры (3)
 
 | Воркер | Код | Тесты |
 |--------|:---:|:-----:|
@@ -56,32 +56,21 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Сервисов в compose | 8 (Odoo, PostgreSQL, Redis, MinIO, Capture, CV, Timelapse, Nginx) |
-| Dockerfiles | 4 (Odoo, Capture, CV, Timelapse) |
-| .env.example переменных | 35 |
+| Сервисов | 8 (Odoo, PostgreSQL, Redis, MinIO, Capture, CV, Timelapse, Nginx) |
+| Dockerfiles | 4 |
+| Порты | 10069 (Odoo), 10432 (PG), 10379 (Redis), 10900/10901 (MinIO) |
 
 ## SPARC документация
 
-### Project-level (11/11)
+| Метрика | Значение |
+|---------|----------|
+| Project-level docs | 22 файлов |
+| SPARC docs | 11/11 |
+| Feature docs | 97 файлов (15 фич) |
+| Validation score | 82/100 (READY) |
+| ADR | 7 архитектурных решений |
 
-- ✅ PRD.md
-- ✅ Specification.md
-- ✅ Architecture.md
-- ✅ Pseudocode.md
-- ✅ Refinement.md
-- ✅ Completion.md
-- ✅ Research_Findings.md
-- ✅ Solution_Strategy.md
-- ✅ Final_Summary.md
-- ✅ ADR.md (7 архитектурных решений)
-- ✅ C4_Diagrams.md (4 уровня диаграмм)
-
-### Feature-level
-
-- 84 файла (12 фич × 7 docs)
-- Validation score: 82/100 (READY)
-
-## Feature Roadmap (12/12 done)
+## Feature Roadmap (14/14 done)
 
 | # | Feature | Branch |
 |---|---------|--------|
@@ -97,49 +86,50 @@
 | 10 | referral-system | feature/010-referral-system |
 | 11 | vllm-cv-backend | feature/011-vllm-cv-backend |
 | 12 | cloudru-backend | feature/012-cloudru-backend |
+| 13 | drill-down-dashboard | feature/013-drill-down-dashboard |
+| 14 | custom-stages | feature/016-custom-stages |
 
 ## CV Backend — 3 провайдера
 
-| # | Провайдер | Env | Модель |
-|---|-----------|-----|--------|
-| 1 | YOLOv8 (локальный) | `CV_BACKEND=yolo` | remont_stages_v1.pt |
-| 2 | OpenAI | `CV_BACKEND=vllm` `VLLM_API_URL=https://api.openai.com/v1` | gpt-4o-mini |
-| 3 | Cloud.ru | `CV_BACKEND=vllm` `VLLM_API_URL=https://foundation-models.api.cloud.ru/v1/` | qwen/Qwen3-VL-* |
+| # | Провайдер | Модель | Назначение |
+|---|-----------|--------|------------|
+| 1 | YOLOv8 (локальный) | remont_stages_v1.pt | Offline, нужен fine-tune |
+| 2 | OpenAI (через Cloud.ru) | gpt-4o-mini | Vision: классификация снимков |
+| 3 | Cloud.ru GigaChat | GigaChat-2-Max | Text: AI отчёт по проекту |
 
-Тестовых фото: 14 (8 этапов ремонта, Pexels/Unsplash)
+Тестовых фото: 14 (8 этапов, Pexels/Unsplash)
 
 ## Документация
 
-| Язык | Файлов | Содержание |
-|------|:------:|------------|
-| RU | 8 | quickstart, user guide, admin guide, API, architecture, troubleshooting, changelog, TOC |
-| EN | 8 | Зеркальная структура |
-| CJM | 1 | HTML с 3 вариантами, inline-ссылки на источники |
-
-## Harvest & Insights
-
-| Категория | Количество |
-|-----------|:----------:|
+| Тип | Файлов |
+|-----|:------:|
+| RU docs | 8 |
+| EN docs | 8 |
+| CJM прототип (HTML) | 1 |
 | Harvest artifacts | 21 |
-| — Patterns | 7 |
-| — Rules | 2 |
-| — Templates | 4 |
-| — Insights | 8 |
-| Project insights | 6 |
+| Insights | 6 |
 | Memory entries | 10 |
+
+## Live Deploy
+
+| Сервис | URL |
+|--------|-----|
+| Odoo ERP | http://212.192.0.33:10069 |
+| MinIO Console | http://212.192.0.33:10901 |
 
 ## LESSON-08 Compliance
 
 | Проблема LESSON-08 | LESSON-09 |
 |---|---|
-| Phase 4 пропущена 13/13 | **0/12 пропусков** |
+| Phase 4 пропущена 13/13 | **0 пропусков** |
 | Privilege escalation | ✅ заблокирован |
-| JWT secret fallback | ✅ нет (crash on missing) |
-| Tokens в localStorage | ✅ нет (httpOnly cookies) |
-| Float для денег | ✅ нет (Monetary + Decimal) |
-| Webhook без HMAC | ✅ нет (hmac.compare_digest) |
+| JWT secret fallback | ✅ crash on missing |
+| Tokens в localStorage | ✅ httpOnly cookies |
+| Float для денег | ✅ Monetary + Decimal |
+| Webhook без HMAC | ✅ hmac.compare_digest |
 
 ---
 
-*Сгенерировано: 2026-05-27*
-*63 коммита │ 292 файла │ 12 фич │ 7.8K код │ 3K тесты │ 21 harvest*
+*100 коммитов │ 327 файлов │ 14 фич │ 7.8K код │ 3.2K тесты │ 9 модулей │ 3 CV провайдера │ 9 локализаций*
+
+*Обновлено: 2026-05-27*
