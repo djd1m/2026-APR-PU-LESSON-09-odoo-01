@@ -30,5 +30,6 @@
       "visibility": "public"
     }
   },
-  "postStartCommand": "docker compose up -d"
+  "postCreateCommand": "bash .devcontainer/bootstrap.sh",
+  "postStartCommand": "docker compose up -d 2>/dev/null || true"
 }
