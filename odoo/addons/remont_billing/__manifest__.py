@@ -19,6 +19,7 @@
     "depends": ["base", "account", "remont_core", "remont_auth"],
     "data": [
         "security/ir.model.access.csv",
+        "views/billing_views.xml",
     ],
     "installable": True,
     "application": False,

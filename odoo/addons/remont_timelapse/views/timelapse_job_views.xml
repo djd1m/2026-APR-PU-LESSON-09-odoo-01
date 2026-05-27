@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Timelapse Job Tree View -->
+    <record id="view_timelapse_job_tree" model="ir.ui.view">
+        <field name="name">remont.timelapse.job.tree</field>
+        <field name="model">remont.timelapse.job</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status=='done'" decoration-danger="status=='failed'" decoration-info="status=='processing'">
+                <field name="project_id"/>
+                <field name="period"/>
+                <field name="status"/>
+                <field name="frame_count"/>
+                <field name="duration_sec"/>
+                <field name="share_token"/>
+                <field name="created_at"/>
+                <field name="completed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Timelapse Job Form View -->
+    <record id="view_timelapse_job_form" model="ir.ui.view">
+        <field name="name">remont.timelapse.job.form</field>
+        <field name="model">remont.timelapse.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="queued,processing,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="period"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="frame_count"/>
+                            <field name="duration_sec"/>
+                            <field name="share_token"/>
+                            <field name="video_url"/>
+                        </group>
+                    </group>
+                    <group string="Timestamps">
+                        <field name="created_at"/>
+                        <field name="completed_at"/>
+                    </group>
+                    <group string="Error" attrs="{'invisible': [('status', '!=', 'failed')]}">
+                        <field name="error_message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_timelapse_job_search" model="ir.ui.view">
+        <field name="name">remont.timelapse.job.search</field>
+        <field name="model">remont.timelapse.job</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id"/>
+                <field name="period"/>
+                <filter name="daily" string="Daily" domain="[('period','=','daily')]"/>
+                <filter name="weekly" string="Weekly" domain="[('period','=','weekly')]"/>
+                <separator/>
+                <filter name="queued" string="Queued" domain="[('status','=','queued')]"/>
+                <filter name="done" string="Done" domain="[('status','=','done')]"/>
+                <filter name="failed" string="Failed" domain="[('status','=','failed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_period" string="Period" context="{'group_by': 'period'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_timelapse_job" model="ir.actions.act_window">
+        <field name="name">Timelapse Jobs</field>
+        <field name="res_model">remont.timelapse.job</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_timelapse_job_search"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_timelapse"
+              name="Timelapses"
+              parent="remont_core.menu_remont_root"
+              action="action_timelapse_job"
+              sequence="40"/>
+</odoo>
