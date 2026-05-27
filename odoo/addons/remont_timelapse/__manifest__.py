@@ -16,6 +16,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/timelapse_cron.xml",
+        "views/timelapse_job_views.xml",
     ],
     "installable": True,
     "application": False,
