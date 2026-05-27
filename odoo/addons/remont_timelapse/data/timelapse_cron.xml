@@ -8,8 +8,6 @@
         <field name="code">model._cron_enqueue_daily_timelapse()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="nextcall" eval="'2026-01-01 03:00:00'"/>
-        <field name="numbercall">-1</field>
         <field name="active">True</field>
     </record>
 
