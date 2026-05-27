@@ -67,7 +67,7 @@
                 <filter name="queued" string="Queued" domain="[('status','=','queued')]"/>
                 <filter name="done" string="Done" domain="[('status','=','done')]"/>
                 <filter name="failed" string="Failed" domain="[('status','=','failed')]"/>
-                <group expand="0" string="Group By">
+                <group string="Group By">
                     <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
                     <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
                     <filter name="group_period" string="Period" context="{'group_by': 'period'}"/>
