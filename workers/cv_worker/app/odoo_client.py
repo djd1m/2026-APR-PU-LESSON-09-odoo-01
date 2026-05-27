@@ -37,7 +37,7 @@ class OdooClient:
         )
 
     def update_snapshot(self, snapshot_id: int, stage: str, confidence: float,
-                        model_version: str = None):
+                        model_version: str = None, explanation: str = None):
         """Update snapshot with CV detection result."""
         vals = {
             'stage_detected': stage,
@@ -45,9 +45,11 @@ class OdooClient:
         }
         if model_version:
             vals['model_version'] = model_version
+        if explanation:
+            vals['cv_explanation'] = explanation
         self.execute('remont.snapshot', 'write', [snapshot_id], vals)
         logger.info(
-            "Updated snapshot %s: stage=%s, confidence=%.2f, model=%s",
+            "Updated snapshot %s: stage=%s, confidence=%.2f, backend=%s",
             snapshot_id, stage, confidence, model_version or "N/A",
         )
 
