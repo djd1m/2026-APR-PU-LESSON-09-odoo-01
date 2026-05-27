@@ -10,9 +10,9 @@
 
 - **Stories analyzed:** 28 (PRD: 28 user stories, Specification: 22 detailed user stories)
 - **Average score:** 82/100
-- **Blocked:** 0 (score < 50)
-- **Warnings:** 2 (score 50-69)
-- **Ready:** 26 (score >= 70)
+- **Blocked:** 0 (below 50)
+- **Warnings:** 2 (range 50-69)
+- **Ready:** 26 (70 and above)
 
 ---
 
