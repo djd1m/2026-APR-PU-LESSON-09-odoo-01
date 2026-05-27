@@ -6,7 +6,7 @@
         <field name="name">remont.referral.tree</field>
         <field name="model">remont.referral</field>
         <field name="arch" type="xml">
-            <tree string="Referrals">
+            <list string="Referrals">
                 <field name="referrer_id"/>
                 <field name="referred_id"/>
                 <field name="share_token"/>
@@ -17,7 +17,7 @@
                        widget="badge"/>
                 <field name="activated_at"/>
                 <field name="create_date" string="Created"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
     <record id="action_remont_referral" model="ir.actions.act_window">
         <field name="name">Referrals</field>
         <field name="res_model">remont.referral</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_remont_referral_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -6,7 +6,7 @@
         <field name="name">remont.timelapse.tree</field>
         <field name="model">remont.timelapse</field>
         <field name="arch" type="xml">
-            <tree string="Timelapses">
+            <list string="Timelapses">
                 <field name="project_id"/>
                 <field name="camera_id"/>
                 <field name="period" widget="badge"/>
@@ -16,7 +16,7 @@
                 <field name="frame_count"/>
                 <field name="share_token"/>
                 <field name="video_url" widget="url"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -55,7 +55,7 @@
     <record id="action_remont_timelapse" model="ir.actions.act_window">
         <field name="name">Timelapses</field>
         <field name="res_model">remont.timelapse</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No timelapses yet

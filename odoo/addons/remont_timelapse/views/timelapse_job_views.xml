@@ -5,7 +5,7 @@
         <field name="name">remont.timelapse.job.tree</field>
         <field name="model">remont.timelapse.job</field>
         <field name="arch" type="xml">
-            <tree decoration-success="status=='done'" decoration-danger="status=='failed'" decoration-info="status=='processing'">
+            <list decoration-success="status=='done'" decoration-danger="status=='failed'" decoration-info="status=='processing'">
                 <field name="project_id"/>
                 <field name="period"/>
                 <field name="status"/>
@@ -14,7 +14,7 @@
                 <field name="share_token"/>
                 <field name="created_at"/>
                 <field name="completed_at"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -80,7 +80,7 @@
     <record id="action_timelapse_job" model="ir.actions.act_window">
         <field name="name">Timelapse Jobs</field>
         <field name="res_model">remont.timelapse.job</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_timelapse_job_search"/>
     </record>
 
