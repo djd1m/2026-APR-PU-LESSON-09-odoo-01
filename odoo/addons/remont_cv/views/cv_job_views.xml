@@ -85,7 +85,7 @@
                 <filter string="Needs Review" name="needs_review"
                         domain="[('needs_manual_review', '=', True)]"/>
                 <separator/>
-                <group string="Group By">
+                <group>
                     <filter string="Status" name="group_status"
                             context="{'group_by': 'status'}"/>
                     <filter string="Stage" name="group_stage"

@@ -78,7 +78,7 @@
                 <filter string="Info" name="severity_info"
                         domain="[('severity', '=', 'info')]"/>
                 <separator/>
-                <group string="Group By">
+                <group>
                     <filter string="Type" name="group_type"
                             context="{'group_by': 'type'}"/>
                     <filter string="Severity" name="group_severity"

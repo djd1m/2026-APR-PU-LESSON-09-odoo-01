@@ -67,7 +67,7 @@
                         domain="[('status', '=', 'activated')]"/>
                 <filter string="Expired" name="expired"
                         domain="[('status', '=', 'expired')]"/>
-                <group string="Group By">
+                <group>
                     <filter string="Status" name="group_status"
                             context="{'group_by': 'status'}"/>
                     <filter string="Referrer" name="group_referrer"
