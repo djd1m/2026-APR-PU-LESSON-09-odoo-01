@@ -18,6 +18,7 @@
         "views/stage_views.xml",
         "views/budget_views.xml",
         "views/menus.xml",
+        "views/snapshot_views.xml",
     ],
     "installable": True,
     "application": True,

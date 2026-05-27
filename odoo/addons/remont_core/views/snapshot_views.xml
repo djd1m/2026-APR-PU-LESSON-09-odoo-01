@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Snapshot List View -->
+    <record id="view_remont_snapshot_list" model="ir.ui.view">
+        <field name="name">remont.snapshot.list</field>
+        <field name="model">remont.snapshot</field>
+        <field name="arch" type="xml">
+            <list string="Stage Photos"
+                  decoration-warning="cv_confidence &gt; 0 and cv_confidence &lt; 0.65"
+                  decoration-success="cv_confidence &gt;= 0.65"
+                  decoration-muted="cv_confidence == 0">
+                <field name="captured_at"/>
+                <field name="project_id"/>
+                <field name="stage_detected"/>
+                <field name="cv_confidence" widget="progressbar"/>
+                <field name="cv_backend"/>
+                <field name="model_version"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Snapshot Form View -->
+    <record id="view_remont_snapshot_form" model="ir.ui.view">
+        <field name="name">remont.snapshot.form</field>
+        <field name="model">remont.snapshot</field>
+        <field name="arch" type="xml">
+            <form string="Stage Photo">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="stage_detected" readonly="1"/>
+                        </h1>
+                        <div>
+                            Captured <field name="captured_at" readonly="1"/>
+                            in project <field name="project_id" readonly="1"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="Image">
+                            <field name="image_url" widget="url"/>
+                            <field name="thumbnail_url" widget="url"/>
+                        </group>
+                        <group string="AI Diagnostics">
+                            <field name="stage_detected"/>
+                            <field name="cv_confidence" widget="progressbar"/>
+                            <field name="cv_backend"/>
+                            <field name="model_version"/>
+                        </group>
+                    </group>
+                    <group string="AI Explanation"
+                           invisible="not cv_explanation">
+                        <field name="cv_explanation" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Snapshot Search View -->
+    <record id="view_remont_snapshot_search" model="ir.ui.view">
+        <field name="name">remont.snapshot.search</field>
+        <field name="model">remont.snapshot</field>
+        <field name="arch" type="xml">
+            <search string="Search Photos">
+                <field name="project_id"/>
+                <field name="stage_detected"/>
+                <field name="cv_backend"/>
+                <field name="model_version"/>
+                <separator/>
+                <filter string="High confidence (&gt;=65%)" name="high_conf"
+                        domain="[('cv_confidence', '&gt;=', 0.65)]"/>
+                <filter string="Low confidence (&lt;65%)" name="low_conf"
+                        domain="[('cv_confidence', '&gt;', 0), ('cv_confidence', '&lt;', 0.65)]"/>
+                <filter string="Unanalyzed" name="unanalyzed"
+                        domain="[('cv_confidence', '=', 0)]"/>
+                <separator/>
+                <filter string="YOLO backend" name="yolo"
+                        domain="[('cv_backend', '=', 'yolo')]"/>
+                <filter string="vLLM backend" name="vllm"
+                        domain="[('cv_backend', '=', 'vllm')]"/>
+                <group>
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter string="Stage" name="group_stage"
+                            context="{'group_by': 'stage_detected'}"/>
+                    <filter string="Backend" name="group_backend"
+                            context="{'group_by': 'cv_backend'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Snapshot Action -->
+    <record id="action_remont_snapshot" model="ir.actions.act_window">
+        <field name="name">Stage Photos</field>
+        <field name="res_model">remont.snapshot</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_remont_snapshot_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No photos yet
+            </p>
+            <p>
+                Photos appear here once cameras start capturing and CV worker
+                analyzes renovation stages.
+            </p>
+        </field>
+    </record>
+
+    <!-- Snapshot Menu -->
+    <menuitem id="menu_remont_snapshots"
+              name="Photos"
+              parent="menu_remont_root"
+              action="action_remont_snapshot"
+              sequence="15"/>
+
+</odoo>
