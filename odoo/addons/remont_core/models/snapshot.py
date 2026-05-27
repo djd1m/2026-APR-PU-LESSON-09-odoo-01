@@ -23,11 +23,7 @@ class RemontSnapshot(models.Model):
     thumbnail_url = fields.Char(string="Thumbnail URL")
     captured_at = fields.Datetime(string="Captured At")
 
-    # camera_id added by remont_camera module via _inherit
-    camera_id = fields.Integer(
-        string="Camera ID",
-        help="Camera reference (populated by remont_camera module)",
-    )
+    # camera_id is added by remont_camera module via _inherit
     project_id = fields.Many2one(
         "remont.project",
         string="Project",

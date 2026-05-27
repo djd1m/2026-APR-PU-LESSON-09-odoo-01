@@ -46,7 +46,7 @@ class CaptureService(models.AbstractModel):
         """
         camera.ensure_one()
 
-        if camera.status != "active":
+        if camera.status != "online":
             _logger.info(
                 "Skipping capture for camera %s (status=%s)",
                 camera.serial_number,
@@ -97,7 +97,7 @@ class CaptureService(models.AbstractModel):
         is due.
         """
         cameras = self.env["remont.camera"].search([
-            ("status", "=", "active"),
+            ("status", "=", "online"),
         ])
 
         now = fields.Datetime.now()
