@@ -7,7 +7,11 @@
  * Best-effort: never breaks the Claude session on push failures.
  */
 
+const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+
+const PROJECT_ROOT = process.env.CLAUDE_PROJECT_DIR || path.resolve(__dirname, '..', '..');
+try { process.chdir(PROJECT_ROOT); } catch { process.exit(0); }
 
 const SILENT = { stdio: 'ignore' };
 

@@ -10,8 +10,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
-const TARGET = path.resolve(process.cwd(), '.claude', 'feature-roadmap.json');
-const RELATIVE = path.relative(process.cwd(), TARGET);
+const PROJECT_ROOT = process.env.CLAUDE_PROJECT_DIR || path.resolve(__dirname, '..', '..');
+try { process.chdir(PROJECT_ROOT); } catch { process.exit(0); }
+
+const TARGET = path.resolve(PROJECT_ROOT, '.claude', 'feature-roadmap.json');
+const RELATIVE = path.relative(PROJECT_ROOT, TARGET);
 const SILENT = { stdio: 'ignore' };
 
 function git(args) {

@@ -10,8 +10,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
-const TARGET_DIR = path.resolve(process.cwd(), 'docs', 'plans');
-const RELATIVE = path.relative(process.cwd(), TARGET_DIR);
+const PROJECT_ROOT = process.env.CLAUDE_PROJECT_DIR || path.resolve(__dirname, '..', '..');
+try { process.chdir(PROJECT_ROOT); } catch { process.exit(0); }
+
+const TARGET_DIR = path.resolve(PROJECT_ROOT, 'docs', 'plans');
+const RELATIVE = path.relative(PROJECT_ROOT, TARGET_DIR);
 const SILENT = { stdio: 'ignore' };
 
 function git(args) {
