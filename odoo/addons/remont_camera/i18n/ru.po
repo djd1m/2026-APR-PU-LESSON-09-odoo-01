@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_camera
+msgid "Renovation Camera"
+msgstr "Камера для ремонта"
+
+#. module: remont_camera
+msgid "Camera Name"
+msgstr "Название камеры"
+
+#. module: remont_camera
+msgid "RTSP URL"
+msgstr "RTSP URL"
+
+#. module: remont_camera
+msgid "Capture Interval (min)"
+msgstr "Интервал съёмки (мин)"
+
+#. module: remont_camera
+msgid "Capture Interval Minutes"
+msgstr "Интервал съёмки (мин)"
+
+#. module: remont_camera
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_camera
+msgid "Online"
+msgstr "Онлайн"
+
+#. module: remont_camera
+msgid "Offline"
+msgstr "Оффлайн"
+
+#. module: remont_camera
+msgid "Error"
+msgstr "Ошибка"
+
+#. module: remont_camera
+msgid "Last Capture At"
+msgstr "Последняя съёмка"
+
+#. module: remont_camera
+msgid "Snapshot Count"
+msgstr "Кол-во снимков"
+
+#. module: remont_camera
+msgid "Cameras"
+msgstr "Камеры"
+
+#. module: remont_camera
+msgid "Camera"
+msgstr "Камера"
+
+#. module: remont_camera
+msgid "Snapshots"
+msgstr "Снимки"
+
+#. module: remont_camera
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_camera
+msgid "Add your first camera"
+msgstr "Добавьте первую камеру"
+
+#. module: remont_camera
+msgid "Register IP cameras for automated renovation monitoring."
+msgstr "Зарегистрируйте IP-камеры для автоматического мониторинга ремонта."
+
+#. module: remont_camera
+msgid "Timelapses"
+msgstr "Таймлапсы"
+
+#. module: remont_camera
+msgid "Timelapse"
+msgstr "Таймлапс"
+
+#. module: remont_camera
+msgid "Renovation Timelapse"
+msgstr "Таймлапс ремонта"
+
+#. module: remont_camera
+msgid "Video URL"
+msgstr "URL видео"
+
+#. module: remont_camera
+msgid "Created At"
+msgstr "Создан"
+
+#. module: remont_camera
+msgid "Frames"
+msgstr "Кадров"
+
+#. module: remont_camera
+msgid "Duration (s)"
+msgstr "Длительность (с)"
+
+#. module: remont_camera
+msgid "Timelapse videos are generated automatically from camera snapshots."
+msgstr "Видео-таймлапсы создаются автоматически из снимков камер."

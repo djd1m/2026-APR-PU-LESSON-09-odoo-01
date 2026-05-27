@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_portal
+msgid "My Projects"
+msgstr "Мои проекты"
+
+#. module: remont_portal
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_portal
+msgid "Projects"
+msgstr "Проекты"
+
+#. module: remont_portal
+msgid "Photos"
+msgstr "Фото"
+
+#. module: remont_portal
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_portal
+msgid "Progress"
+msgstr "Прогресс"
+
+#. module: remont_portal
+msgid "Budget"
+msgstr "Бюджет"
+
+#. module: remont_portal
+msgid "Estimate"
+msgstr "Смета"
+
+#. module: remont_portal
+msgid "Actual"
+msgstr "Факт"
+
+#. module: remont_portal
+msgid "Timelapse"
+msgstr "Таймлапс"
+
+#. module: remont_portal
+msgid "Showing 20 of"
+msgstr "Показано 20 из"
+
+#. module: remont_portal
+msgid "photos"
+msgstr "фото"

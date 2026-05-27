@@ -1,0 +1,407 @@
+#
+# Translators:
+# RemontERP <hello@remont-erp.ru>, 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: RemontERP\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#. module: remont_core
+msgid "RemontERP"
+msgstr "RemontERP"
+
+#. module: remont_core
+msgid "Projects"
+msgstr "Проекты"
+
+#. module: remont_core
+msgid "Stages"
+msgstr "Этапы"
+
+#. module: remont_core
+msgid "Photos"
+msgstr "Фото"
+
+#. module: remont_core
+msgid "Renovation Project"
+msgstr "Проект ремонта"
+
+#. module: remont_core
+msgid "Renovation Projects"
+msgstr "Проекты ремонта"
+
+#. module: remont_core
+msgid "Project Name"
+msgstr "Название проекта"
+
+#. module: remont_core
+msgid "Address"
+msgstr "Адрес"
+
+#. module: remont_core
+msgid "Area (sq.m)"
+msgstr "Площадь (м²)"
+
+#. module: remont_core
+msgid "Renovation Type"
+msgstr "Тип работ"
+
+#. module: remont_core
+msgid "Currency"
+msgstr "Валюта"
+
+#. module: remont_core
+msgid "Budget Estimate"
+msgstr "Сметный бюджет"
+
+#. module: remont_core
+msgid "Budget Actual"
+msgstr "Фактический бюджет"
+
+#. module: remont_core
+msgid "Start Date"
+msgstr "Дата начала"
+
+#. module: remont_core
+msgid "Planned End Date"
+msgstr "Плановая дата окончания"
+
+#. module: remont_core
+msgid "Predicted End Date"
+msgstr "Прогноз окончания"
+
+#. module: remont_core
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_core
+msgid "Owner"
+msgstr "Владелец"
+
+#. module: remont_core
+msgid "Contractor"
+msgstr "Подрядчик"
+
+#. module: remont_core
+msgid "Overall Progress (%)"
+msgstr "Общий прогресс (%)"
+
+#. module: remont_core
+msgid "Photo Count"
+msgstr "Кол-во фото"
+
+#. module: remont_core
+msgid "General"
+msgstr "Общее"
+
+#. module: remont_core
+msgid "Schedule"
+msgstr "График"
+
+#. module: remont_core
+msgid "Budget & Progress"
+msgstr "Бюджет и прогресс"
+
+#. module: remont_core
+msgid "Renovation Progress (AI)"
+msgstr "Прогресс ремонта (ИИ)"
+
+#. module: remont_core
+msgid "Current Stage"
+msgstr "Текущая стадия"
+
+#. module: remont_core
+msgid "Stage Confidence"
+msgstr "Уверенность в стадии"
+
+#. module: remont_core
+msgid "Bottleneck Stage"
+msgstr "Что тормозит"
+
+#. module: remont_core
+msgid "Last Photo At"
+msgstr "Последнее фото"
+
+#. module: remont_core
+msgid "Needs Review"
+msgstr "Требуют проверки"
+
+#. module: remont_core
+msgid "Stage Distribution"
+msgstr "Распределение по этапам"
+
+#. module: remont_core
+msgid "Distribution"
+msgstr "Распределение"
+
+#. module: remont_core
+msgid "Demolition"
+msgstr "Демонтаж"
+
+#. module: remont_core
+msgid "Electrical"
+msgstr "Электрика"
+
+#. module: remont_core
+msgid "Plumbing"
+msgstr "Сантехника"
+
+#. module: remont_core
+msgid "Plaster"
+msgstr "Штукатурка"
+
+#. module: remont_core
+msgid "Screed"
+msgstr "Стяжка"
+
+#. module: remont_core
+msgid "Tiles"
+msgstr "Плитка"
+
+#. module: remont_core
+msgid "Painting"
+msgstr "Покраска"
+
+#. module: remont_core
+msgid "Finishing"
+msgstr "Чистовая отделка"
+
+#. module: remont_core
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#. module: remont_core
+msgid "New Construction"
+msgstr "Новое строительство"
+
+#. module: remont_core
+msgid "Renovation"
+msgstr "Ремонт"
+
+#. module: remont_core
+msgid "Draft"
+msgstr "Черновик"
+
+#. module: remont_core
+msgid "Planning"
+msgstr "Планирование"
+
+#. module: remont_core
+msgid "In Progress"
+msgstr "В работе"
+
+#. module: remont_core
+msgid "Completed"
+msgstr "Завершён"
+
+#. module: remont_core
+msgid "On Hold"
+msgstr "Приостановлен"
+
+#. module: remont_core
+msgid "Cancelled"
+msgstr "Отменён"
+
+#. module: remont_core
+msgid "Stage"
+msgstr "Этап"
+
+#. module: remont_core
+msgid "Stage Name"
+msgstr "Название этапа"
+
+#. module: remont_core
+msgid "Sequence"
+msgstr "Порядок"
+
+#. module: remont_core
+msgid "Progress %"
+msgstr "Прогресс %"
+
+#. module: remont_core
+msgid "Weight"
+msgstr "Вес"
+
+#. module: remont_core
+msgid "Planned Start"
+msgstr "Плановое начало"
+
+#. module: remont_core
+msgid "Planned End"
+msgstr "Плановое окончание"
+
+#. module: remont_core
+msgid "Actual Start"
+msgstr "Фактическое начало"
+
+#. module: remont_core
+msgid "Actual End"
+msgstr "Фактическое окончание"
+
+#. module: remont_core
+msgid "Planned"
+msgstr "Запланирован"
+
+#. module: remont_core
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_core
+msgid "Camera Snapshot"
+msgstr "Снимок с камеры"
+
+#. module: remont_core
+msgid "Stage Photo"
+msgstr "Фото этапа"
+
+#. module: remont_core
+msgid "Stage Photos"
+msgstr "Фото этапов"
+
+#. module: remont_core
+msgid "Image URL"
+msgstr "URL изображения"
+
+#. module: remont_core
+msgid "Thumbnail URL"
+msgstr "URL миниатюры"
+
+#. module: remont_core
+msgid "Captured At"
+msgstr "Время съёмки"
+
+#. module: remont_core
+msgid "Camera ID"
+msgstr "ID камеры"
+
+#. module: remont_core
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_core
+msgid "Detected Stage"
+msgstr "Распознанная стадия"
+
+#. module: remont_core
+msgid "CV Confidence"
+msgstr "Уверенность ИИ"
+
+#. module: remont_core
+msgid "AI Explanation"
+msgstr "Пояснение ИИ"
+
+#. module: remont_core
+msgid "CV Backend"
+msgstr "Бэкенд ИИ"
+
+#. module: remont_core
+msgid "Model Version"
+msgstr "Версия модели"
+
+#. module: remont_core
+msgid "Photo"
+msgstr "Фото"
+
+#. module: remont_core
+msgid "Full URL"
+msgstr "Полный URL"
+
+#. module: remont_core
+msgid "AI Diagnostics"
+msgstr "Диагностика ИИ"
+
+#. module: remont_core
+msgid "Search Photos"
+msgstr "Поиск фото"
+
+#. module: remont_core
+msgid "High confidence (>=65%)"
+msgstr "Высокая уверенность (≥65%)"
+
+#. module: remont_core
+msgid "Low confidence (<65%)"
+msgstr "Низкая уверенность (<65%)"
+
+#. module: remont_core
+msgid "Unanalyzed"
+msgstr "Не анализировалось"
+
+#. module: remont_core
+msgid "YOLO backend"
+msgstr "Бэкенд YOLO"
+
+#. module: remont_core
+msgid "vLLM backend"
+msgstr "Бэкенд vLLM"
+
+#. module: remont_core
+msgid "Backend"
+msgstr "Бэкенд"
+
+#. module: remont_core
+msgid "Open Project"
+msgstr "Перейти к проекту"
+
+#. module: remont_core
+msgid "No photos yet"
+msgstr "Пока нет фото"
+
+#. module: remont_core
+msgid "No photos captured yet."
+msgstr "Снимков пока нет."
+
+#. module: remont_core
+msgid "Photos appear here once cameras start capturing and CV worker analyzes renovation stages."
+msgstr "Фото появятся здесь, как только камеры начнут съёмку и ИИ-обработчик начнёт анализ этапов ремонта."
+
+#. module: remont_core
+msgid "Budget"
+msgstr "Бюджет"
+
+#. module: remont_core
+msgid "Budgets"
+msgstr "Бюджеты"
+
+#. module: remont_core
+msgid "Budget Line"
+msgstr "Строка бюджета"
+
+#. module: remont_core
+msgid "Amount"
+msgstr "Сумма"
+
+#. module: remont_core
+msgid "Description"
+msgstr "Описание"
+
+#. module: remont_core
+msgid "Category"
+msgstr "Категория"
+
+#. module: remont_core
+msgid "Checklist Item"
+msgstr "Пункт чек-листа"
+
+#. module: remont_core
+msgid "Active"
+msgstr "Активно"
+
+#. module: remont_core
+msgid "Budget estimate must be positive."
+msgstr "Сметный бюджет должен быть положительным."
+
+#. module: remont_core
+msgid "Budget actual must be positive."
+msgstr "Фактический бюджет должен быть положительным."
+
+#. module: remont_core
+msgid "Planned end date must be after start date."
+msgstr "Плановая дата окончания должна быть позже даты начала."

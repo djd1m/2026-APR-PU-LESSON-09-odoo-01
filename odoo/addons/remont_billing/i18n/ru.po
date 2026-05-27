@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_billing
+msgid "Billing"
+msgstr "Биллинг"
+
+#. module: remont_billing
+msgid "Subscription"
+msgstr "Подписка"
+
+#. module: remont_billing
+msgid "Subscriptions"
+msgstr "Подписки"
+
+#. module: remont_billing
+msgid "Payment"
+msgstr "Платёж"
+
+#. module: remont_billing
+msgid "Payments"
+msgstr "Платежи"
+
+#. module: remont_billing
+msgid "Customer"
+msgstr "Клиент"
+
+#. module: remont_billing
+msgid "Plan"
+msgstr "Тариф"
+
+#. module: remont_billing
+msgid "Amount"
+msgstr "Сумма"
+
+#. module: remont_billing
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_billing
+msgid "Active"
+msgstr "Активна"
+
+#. module: remont_billing
+msgid "Expired"
+msgstr "Истекла"
+
+#. module: remont_billing
+msgid "Cancelled"
+msgstr "Отменена"
+
+#. module: remont_billing
+msgid "Pending"
+msgstr "Ожидает"
+
+#. module: remont_billing
+msgid "Succeeded"
+msgstr "Успешно"
+
+#. module: remont_billing
+msgid "Failed"
+msgstr "Ошибка"
+
+#. module: remont_billing
+msgid "Canceled"
+msgstr "Отменён"
+
+#. module: remont_billing
+msgid "YuKassa Payment ID"
+msgstr "ID платежа YuKassa"
+
+#. module: remont_billing
+msgid "Created At"
+msgstr "Создано"
+
+#. module: remont_billing
+msgid "Paid At"
+msgstr "Оплачено"
+
+#. module: remont_billing
+msgid "Basic"
+msgstr "Базовый"
+
+#. module: remont_billing
+msgid "Pro"
+msgstr "Профессиональный"
+
+#. module: remont_billing
+msgid "Enterprise"
+msgstr "Корпоративный"

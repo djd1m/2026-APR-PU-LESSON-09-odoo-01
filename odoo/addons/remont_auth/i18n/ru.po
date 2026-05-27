@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_auth
+msgid "Role"
+msgstr "Роль"
+
+#. module: remont_auth
+msgid "Viewer"
+msgstr "Просмотр"
+
+#. module: remont_auth
+msgid "Owner"
+msgstr "Владелец"
+
+#. module: remont_auth
+msgid "Contractor"
+msgstr "Подрядчик"
+
+#. module: remont_auth
+msgid "Worker"
+msgstr "Рабочий"
+
+#. module: remont_auth
+msgid "Admin"
+msgstr "Администратор"
+
+#. module: remont_auth
+msgid "Login"
+msgstr "Вход"
+
+#. module: remont_auth
+msgid "Email"
+msgstr "Email"
+
+#. module: remont_auth
+msgid "Password"
+msgstr "Пароль"
+
+#. module: remont_auth
+msgid "Name"
+msgstr "Имя"
+
+#. module: remont_auth
+msgid "Phone"
+msgstr "Телефон"

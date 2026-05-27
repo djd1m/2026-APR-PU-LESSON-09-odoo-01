@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_timelapse
+msgid "Timelapse Job"
+msgstr "Задача таймлапса"
+
+#. module: remont_timelapse
+msgid "Timelapses"
+msgstr "Таймлапсы"
+
+#. module: remont_timelapse
+msgid "Timelapse"
+msgstr "Таймлапс"
+
+#. module: remont_timelapse
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_timelapse
+msgid "Queued"
+msgstr "В очереди"
+
+#. module: remont_timelapse
+msgid "Processing"
+msgstr "Обрабатывается"
+
+#. module: remont_timelapse
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_timelapse
+msgid "Failed"
+msgstr "Ошибка"
+
+#. module: remont_timelapse
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_timelapse
+msgid "Video URL"
+msgstr "URL видео"
+
+#. module: remont_timelapse
+msgid "Frame Count"
+msgstr "Кол-во кадров"
+
+#. module: remont_timelapse
+msgid "Duration (s)"
+msgstr "Длительность (с)"
+
+#. module: remont_timelapse
+msgid "Created At"
+msgstr "Создано"
+
+#. module: remont_timelapse
+msgid "Completed At"
+msgstr "Завершено"
+
+#. module: remont_timelapse
+msgid "Error"
+msgstr "Ошибка"
+
+#. module: remont_timelapse
+msgid "Error Message"
+msgstr "Сообщение об ошибке"

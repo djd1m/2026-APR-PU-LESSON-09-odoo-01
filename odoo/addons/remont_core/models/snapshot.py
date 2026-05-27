@@ -55,3 +55,14 @@ class RemontSnapshot(models.Model):
         string="Model Version",
         help="Version of the model or backend that produced this detection.",
     )
+
+    def action_open_project(self):
+        """Navigate to the project this snapshot belongs to."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "remont.project",
+            "view_mode": "form",
+            "res_id": self.project_id.id,
+            "target": "current",
+        }

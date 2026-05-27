@@ -28,6 +28,13 @@
         <field name="model">remont.snapshot</field>
         <field name="arch" type="xml">
             <form string="Stage Photo">
+                <header>
+                    <button name="action_open_project"
+                            type="object"
+                            string="Open Project"
+                            class="oe_highlight"
+                            icon="fa-folder-open"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>

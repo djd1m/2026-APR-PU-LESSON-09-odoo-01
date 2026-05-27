@@ -1,6 +1,10 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+import json
+import math
+from collections import defaultdict
 from decimal import Decimal
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 RENOVATION_TYPES = [
@@ -16,6 +20,115 @@ PROJECT_STATUSES = [
     ("on_hold", "On Hold"),
     ("cancelled", "Cancelled"),
 ]
+
+STAGE_OPTIONS = [
+    ("demolition", "Demolition"),
+    ("electrical", "Electrical"),
+    ("plumbing", "Plumbing"),
+    ("plaster", "Plaster"),
+    ("screed", "Screed"),
+    ("tiles", "Tiles"),
+    ("painting", "Painting"),
+    ("finishing", "Finishing"),
+    ("unknown", "Unknown"),
+]
+
+AGGREGATION_WINDOW = 20
+AGGREGATION_MIN_CONFIDENCE = 0.5
+AGGREGATION_REVIEW_THRESHOLD = 0.65
+AGGREGATION_HALF_LIFE_HOURS = 48.0
+
+
+def _aggregate_stages(snapshots, now):
+    """Pure-Python aggregation algorithm — unit-testable without ORM.
+
+    `snapshots` is an iterable of dicts with keys:
+        captured_at (datetime|False), cv_confidence (float),
+        stage_detected (str|False).
+    `now` is a datetime used for recency weighting.
+
+    Returns dict with keys: current_stage, current_stage_confidence,
+    bottleneck_stage, last_snapshot_at, needs_review_count,
+    stage_distribution_json.
+    """
+    sortable = [
+        s for s in snapshots
+        if s.get("captured_at")
+    ]
+    sortable.sort(key=lambda s: s["captured_at"], reverse=True)
+
+    last_snapshot_at = sortable[0]["captured_at"] if sortable else False
+
+    # Weighted voting on the most-recent WINDOW snapshots
+    window = sortable[:AGGREGATION_WINDOW]
+    votes = defaultdict(float)
+    total_weight = 0.0
+    for s in window:
+        conf = s.get("cv_confidence") or 0.0
+        stage = s.get("stage_detected")
+        if conf < AGGREGATION_MIN_CONFIDENCE:
+            continue
+        if not stage or stage == "unknown":
+            continue
+        age_hours = max(
+            0.0,
+            (now - s["captured_at"]).total_seconds() / 3600.0,
+        )
+        weight = conf * math.exp(-age_hours / AGGREGATION_HALF_LIFE_HOURS)
+        votes[stage] += weight
+        total_weight += weight
+
+    if votes and total_weight > 0:
+        winner_stage, winner_weight = max(votes.items(), key=lambda kv: kv[1])
+        current_stage = winner_stage
+        current_confidence = winner_weight / total_weight
+    else:
+        current_stage = False
+        current_confidence = 0.0
+
+    # needs_review_count + distribution + per-stage low-confidence counts —
+    # over ALL snapshots, not just the window
+    needs_review_count = 0
+    distribution = defaultdict(int)
+    low_conf_by_stage = defaultdict(int)
+    oldest_by_stage = {}
+    for s in snapshots:
+        stage = s.get("stage_detected")
+        conf = s.get("cv_confidence") or 0.0
+        captured = s.get("captured_at")
+        if stage:
+            distribution[stage] += 1
+        if 0.0 < conf < AGGREGATION_REVIEW_THRESHOLD:
+            needs_review_count += 1
+            if stage:
+                low_conf_by_stage[stage] += 1
+        if stage and stage != "unknown" and captured:
+            existing = oldest_by_stage.get(stage)
+            if existing is None or captured < existing:
+                oldest_by_stage[stage] = captured
+
+    # Bottleneck: max low-confidence stage, else oldest stuck stage
+    if low_conf_by_stage:
+        bottleneck_stage = max(
+            low_conf_by_stage.items(), key=lambda kv: kv[1]
+        )[0]
+    elif oldest_by_stage:
+        bottleneck_stage = min(
+            oldest_by_stage.items(), key=lambda kv: kv[1]
+        )[0]
+    else:
+        bottleneck_stage = False
+
+    return {
+        "current_stage": current_stage,
+        "current_stage_confidence": current_confidence,
+        "bottleneck_stage": bottleneck_stage,
+        "last_snapshot_at": last_snapshot_at,
+        "needs_review_count": needs_review_count,
+        "stage_distribution_json": json.dumps(
+            dict(distribution), ensure_ascii=True, sort_keys=True
+        ),
+    }
 
 
 class RemontProject(models.Model):
@@ -76,11 +189,123 @@ class RemontProject(models.Model):
         string="Stages",
     )
 
+    snapshot_ids = fields.One2many(
+        "remont.snapshot",
+        "project_id",
+        string="Snapshots",
+    )
+
+    snapshot_count = fields.Integer(
+        string="Photo Count",
+        compute="_compute_snapshot_count",
+    )
+
     overall_progress = fields.Float(
         string="Overall Progress (%)",
         compute="_compute_overall_progress",
         store=True,
     )
+
+    # Stage aggregation (computed from snapshots)
+    current_stage = fields.Selection(
+        selection=STAGE_OPTIONS,
+        string="Current Stage",
+        compute="_compute_stage_aggregation",
+        store=True,
+        help="Most likely current renovation stage based on weighted voting "
+             "over the most recent snapshots (confidence × recency).",
+    )
+    current_stage_confidence = fields.Float(
+        string="Stage Confidence",
+        compute="_compute_stage_aggregation",
+        store=True,
+        digits=(3, 4),
+        help="Confidence (0.0–1.0) that current_stage is the actual stage.",
+    )
+    bottleneck_stage = fields.Selection(
+        selection=STAGE_OPTIONS,
+        string="Bottleneck Stage",
+        compute="_compute_stage_aggregation",
+        store=True,
+        help="The stage that is slowing the project down — either the stage "
+             "with the most low-confidence snapshots, or the oldest stage "
+             "that still has activity (stuck).",
+    )
+    last_snapshot_at = fields.Datetime(
+        string="Last Photo At",
+        compute="_compute_stage_aggregation",
+        store=True,
+    )
+    needs_review_count = fields.Integer(
+        string="Needs Review",
+        compute="_compute_stage_aggregation",
+        store=True,
+        help="Number of snapshots whose CV confidence is below the review "
+             "threshold (0.65). These photos need a human to verify the "
+             "AI's stage detection.",
+    )
+    stage_distribution_json = fields.Char(
+        string="Stage Distribution",
+        compute="_compute_stage_aggregation",
+        store=True,
+        help="JSON object mapping stage name to snapshot count across the "
+             "whole project.",
+    )
+
+    @api.depends("snapshot_ids")
+    def _compute_snapshot_count(self):
+        for record in self:
+            record.snapshot_count = len(record.snapshot_ids)
+
+    @api.depends(
+        "snapshot_ids.captured_at",
+        "snapshot_ids.cv_confidence",
+        "snapshot_ids.stage_detected",
+    )
+    def _compute_stage_aggregation(self):
+        now = fields.Datetime.now()
+        for project in self:
+            snaps = project.snapshot_ids
+            if not snaps:
+                project.current_stage = False
+                project.current_stage_confidence = 0.0
+                project.bottleneck_stage = False
+                project.last_snapshot_at = False
+                project.needs_review_count = 0
+                project.stage_distribution_json = "{}"
+                continue
+            result = _aggregate_stages(
+                [
+                    {
+                        "captured_at": s.captured_at,
+                        "cv_confidence": s.cv_confidence or 0.0,
+                        "stage_detected": s.stage_detected or False,
+                    }
+                    for s in snaps
+                ],
+                now=now,
+            )
+            project.current_stage = result["current_stage"] or False
+            project.current_stage_confidence = result["current_stage_confidence"]
+            project.bottleneck_stage = result["bottleneck_stage"] or False
+            project.last_snapshot_at = result["last_snapshot_at"] or False
+            project.needs_review_count = result["needs_review_count"]
+            project.stage_distribution_json = result["stage_distribution_json"]
+
+    def action_view_snapshots(self):
+        """Open the snapshot list filtered to this project."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Photos: %s" % self.name,
+            "res_model": "remont.snapshot",
+            "view_mode": "list,form",
+            "domain": [("project_id", "=", self.id)],
+            "context": {
+                "default_project_id": self.id,
+                "search_default_project_id": self.id,
+            },
+        }
 
     @api.depends("stage_ids.progress_pct", "stage_ids.weight")
     def _compute_overall_progress(self):

@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_cv
+msgid "Computer Vision Job"
+msgstr "Задача компьютерного зрения"
+
+#. module: remont_cv
+msgid "Computer Vision"
+msgstr "Компьютерное зрение"
+
+#. module: remont_cv
+msgid "CV Jobs"
+msgstr "Задачи ИИ"
+
+#. module: remont_cv
+msgid "CV Job"
+msgstr "Задача ИИ"
+
+#. module: remont_cv
+msgid "Snapshot"
+msgstr "Снимок"
+
+#. module: remont_cv
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_cv
+msgid "Queued"
+msgstr "В очереди"
+
+#. module: remont_cv
+msgid "Processing"
+msgstr "Обрабатывается"
+
+#. module: remont_cv
+msgid "Done"
+msgstr "Готово"
+
+#. module: remont_cv
+msgid "Failed"
+msgstr "Ошибка"
+
+#. module: remont_cv
+msgid "Detected Stage"
+msgstr "Распознанная стадия"
+
+#. module: remont_cv
+msgid "Confidence"
+msgstr "Уверенность"
+
+#. module: remont_cv
+msgid "Model Version"
+msgstr "Версия модели"
+
+#. module: remont_cv
+msgid "Processed At"
+msgstr "Обработано"
+
+#. module: remont_cv
+msgid "Needs Manual Review"
+msgstr "Требует проверки"
+
+#. module: remont_cv
+msgid "Error Message"
+msgstr "Сообщение об ошибке"
+
+#. module: remont_cv
+msgid "Demolition"
+msgstr "Демонтаж"
+
+#. module: remont_cv
+msgid "Electrical"
+msgstr "Электрика"
+
+#. module: remont_cv
+msgid "Plumbing"
+msgstr "Сантехника"
+
+#. module: remont_cv
+msgid "Plaster"
+msgstr "Штукатурка"
+
+#. module: remont_cv
+msgid "Screed"
+msgstr "Стяжка"
+
+#. module: remont_cv
+msgid "Tiles"
+msgstr "Плитка"
+
+#. module: remont_cv
+msgid "Painting"
+msgstr "Покраска"
+
+#. module: remont_cv
+msgid "Finishing"
+msgstr "Чистовая отделка"
+
+#. module: remont_cv
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#. module: remont_cv
+msgid "CV jobs are automatically created when new camera snapshots arrive."
+msgstr "Задачи ИИ создаются автоматически при поступлении новых снимков."

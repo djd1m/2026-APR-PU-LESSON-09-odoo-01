@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_alerts
+msgid "Renovation Alert"
+msgstr "Уведомление о ремонте"
+
+#. module: remont_alerts
+msgid "Alerts"
+msgstr "Уведомления"
+
+#. module: remont_alerts
+msgid "Alert"
+msgstr "Уведомление"
+
+#. module: remont_alerts
+msgid "Search Alerts"
+msgstr "Поиск уведомлений"
+
+#. module: remont_alerts
+msgid "Type"
+msgstr "Тип"
+
+#. module: remont_alerts
+msgid "Severity"
+msgstr "Важность"
+
+#. module: remont_alerts
+msgid "Message"
+msgstr "Сообщение"
+
+#. module: remont_alerts
+msgid "Project"
+msgstr "Проект"
+
+#. module: remont_alerts
+msgid "User"
+msgstr "Пользователь"
+
+#. module: remont_alerts
+msgid "Is Read"
+msgstr "Прочитано"
+
+#. module: remont_alerts
+msgid "Unread"
+msgstr "Непрочитанные"
+
+#. module: remont_alerts
+msgid "Crew Absence"
+msgstr "Отсутствие бригады"
+
+#. module: remont_alerts
+msgid "Budget Overrun"
+msgstr "Перерасход бюджета"
+
+#. module: remont_alerts
+msgid "Schedule Delay"
+msgstr "Задержка графика"
+
+#. module: remont_alerts
+msgid "Camera Error"
+msgstr "Ошибка камеры"
+
+#. module: remont_alerts
+msgid "Critical"
+msgstr "Критично"
+
+#. module: remont_alerts
+msgid "Warning"
+msgstr "Предупреждение"
+
+#. module: remont_alerts
+msgid "Info"
+msgstr "Информация"
+
+#. module: remont_alerts
+msgid "No alerts"
+msgstr "Нет уведомлений"
+
+#. module: remont_alerts
+msgid "Created At"
+msgstr "Создано"

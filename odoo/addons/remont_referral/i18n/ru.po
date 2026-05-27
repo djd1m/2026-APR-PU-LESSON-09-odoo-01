@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: remont_referral
+msgid "Referral"
+msgstr "Реферал"
+
+#. module: remont_referral
+msgid "Referrals"
+msgstr "Рефералы"
+
+#. module: remont_referral
+msgid "All Referrals"
+msgstr "Все рефералы"
+
+#. module: remont_referral
+msgid "Referrer"
+msgstr "Реферер"
+
+#. module: remont_referral
+msgid "Referred Email"
+msgstr "Email приглашённого"
+
+#. module: remont_referral
+msgid "Status"
+msgstr "Статус"
+
+#. module: remont_referral
+msgid "Pending"
+msgstr "Ожидает"
+
+#. module: remont_referral
+msgid "Activated"
+msgstr "Активирован"
+
+#. module: remont_referral
+msgid "Rewarded"
+msgstr "Вознаграждён"
+
+#. module: remont_referral
+msgid "Created At"
+msgstr "Создан"
