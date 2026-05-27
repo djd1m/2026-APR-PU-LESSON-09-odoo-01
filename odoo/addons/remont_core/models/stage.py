@@ -3,20 +3,20 @@ from odoo.exceptions import ValidationError
 
 
 STAGE_NAMES = [
-    ("demolition", "Demolition"),
-    ("electrical", "Electrical"),
-    ("plumbing", "Plumbing"),
-    ("plaster", "Plaster"),
-    ("screed", "Screed"),
-    ("tiles", "Tiles"),
-    ("painting", "Painting"),
-    ("finishing", "Finishing"),
+    ("demolition", "Демонтаж"),
+    ("electrical", "Электрика"),
+    ("plumbing", "Сантехника"),
+    ("plaster", "Штукатурка"),
+    ("screed", "Стяжка пола"),
+    ("tiles", "Плитка"),
+    ("painting", "Покраска"),
+    ("finishing", "Чистовая отделка"),
 ]
 
 STAGE_STATUSES = [
-    ("planned", "Planned"),
-    ("in_progress", "In Progress"),
-    ("done", "Done"),
+    ("planned", "Запланировано"),
+    ("in_progress", "В работе"),
+    ("done", "Завершено"),
 ]
 
 

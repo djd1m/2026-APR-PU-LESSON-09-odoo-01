@@ -2,15 +2,15 @@ from odoo import models, fields
 
 
 STAGE_DETECTED_OPTIONS = [
-    ("demolition", "Demolition"),
-    ("electrical", "Electrical"),
-    ("plumbing", "Plumbing"),
-    ("plaster", "Plaster"),
-    ("screed", "Screed"),
-    ("tiles", "Tiles"),
-    ("painting", "Painting"),
-    ("finishing", "Finishing"),
-    ("unknown", "Unknown"),
+    ("demolition", "Демонтаж"),
+    ("electrical", "Электрика"),
+    ("plumbing", "Сантехника"),
+    ("plaster", "Штукатурка"),
+    ("screed", "Стяжка пола"),
+    ("tiles", "Плитка"),
+    ("painting", "Покраска"),
+    ("finishing", "Чистовая отделка"),
+    ("unknown", "Не определено"),
 ]
 
 
